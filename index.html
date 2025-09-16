@@ -5,244 +5,82 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Modulo Ordine di Servizio — Web</title>
   <style>
-    :root {
-      --max-width: 980px;
-      --gap: 12px;
-      --accent: #0b67ff;
-    }
     body {
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background: #f5f7fb;
-      color: #1f2937;
-      padding: 24px;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.4;
     }
     .container {
-      width: 100%;
-      max-width: var(--max-width);
+      max-width: 1200px;
+      margin: auto;
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 6px 24px rgba(20, 30, 60, 0.08);
       padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h1 {
-      font-size: 20px;
-      margin: 0 0 8px;
-    }
-    p.lead {
-      margin: 0 0 18px;
-      color: #475569;
-    }
-    form {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 18px;
-    }
+    h1 { margin-top: 0; font-size: 20px; }
+    .header-block { display: flex; align-items: center; margin-bottom: 20px; }
+    .header-block img { width: 80px; margin-right: 20px; }
+    .header-info { font-size: 12px; }
+    form { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
     .panel {
-      background: #fbfdff;
-      border: 1px solid #e6eefb;
-      padding: 12px;
+      border: 1px solid #ddd;
       border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #fafafa;
     }
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 6px;
+    .panel h3 { margin-top: 0; font-size: 16px; }
+    label { font-weight: bold; display: block; margin-top: 8px; }
+    input, select, textarea {
+      width: 100%; padding: 6px; margin-top: 4px;
+      border: 1px solid #ccc; border-radius: 4px; font-size: 14px;
     }
-    .field {
-      margin-bottom: 12px;
+    .row { display: flex; gap: 10px; }
+    .row > div { flex: 1; }
+    .summary table { width: 100%; border-collapse: collapse; }
+    .summary th, .summary td {
+      text-align: left; padding: 6px; border-bottom: 1px solid #ddd;
     }
-    select,
-    input[type="text"],
-    input[type="number"],
-    textarea {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #d1d9e6;
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-    .small {
-      font-size: 13px;
-      color: #475569;
-    }
-    .controls {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .full {
-      grid-column: 1/-1;
-    }
+    .summary .right { text-align: right; }
     .btn {
-      background: var(--accent);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
+      background: #1976d2; color: #fff;
+      border: none; padding: 8px 16px;
+      border-radius: 6px; cursor: pointer; font-size: 14px;
     }
-    .btn.secondary {
-      background: #fff;
-      color: var(--accent);
-      border: 1px solid #cfe0ff;
-    }
-    .summary {
-      background: #fff;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #eef2ff;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    td,
-    th {
-      padding: 8px;
-      text-align: left;
-      border-bottom: 1px solid #f1f5f9;
-    }
-    .right {
-      text-align: right;
-    }
-    .muted {
-      color: #6b7280;
-      font-size: 13px;
-    }
-    .error {
-      color: #b91c1c;
-      font-weight: 600;
-    }
-    /* Stili per il logo e l'intestazione */
-    .header-block {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-    .header-block img {
-      width: 100px; /* Ridimensionato per la stampa */
-      height: auto;
-    }
-    .header-info {
-      font-size: 13px;
-      line-height: 1.2;
-    }
-    .header-info .title {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .header-info div {
-      margin: 0;
-    }
-    /* Stili per le firme */
+    .btn.secondary { background: #555; }
+    .btn:disabled { opacity: 0.5; cursor: default; }
+    .muted { font-size: 12px; color: #666; }
+    .firme-container { display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
+    .firma-canvas-container { flex: 1; min-width: 250px; }
     .firma-canvas {
-      border: 1px solid #000;
+      border: 1px dashed #999;
+      border-radius: 4px;
+      width: 100%; height: 150px;
       cursor: crosshair;
-      background-color: #fff;
-      width: 100%;
-      max-width: 300px;
-      height: 150px;
-      box-sizing: border-box;
-      display: block;
-      margin-top: 5px;
     }
-    .firma-canvas-container {
-      margin-bottom: 15px;
-    }
-    .firme-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: space-between;
-      width: 100%;
-      margin-top: 15px;
-    }
-    .firme-container > div {
-      flex: 1 1 300px;
-    }
-    .firma-canvas-container button {
-      margin-top: 5px;
-    }
-    /* Media Query per mobile */
-    @media (max-width: 900px) {
-      body {
-        padding: 12px;
-      }
-      .container {
-        padding: 10px;
-      }
-      form {
-        grid-template-columns: 1fr;
-      }
-      .firme-container {
-        flex-direction: column;
-      }
-      .firma-canvas-container {
-        width: 100%;
-      }
-      .firma-canvas {
-        max-width: 100%;
-      }
-    }
-    /* Impostazioni per la stampa */
     @media print {
-      @page {
-        size: A4 portrait;
-        margin: 10mm;
-      }
-      body {
-        padding: 0;
-        background: #fff;
-        margin: 0;
-      }
+      @page { size: A4 portrait; margin: 10mm; }
+      body { padding: 0; background: #fff; margin: 0; }
       .container {
         max-width: 100%;
         box-shadow: none;
         border-radius: 0;
         padding: 0;
-        transform: scale(0.60); /* Ridotto al 60% per una riduzione del 40% */
+        transform: scale(0.60);
         transform-origin: top left;
         display: block;
       }
-      form {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-      .panel {
-        padding: 8px;
-      }
-      h1 {
-        font-size: 16pt;
-        text-align: center;
-      }
-      .header-block {
-        justify-content: center;
-      }
-      .header-block img {
-        width: 100px;
-        max-width: none;
-      }
-      .header-info {
-        font-size: 10pt;
-      }
-      p.lead, label, .small, td, th, input, textarea, select {
-        font-size: 10pt;
-      }
-      .field {
-        margin-bottom: 8px;
-      }
+      form { grid-template-columns: 1fr; gap: 10px; }
+      .panel { padding: 8px; }
+      h1 { font-size: 16pt; text-align: center; }
+      .header-block { justify-content: center; }
+      .header-block img { width: 100px; max-width: none; }
+      .header-info { font-size: 10pt; }
+      p.lead, label, .small, td, th, input, textarea, select { font-size: 10pt; }
+      .field { margin-bottom: 8px; }
       .btn, #calc, #reset, #exportJson, #print, .firma-canvas-container button {
         display: none !important;
       }
@@ -257,13 +95,7 @@
         gap: 10px;
         margin-top: 10px;
       }
-      .firma-canvas-container {
-        page-break-inside: avoid;
-        margin-top: 10px;
-      }
-      .summary table tr:nth-child(-n+5) {
-        display: none;
-      }
+      .firma-canvas-container { page-break-inside: avoid; margin-top: 10px; }
     }
   </style>
 </head>
@@ -280,92 +112,66 @@
       <div>C.F. / Partita IVA 03196380640</div>
     </div>
   </div>
+
   <h1 style="text-align:center;">ORDINE DI SERVIZIO</h1>
+
   <form id="moduloForm" autocomplete="off">
     <div class="left-panel">
       <div class="panel">
-        <div class="field">
-          <label for="progetto">Progetto</label>
+        <label>Progetto
           <select id="progetto" name="PROGETTO">
-            <option value="SELEZIONARE">SELEZIONARE</option>
-            <option value="SAI-A01">SAI-A01</option>
-            <option value="SAI-A02">SAI-A02</option>
-            <option value="SAI-A03">SAI-A03</option>
+            <option value="">Seleziona progetto</option>
+            <option value="SAI IRPINIA">SAI IRPINIA</option>
+            <option value="PROGETTO ARCOBALENO">PROGETTO ARCOBALENO</option>
+            <option value="SIPROIMI">SIPROIMI</option>
           </select>
-          <div class="small muted">Seleziona il progetto per popolare Struttura ed Ente</div>
-        </div>
-        <div class="field">
-          <label for="struttura">Struttura</label>
-          <select id="struttura" name="STRUTTURA"><option>SELEZIONARE</option></select>
-        </div>
-        <div class="field">
-          <label for="ente">Ente</label>
-          <select id="ente" name="ENTE"><option>SELEZIONARE</option></select>
-        </div>
-        <div class="field">
-          <label for="indirizzo">Indirizzo</label>
-          <input id="indirizzo" name="INDIRIZZO" type="text" placeholder="Via, Piazza, etc." />
-        </div>
-        <div class="field">
-          <label for="enteDaFatturare">Ente da fatturare</label>
-          <input id="enteDaFatturare" name="ENTE_DA_FATTURARE" type="text" />
-        </div>
-        <div class="field">
-          <label for="descrizione">Descrizione dei lavori</label>
-          <textarea id="descrizione" name="DESCRIZIONE" placeholder="Descrivi il lavoro svolto..."></textarea>
-          <div class="small muted" style="margin-top:6px; white-space:pre-line;">
-            Manutenzione (€/ora per operatore)  € 25.00
-            Pulizie (€/ora per operatore)       € 20.00
-            Sanificazione (€/mq)                € 2.00
-            Disinfestazione (€/mq)              € 4.50
-            Derattizzazione (€/mq)              € 6.50
+        </label>
+        <label>Struttura
+          <select id="struttura" name="STRUTTURA">
+            <option value="">Seleziona struttura</option>
+          </select>
+        </label>
+        <label>Ente
+          <select id="ente" name="ENTE">
+            <option value="">Seleziona ente</option>
+          </select>
+        </label>
+        <div class="row">
+          <div>
+            <label>Data
+              <input type="date" id="data" name="DATA" />
+            </label>
+          </div>
+          <div>
+            <label>Numero addetti
+              <input type="number" id="addetti" name="ADDETTI" min="0" />
+            </label>
+          </div>
+          <div>
+            <label>Ore
+              <input type="number" id="ore" name="ORE" min="0" />
+            </label>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div class="field">
-            <label for="data">Data lavoro</label>
-            <input id="data" name="DATA" type="date" />
-          </div>
-          <div class="field">
-            <label for="operatori">Numero operatori</label>
-            <input id="operatori" name="NUM_OPERATORI" type="number" min="0" step="1" value="1" />
-          </div>
+        <div class="row">
+          <div><label>MQ sanificazione <input type="number" id="mq_sanificazione" name="MQ_SAN" min="0" /></label></div>
+          <div><label>MQ disinfestazione <input type="number" id="mq_disinfestazione" name="MQ_DIS" min="0" /></label></div>
+          <div><label>MQ derattizzazione <input type="number" id="mq_derattizzazione" name="MQ_DER" min="0" /></label></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div class="field">
-            <label for="totOre">Totale ore</label>
-            <input id="totOre" name="TOT_ORE" type="number" min="0" step="0.5" value="0" />
-          </div>
-          <div class="field">
-            <label for="mq">Metri quadrati (mq)</label>
-            <input id="mq" name="MQ" type="number" min="0" step="0.1" value="0" />
-          </div>
-        </div>
-        <div class="field">
-          <label>Tipologia lavoro (seleziona le voci applicate)</label>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <label><input type="checkbox" id="manutenzione_chk" name="MANUTENZIONE_CHECK"/> Manutenzione</label>
-            <label><input type="checkbox" id="pulizie_chk" name="PULIZIE_CHECK"/> Servizio pulizie</label>
-            <label><input type="checkbox" id="sanificazione_chk" name="SANIFICAZIONE_CHECK"/> Sanificazione</label>
-            <label><input type="checkbox" id="disinfestazione_chk" name="DISINFESTAZIONE_CHECK"/> Disinfestazione</label>
-            <label><input type="checkbox" id="derattizzazione_chk" name="DERATTIZZAZIONE_CHECK"/> Derattizzazione</label>
-          </div>
-          <div class="small muted">I costi vengono calcolati automaticamente in base ai campi inseriti.</div>
-        </div>
+        <label>Note
+          <textarea id="note" name="NOTE"></textarea>
+        </label>
       </div>
     </div>
+
+    <!-- riepilogo costi aggiornato -->
     <aside class="panel">
       <h3 style="margin-top:0">Riepilogo costi</h3>
       <div class="summary">
         <table aria-live="polite">
           <tbody>
-            <tr><td>Manutenzione (€/ora per operatore)</td><td class="right">€ <span id="rate_manutenzione">25.00</span></td></tr>
-            <tr><td>Pulizie (€/ora per operatore)</td><td class="right">€ <span id="rate_pulizie">20.00</span></td></tr>
-            <tr><td>Sanificazione (€/mq)</td><td class="right">€ <span id="rate_sanificazione">2.00</span></td></tr>
-            <tr><td>Disinfestazione (€/mq)</td><td class="right">€ <span id="rate_disinfestazione">4.50</span></td></tr>
-            <tr><td>Derattizzazione (€/mq)</td><td class="right">€ <span id="rate_derattizzazione">6.50</span></td></tr>
             <tr><th>Subtotale</th><th class="right">€ <span id="subtotal">0.00</span></th></tr>
-            <tr><td>IVA (22%)</td><td class="right">€ <span id="iva">0.00</span></th></tr>
+            <tr><td>IVA (22%)</td><td class="right">€ <span id="iva">0.00</span></td></tr>
             <tr><th>Totale</th><th class="right">€ <span id="total">0.00</span></th></tr>
           </tbody>
         </table>
@@ -383,9 +189,11 @@
         <button type="button" class="btn secondary" id="exportJson">Esporta (JSON)</button>
       </div>
     </aside>
+
     <div class="full" style="margin-top:12px">
       <div class="muted">Versione web del modulo. I campi compilati possono essere stampati o esportati in JSON.</div>
     </div>
+
     <div class="firme-container">
       <div class="firma-canvas-container">
         <h3>Firma operatore</h3>
@@ -400,231 +208,39 @@
     </div>
   </form>
 </div>
+
 <script>
-  let dati = [];
-  fetch("enti_strutture.json")
-    .then(response => response.json())
-    .then(json => {
-      dati = json;
-      popolaProgetti();
-    });
-  function popolaProgetti() {
-    const progettoSelect = document.getElementById("progetto");
-    if (!progettoSelect) return;
-    const progettiUnici = [...new Set(dati.map(d => d.Progetto))];
-    progettoSelect.innerHTML = "<option value=''>Seleziona progetto</option>";
-    progettiUnici.forEach(p => {
-      progettoSelect.innerHTML += `<option value="${p}">${p}</option>`;
-    });
-  }
-  document.addEventListener("DOMContentLoaded", function() {
-    const progettoEl = document.getElementById("progetto");
-    const strutturaEl = document.getElementById("struttura");
-    const enteEl = document.getElementById("ente");
-    const indirizzoEl = document.getElementById("indirizzo");
-    if (progettoEl) {
-      progettoEl.addEventListener("change", e => {
-        strutturaEl.innerHTML = "<option value=''>Seleziona struttura</option>";
-        enteEl.innerHTML = "<option value=''>Seleziona ente</option>";
-        indirizzoEl.value = "";
-        const strutture = dati.filter(d => d.Progetto === e.target.value).map(d => d.Struttura);
-        [...new Set(strutture)].forEach(s => {
-          strutturaEl.innerHTML += `<option value="${s}">${s}</option>`;
-        });
-      });
-    }
-    if (strutturaEl) {
-      strutturaEl.addEventListener("change", e => {
-        const progettoVal = progettoEl.value;
-        enteEl.innerHTML = "<option value=''>Seleziona ente</option>";
-        const enti = dati.filter(d => d.Progetto === progettoVal && d.Struttura === e.target.value).map(d => d.Ente);
-        [...new Set(enti)].forEach(en => {
-          enteEl.innerHTML += `<option value="${en}">${en}</option>`;
-        });
-      });
-    }
-    if (enteEl) {
-      enteEl.addEventListener("change", e => {
-        const progettoVal = progettoEl.value;
-        const strutturaVal = strutturaEl.value;
-        const record = dati.find(d =>
-          d.Progetto === progettoVal &&
-          d.Struttura === strutturaVal &&
-          d.Ente === e.target.value
-        );
-        indirizzoEl.value = record ? record.Indirizzo : "";
-      });
-    }
-  });
-  const RATES = {
-    MANUTENZIONE: 25.00,
-    PULIZIE: 20.00,
-    SANIFICAZIONE: 2.00,
-    DISINFESTAZIONE: 4.50,
-    DERATTIZZAZIONE: 6.50
-  };
-  function euro(n){ return Number(n||0).toFixed(2); }
-  const progettoEl = document.getElementById('progetto');
-  const strutturaEl = document.getElementById('struttura');
-  const enteEl = document.getElementById('ente');
-  const operatoriEl = document.getElementById('operatori');
-  const totOreEl = document.getElementById('totOre');
-  const mqEl = document.getElementById('mq');
-  const manutenzioneChk = document.getElementById('manutenzione_chk');
-  const pulizieChk = document.getElementById('pulizie_chk');
-  const sanificazioneChk = document.getElementById('sanificazione_chk');
-  const disinfestazioneChk = document.getElementById('disinfestazione_chk');
-  const derattizzazioneChk = document.getElementById('derattizzazione_chk');
-  const subtotalEl = document.getElementById('subtotal');
-  const ivaEl = document.getElementById('iva');
-  const totalEl = document.getElementById('total');
-  document.getElementById('rate_manutenzione').textContent = euro(RATES.MANUTENZIONE);
-  document.getElementById('rate_pulizie').textContent = euro(RATES.PULIZIE);
-  document.getElementById('rate_sanificazione').textContent = euro(RATES.SANIFICAZIONE);
-  document.getElementById('rate_disinfestazione').textContent = euro(RATES.DISINFESTAZIONE);
-  document.getElementById('rate_derattizzazione').textContent = euro(RATES.DERATTIZZAZIONE);
-  function popolaSelect(selectEl, items){
-    selectEl.innerHTML = '';
-    items.forEach(it=>{
-      const opt = document.createElement('option'); opt.value = it; opt.textContent = it; selectEl.appendChild(opt);
-    });
-  }
-  const STRUTTURA = {
-    "SAI-A01": ["SELEZIONARE","AVELLINO"],
-    "SAI-A02": ["SELEZIONARE","AVELLINO","BENEVENTO"],
-    "SAI-A03": ["SELEZIONARE","BENEVENTO"],
-    "SELEZIONARE": ["SELEZIONARE"]
-  };
-  const ENTE = {
-    "SAI-A01": ["SELEZIONARE","PERCORSI","AIC"],
-    "SAI-A02": ["SELEZIONARE","PERCORSI"],
-    "SAI-A03": ["SELEZIONARE","PERCORSI"],
-    "SELEZIONARE": ["SELEZIONARE"]
-  };
-  const INDIRIZZO_STRUTTURA = {
-    "AVELLINO": "Via Roma 10, Avellino",
-    "BENEVENTO": "Corso Garibaldi 25, Benevento",
-    "SELEZIONARE": ""
-  };
-  function aggiornaCascata(){
-    const val = progettoEl.value || 'SELEZIONARE';
-    if (typeof dati !== 'undefined' && Array.isArray(dati) && dati.length > 0) {
-      const strutture = [...new Set(dati.filter(d => d.Progetto === val).map(d => d.Struttura))];
-      if (strutture.length === 0) strutture.push('SELEZIONARE');
-      popolaSelect(strutturaEl, strutture);
-      popolaSelect(enteEl, ['SELEZIONARE']);
-      return;
-    }
-    popolaSelect(strutturaEl, STRUTTURA[val] || ['SELEZIONARE']);
-    popolaSelect(enteEl, ENTE[val] || ['SELEZIONARE']);
-  }
-  progettoEl.addEventListener('change', aggiornaCascata);
-  aggiornaCascata();
-  strutturaEl.addEventListener('change', () => {
-    const val = strutturaEl.value || 'SELEZIONARE';
-    document.getElementById('indirizzo').value = INDIRIZZO_STRUTTURA[val] || "";
-  });
-  function calcola() {
-    const operatori = Math.max(0, Number(operatoriEl.value) || 0);
-    const ore = Math.max(0, Number(totOreEl.value) || 0);
-    const mq = Math.max(0, Number(mqEl.value) || 0);
-    let subtotal = 0;
-    if (manutenzioneChk.checked) subtotal += RATES.MANUTENZIONE * ore * operatori;
-    if (pulizieChk.checked) subtotal += RATES.PULIZIE * ore * operatori;
-    if (sanificazioneChk.checked) subtotal += RATES.SANIFICAZIONE * mq;
-    if (disinfestazioneChk.checked) subtotal += RATES.DISINFESTAZIONE * mq;
-    if (derattizzazioneChk.checked) subtotal += RATES.DERATTIZZAZIONE * mq;
-    const iva = subtotal * 0.22;
-    const total = subtotal + iva;
-    subtotalEl.textContent = euro(subtotal);
-    ivaEl.textContent = euro(iva);
-    totalEl.textContent = euro(total);
-    return { subtotal, iva, total };
-  }
-  document.getElementById('calc').addEventListener('click', calcola);
-  document.getElementById('reset').addEventListener('click', ()=>{
-    document.getElementById('moduloForm').reset();
-    aggiornaCascata();
-    strutturaEl.addEventListener('change', () => {
-      const val = strutturaEl.value || 'SELEZIONARE';
-      document.getElementById('indirizzo').value = INDIRIZZO_STRUTTURA[val] || "";
-    });
-    subtotalEl.textContent = '0.00'; ivaEl.textContent='0.00'; totalEl.textContent='0.00';
-  });
-  document.getElementById('print').addEventListener('click', ()=>{
-    calcola();
-    window.print();
-  });
-  document.getElementById('exportJson').addEventListener('click', ()=>{
-    calcola();
-    const data = new FormData(document.getElementById('moduloForm'));
-    const obj = {};
-    for (const [k,v] of data.entries()) obj[k] = v;
-    obj.MANUTENZIONE = manutenzioneChk.checked;
-    obj.PULIZIE = pulizieChk.checked;
-    obj.SANIFICAZIONE = sanificazioneChk.checked;
-    obj.DISINFESTAZIONE = disinfestazioneChk.checked;
-    obj.DERATTIZZAZIONE = derattizzazioneChk.checked;
-    const totals = calcola();
-    obj.SUBTOTAL = euro(totals.subtotal);
-    obj.IVA = euro(totals.iva);
-    obj.TOTAL = euro(totals.total);
-    const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'modulo_compilato.json'; a.click(); URL.revokeObjectURL(url);
-  });
-  document.getElementById('moduloForm').addEventListener('submit', (e)=>{ e.preventDefault(); });
-  document.addEventListener('keydown', (e)=>{
-    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)){
-      e.preventDefault(); document.getElementById('print').click();
-    }
-  });
-  function abilitaFirma(canvasId) {
-    const canvas = document.getElementById(canvasId);
-    const ctx = canvas.getContext('2d');
-    let disegnando = false;
-    canvas.width = 300;
-    canvas.height = 150;
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    canvas.addEventListener('mousedown', e => {
-      disegnando = true;
-      ctx.beginPath();
-      ctx.moveTo(e.offsetX, e.offsetY);
-    });
-    canvas.addEventListener('mousemove', e => {
-      if (disegnando) {
-        ctx.lineTo(e.offsetX, e.offsetY);
-        ctx.stroke();
-      }
-    });
-    canvas.addEventListener('mouseup', () => disegnando = false);
-    canvas.addEventListener('mouseleave', () => disegnando = false);
-    canvas.addEventListener('touchstart', e => {
-      e.preventDefault();
-      disegnando = true;
-      const rect = canvas.getBoundingClientRect();
-      ctx.beginPath();
-      ctx.moveTo(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
-    });
-    canvas.addEventListener('touchmove', e => {
-      e.preventDefault();
-      if (disegnando) {
-        const rect = canvas.getBoundingClientRect();
-        ctx.lineTo(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
-        ctx.stroke();
-      }
-    });
-    canvas.addEventListener('touchend', () => disegnando = false);
-  }
-  function pulisciFirma(canvasId) {
-    const canvas = document.getElementById(canvasId);
-    const ctx = canvas.getContext('2d');
+  function pulisciFirma(id) {
+    const canvas = document.getElementById(id);
+    const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
-  document.addEventListener("DOMContentLoaded", function(){
-    abilitaFirma('firmaOperatore');
-    abilitaFirma('firmaCliente');
+
+  document.getElementById("calc").addEventListener("click", function() {
+    const addetti = +document.getElementById("addetti").value;
+    const ore = +document.getElementById("ore").value;
+    const mqSan = +document.getElementById("mq_sanificazione").value;
+    const mqDis = +document.getElementById("mq_disinfestazione").value;
+    const mqDer = +document.getElementById("mq_derattizzazione").value;
+
+    const rateManut = 25;
+    const ratePulizie = 20;
+    const rateSan = 2;
+    const rateDis = 4.5;
+    const rateDer = 6.5;
+
+    const costoOre = addetti * ore * (rateManut + ratePulizie);
+    const costoSan = mqSan * rateSan;
+    const costoDis = mqDis * rateDis;
+    const costoDer = mqDer * rateDer;
+
+    const subtotal = costoOre + costoSan + costoDis + costoDer;
+    const iva = subtotal * 0.22;
+    const total = subtotal + iva;
+
+    document.getElementById("subtotal").innerText = subtotal.toFixed(2);
+    document.getElementById("iva").innerText = iva.toFixed(2);
+    document.getElementById("total").innerText = total.toFixed(2);
   });
 </script>
 </body>
