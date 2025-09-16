@@ -1,1 +1,200 @@
-
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Modulo Ordine di Servizio — Web</title>
+  <style>
+    :root {
+      --max-width: 980px;
+      --gap: 12px;
+      --accent: #0b67ff;
+    }
+    body {
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: #f5f7fb;
+      color: #1f2937;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(20, 30, 60, 0.08);
+      padding: 20px;
+    }
+    h1 {
+      font-size: 20px;
+      margin: 0 0 8px;
+    }
+    p.lead {
+      margin: 0 0 18px;
+      color: #475569;
+    }
+    form {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 18px;
+    }
+    .panel {
+      background: #fbfdff;
+      border: 1px solid #e6eefb;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .field {
+      margin-bottom: 12px;
+    }
+    select,
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #d1d9e6;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .small {
+      font-size: 13px;
+      color: #475569;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .full {
+      grid-column: 1/-1;
+    }
+    .btn {
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+    .btn.secondary {
+      background: #fff;
+      color: var(--accent);
+      border: 1px solid #cfe0ff;
+    }
+    .summary {
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #eef2ff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td,
+    th {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .right {
+      text-align: right;
+    }
+    .muted {
+      color: #6b7280;
+      font-size: 13px;
+    }
+    .error {
+      color: #b91c1c;
+      font-weight: 600;
+    }
+    /* Stili per il logo e l'intestazione */
+    .logo-container {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .logo-container img {
+      max-width: 177px;
+      max-height: 118px;
+      height: auto;
+    }
+    .header-info {
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .header-info .title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .header-info div {
+      margin: 0;
+    }
+    /* Stili per le firme */
+    .firma-canvas {
+      border: 1px solid #000;
+      cursor: crosshair;
+      background-color: #fff;
+      width: 100%;
+      max-width: 300px;
+      height: 150px;
+      box-sizing: border-box;
+      display: block;
+      margin-top: 5px;
+    }
+    .firma-canvas-container {
+      margin-bottom: 15px;
+    }
+    .firme-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 15px;
+    }
+    .firme-container > div {
+      flex: 1 1 300px;
+    }
+    .firma-canvas-container button {
+      margin-top: 5px;
+    }
+    /* Media Query per mobile */
+    @media (max-width: 900px) {
+      body {
+        padding: 12px;
+      }
+      .container {
+        padding: 10px;
+      }
+      form {
+        grid-template-columns: 1fr;
+      }
+      .firme-container {
+        flex-direction: column;
+      }
+      .firma-canvas-container {
+        width: 100%;
+      }
+      .firma-canvas {
+        max-width: 100%;
+      }
+    }
+    /* Impostazioni per la stampa */
