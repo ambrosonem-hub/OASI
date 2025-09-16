@@ -124,20 +124,19 @@
       font-weight: 600;
     }
     /* Stili per il logo e l'intestazione */
-    .logo-container {
-      text-align: center;
-      margin-bottom: 10px;
+    .header-block {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
     }
-    .logo-container img {
-      max-width: 177px;
-      max-height: 118px;
+    .header-block img {
+      width: 100px; /* Ridimensionato per la stampa */
       height: auto;
     }
     .header-info {
-      text-align: center;
       font-size: 13px;
       line-height: 1.2;
-      margin-bottom: 20px;
     }
     .header-info .title {
       font-size: 16px;
@@ -200,64 +199,4 @@
     /* Impostazioni per la stampa */
     @media print {
       @page {
-        size: A4 portrait;
-        margin: 10mm;
-      }
-      body {
-        padding: 0;
-        background: #fff;
-        margin: 0;
-      }
-      .container {
-        max-width: 100%;
-        box-shadow: none;
-        border-radius: 0;
-        padding: 10mm;
-        /* Riduci l'intero modulo per adattarlo alla pagina */
-        transform: scale(0.75);
-        transform-origin: top left;
-      }
-      h1 {
-        font-size: 16pt;
-      }
-      p.lead, label, .small, td, th, input, textarea, select {
-        font-size: 11pt;
-      }
-      .btn, #calc, #reset, #exportJson, #print, .firma-canvas-container button {
-        display: none !important;
-      }
-      .firma-canvas {
-        border: 1px solid #000;
-        width: 150px !important;
-        height: 75px !important;
-      }
-      .firme-container {
-        display: block;
-        margin-top: 15px;
-      }
-      .firma-canvas-container {
-        page-break-inside: avoid;
-        margin-top: 15px;
-      }
-      /* Nascondi le tariffe nel riepilogo costi a destra */
-      .summary table tr:nth-child(-n+5) {
-        display: none;
-      }
-    }
-  </style>
-</head>
-<body>
-<div class="container" role="main">
-  <div class="logo-container">
-    <img src="logo.jpg" alt="Logo Azienda" />
-  </div>
-  <div class="header-info">
-    <div class="title">Sede Legale:</div>
-    <div>Via Municipio, n. 14 - 83040 Fontanarosa (AV)</div>
-    <div>Info – 082545553</div>
-    <div>Mail - irpinialogistica@gmail.com</div>
-    <div>PEC irpinialogistica@pec.it</div>
-    <div>C.F. / Partita IVA 03196380640</div>
-  </div>
-  <h1 style="text-align:center;">ORDINE DI SERVIZIO</h1>
-  <form id="moduloForm" autocomplete="off">
+        size:
