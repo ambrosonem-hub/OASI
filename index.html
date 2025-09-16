@@ -211,17 +211,16 @@
         max-width: 100%;
         box-shadow: none;
         border-radius: 0;
-        padding: 0;
-        transform: scale(0.60); /* Ridotto al 60% per una riduzione del 40% */
-        transform-origin: top left;
+        padding: 0; /* Rimuovi padding */
+        /* Assicurati che il layout si adatti a una singola colonna per la stampa */
         display: block;
       }
       form {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 10px; /* Ridotto per compattare */
       }
       .panel {
-        padding: 8px;
+        padding: 8px; /* Ridotto */
       }
       h1 {
         font-size: 16pt;
@@ -231,17 +230,17 @@
         justify-content: center;
       }
       .header-block img {
-        width: 100px;
+        width: 100px; /* Forzato per la stampa */
         max-width: none;
       }
       .header-info {
         font-size: 10pt;
       }
       p.lead, label, .small, td, th, input, textarea, select {
-        font-size: 10pt;
+        font-size: 10pt; /* Ridotto per maggiore compattezza */
       }
       .field {
-        margin-bottom: 8px;
+        margin-bottom: 8px; /* Ridotto */
       }
       .btn, #calc, #reset, #exportJson, #print, .firma-canvas-container button {
         display: none !important;
@@ -261,6 +260,7 @@
         page-break-inside: avoid;
         margin-top: 10px;
       }
+      /* Nascondi le tariffe nel riepilogo costi a destra */
       .summary table tr:nth-child(-n+5) {
         display: none;
       }
