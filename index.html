@@ -31,7 +31,7 @@
 
 /* Stile per il logo */
 .logo-container {
-  text-align: center;
+  text-align: left;
   margin-bottom: 10px;
 }
 .logo-container img {
@@ -351,4 +351,237 @@ document.addEventListener("DOMContentLoaded", function() {
 const RATES = {
   MANUTENZIONE: 25.00,
   PULIZIE: 20.00,
-  SANIFICAZIONE: 2.00
+  SANIFICAZIONE: 2.00,
+  DISINFESTAZIONE: 4.50,
+  DERATTIZZAZIONE: 6.50
+};
+function euro(n){ return Number(n||0).toFixed(2); }
+const progettoEl = document.getElementById('progetto');
+const strutturaEl = document.getElementById('struttura');
+const enteEl = document.getElementById('ente');
+const operatoriEl = document.getElementById('operatori');
+const totOreEl = document.getElementById('totOre');
+const mqEl = document.getElementById('mq');
+const manutenzioneChk = document.getElementById('manutenzione_chk');
+const pulizieChk = document.getElementById('pulizie_chk');
+const sanificazioneChk = document.getElementById('sanificazione_chk');
+const disinfestazioneChk = document.getElementById('disinfestazione_chk');
+const derattizzazioneChk = document.getElementById('derattizzazione_chk');
+const subtotalEl = document.getElementById('subtotal');
+const ivaEl = document.getElementById('iva');
+const totalEl = document.getElementById('total');
+document.getElementById('rate_manutenzione').textContent = euro(RATES.MANUTENZIONE);
+document.getElementById('rate_pulizie').textContent = euro(RATES.PULIZIE);
+document.getElementById('rate_sanificazione').textContent = euro(RATES.SANIFICAZIONE);
+document.getElementById('rate_disinfestazione').textContent = euro(RATES.DISINFESTAZIONE);
+document.getElementById('rate_derattizzazione').textContent = euro(RATES.DERATTIZZAZIONE);
+function popolaSelect(selectEl, items){
+  selectEl.innerHTML = '';
+  items.forEach(it=>{
+    const opt = document.createElement('option'); opt.value = it; opt.textContent = it; selectEl.appendChild(opt);
+  });
+}
+const STRUTTURA = {
+  "SAI-A01": ["SELEZIONARE","AVELLINO"],
+  "SAI-A02": ["SELEZIONARE","AVELLINO","BENEVENTO"],
+  "SAI-A03": ["SELEZIONARE","BENEVENTO"],
+  "SELEZIONARE": ["SELEZIONARE"]
+};
+const ENTE = {
+  "SAI-A01": ["SELEZIONARE","PERCORSI","AIC"],
+  "SAI-A02": ["SELEZIONARE","PERCORSI"],
+  "SAI-A03": ["SELEZIONARE","PERCORSI"],
+  "SELEZIONARE": ["SELEZIONARE"]
+};
+const INDIRIZZO_STRUTTURA = {
+  "AVELLINO": "Via Roma 10, Avellino",
+  "BENEVENTO": "Corso Garibaldi 25, Benevento",
+  "SELEZIONARE": ""
+};
+function aggiornaCascata(){
+  const val = progettoEl.value || 'SELEZIONARE';
+  if (typeof dati !== 'undefined' && Array.isArray(dati) && dati.length > 0) {
+    const strutture = [...new Set(dati.filter(d => d.Progetto === val).map(d => d.Struttura))];
+    if (strutture.length === 0) strutture.push('SELEZIONARE');
+    popolaSelect(strutturaEl, strutture);
+    popolaSelect(enteEl, ['SELEZIONARE']);
+    return;
+  }
+  popolaSelect(strutturaEl, STRUTTURA[val] || ['SELEZIONARE']);
+  popolaSelect(enteEl, ENTE[val] || ['SELEZIONARE']);
+}
+progettoEl.addEventListener('change', aggiornaCascata);
+aggiornaCascata();
+strutturaEl.addEventListener('change', () => {
+  const val = strutturaEl.value || 'SELEZIONARE';
+  document.getElementById('indirizzo').value = INDIRIZZO_STRUTTURA[val] || "";
+});
+function calcola() {
+  const operatori = Math.max(0, Number(operatoriEl.value) || 0);
+  const ore = Math.max(0, Number(totOreEl.value) || 0);
+  const mq = Math.max(0, Number(mqEl.value) || 0);
+  let subtotal = 0;
+  if (manutenzioneChk.checked) subtotal += RATES.MANUTENZIONE * ore * operatori;
+  if (pulizieChk.checked) subtotal += RATES.PULIZIE * ore * operatori;
+  if (sanificazioneChk.checked) subtotal += RATES.SANIFICAZIONE * mq;
+  if (disinfestazioneChk.checked) subtotal += RATES.DISINFESTAZIONE * mq;
+  if (derattizzazioneChk.checked) subtotal += RATES.DERATTIZZAZIONE * mq;
+  const iva = subtotal * 0.22;
+  const total = subtotal + iva;
+  subtotalEl.textContent = euro(subtotal);
+  ivaEl.textContent = euro(iva);
+  totalEl.textContent = euro(total);
+  return { subtotal, iva, total };
+}
+document.getElementById('calc').addEventListener('click', calcola);
+document.getElementById('reset').addEventListener('click', ()=>{
+  document.getElementById('moduloForm').reset();
+  aggiornaCascata();
+  strutturaEl.addEventListener('change', () => {
+    const val = strutturaEl.value || 'SELEZIONARE';
+    document.getElementById('indirizzo').value = INDIRIZZO_STRUTTURA[val] || "";
+  });
+  subtotalEl.textContent = '0.00'; ivaEl.textContent='0.00'; totalEl.textContent='0.00';
+});
+document.getElementById('print').addEventListener('click', ()=>{
+  calcola();
+  window.print();
+});
+document.getElementById('exportJson').addEventListener('click', ()=>{
+  calcola();
+  const data = new FormData(document.getElementById('moduloForm'));
+  const obj = {};
+  for (const [k,v] of data.entries()) obj[k] = v;
+  obj.MANUTENZIONE = manutenzioneChk.checked;
+  obj.PULIZIE = pulizieChk.checked;
+  obj.SANIFICAZIONE = sanificazioneChk.checked;
+  obj.DISINFESTAZIONE = disinfestazioneChk.checked;
+  obj.DERATTIZZAZIONE = derattizzazioneChk.checked;
+  const totals = calcola();
+  obj.SUBTOTAL = euro(totals.subtotal);
+  obj.IVA = euro(totals.iva);
+  obj.TOTAL = euro(totals.total);
+  const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'modulo_compilato.json'; a.click(); URL.revokeObjectURL(url);
+});
+document.getElementById('moduloForm').addEventListener('submit', (e)=>{ e.preventDefault(); });
+document.addEventListener('keydown', (e)=>{
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)){
+    e.preventDefault(); document.getElementById('print').click();
+  }
+});
+function abilitaFirma(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  let disegnando = false;
+  canvas.width = 300;
+  canvas.height = 150;
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  canvas.addEventListener('mousedown', e => {
+    disegnando = true;
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+  });
+  canvas.addEventListener('mousemove', e => {
+    if (disegnando) {
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    }
+  });
+  canvas.addEventListener('mouseup', () => disegnando = false);
+  canvas.addEventListener('mouseleave', () => disegnando = false);
+  canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    disegnando = true;
+    const rect = canvas.getBoundingClientRect();
+    ctx.beginPath();
+    ctx.moveTo(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+  });
+  canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (disegnando) {
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineTo(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+      ctx.stroke();
+    }
+  });
+  canvas.addEventListener('touchend', () => disegnando = false);
+}
+function pulisciFirma(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+document.addEventListener("DOMContentLoaded", function(){
+  abilitaFirma('firmaOperatore');
+  abilitaFirma('firmaCliente');
+});
+const oldStampa = stampaModulo;
+stampaModulo = function() {
+  ['firmaOperatore','firmaCliente'].forEach(id => {
+    const canvas = document.getElementById(id);
+    if (canvas) {
+      const imgData = canvas.toDataURL("image/png");
+      const img = document.createElement('img');
+      img.src = imgData;
+      img.style.border = "1px solid #000";
+      img.style.width = canvas.width + "px";
+      img.style.height = canvas.height + "px";
+      canvas.replaceWith(img);
+    }
+  });
+  oldStampa();
+};
+const oldCalcolaTotale = calcolaTotale;
+calcolaTotale = function() {
+  oldCalcolaTotale();
+  let riepilogo = "";
+  let subtotale = 0;
+  const COSTI = {
+    "manutenzione": 25,
+    "pulizie": 20,
+    "sanificazione": 2,
+    "disinfestazione": 4.5,
+    "derattizzazione": 6.5
+  };
+  const ore = parseFloat(document.getElementById('oreTotali').value) || 0;
+  const numOp = parseInt(document.getElementById('numOperatori').value) || 0;
+  const mq = parseFloat(document.getElementById('mq').value) || 0;
+  document.querySelectorAll('input[name="TIPOLOGIA"]:checked').forEach(el => {
+    let totaleVoce = 0;
+    switch(el.value) {
+      case "manutenzione":
+        totaleVoce = ore * numOp * COSTI.manutenzione;
+        break;
+      case "pulizie":
+        totaleVoce = ore * numOp * COSTI.pulizie;
+        break;
+      case "sanificazione":
+        totaleVoce = mq * COSTI.sanificazione;
+        break;
+      case "disinfestazione":
+        totaleVoce = mq * COSTI.disinfestazione;
+        break;
+      case "derattizzazione":
+        totaleVoce = mq * COSTI.derattizzazione;
+        break;
+    }
+    subtotale += totaleVoce;
+    riepilogo += `- ${el.value.charAt(0).toUpperCase() + el.value.slice(1)}: €${totaleVoce.toFixed(2)}\n`;
+  });
+  const iva = subtotale * 0.22;
+  const totale = subtotale + iva;
+  riepilogo += `Subtotale: €${subtotale.toFixed(2)}\n`;
+  riepilogo += `IVA (22%): €${iva.toFixed(2)}\n`;
+  riepilogo += `Totale: €${totale.toFixed(2)}`;
+  document.getElementById('riepilogoBasso').innerText = riepilogo;
+};
+document.getElementById('generaPdf').addEventListener('click', function(){
+  stampaModulo();
+  window.print();
+});
+</script>
+</body>
+</html>
