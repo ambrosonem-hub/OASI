@@ -17,6 +17,19 @@
     "Ente":"PERCORSI",
     "Indirizzo":"Corso Garibaldi 25, Benevento"
   },
+  {
+    "Progetto":"SAI-A08",
+    "Struttura":"CAGLIARI",
+    "Ente":"PERCORSI",
+    "Indirizzo":"Corso Garibaldi 25, Benevento"
+  },
+   {
+    "Progetto":"SAI-A08",
+    "Struttura":"AVELLINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"PIAZZA LIBERTA 25, AVELLINO"
+  },
+  
    {
     "Progetto":"SAI-A05",
     "Struttura":"napoli",
