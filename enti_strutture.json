@@ -18,27 +18,33 @@
     "Indirizzo":"Corso Garibaldi 25, Benevento"
   },
   {
-    "Progetto":"SAI-A08",
-    "Struttura":"CAGLIARI",
-    "Ente":"PERCORSI",
-    "Indirizzo":"Corso Garibaldi 25, Benevento"
-  },
-   {
-    "Progetto":"SAI-A08",
-    "Struttura":"AVELLINO",
-    "Ente":"PERCORSI",
-    "Indirizzo":"PIAZZA LIBERTA 25, AVELLINO"
-  },
-   {
-    "Progetto":"SAI-A05",
-    "Struttura":"napoli",
-    "Ente":"PERCORSI",
-    "Indirizzo":"Corso Garibaldi 25, Benevento"
-  },
-  {
     "Progetto":"SAI-A03",
     "Struttura":"BENEVENTO",
     "Ente":"PERCORSI",
     "Indirizzo":"Piazza Duomo 5, Benevento"
+  },
+  {
+    "Progetto":"SAI-A04",
+    "Struttura":"NAPOLI",
+    "Ente":"AIC",
+    "Indirizzo":"VIA"
+  },
+  {
+    "Progetto":"SAI-A04",
+    "Struttura":"AVELLINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"PIAZZA"
+  },
+  {
+    "Progetto":"SAI-A08",
+    "Struttura":"CAGLIARI",
+    "Ente":"PERCORSIVIA",
+    "Indirizzo":null
+  },
+  {
+    "Progetto":"SAI-A08",
+    "Struttura":"CAGLIARI",
+    "Ente":"AIC",
+    "Indirizzo":"PIAZZA"
   }
 ]
