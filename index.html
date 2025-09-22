@@ -36,22 +36,15 @@ td, th { padding:8px; text-align:left; border-bottom:1px solid #f1f5f9; }
 .firme-container > div { flex:1 1 300px; }
 .firma-canvas-container button { margin-top:5px; }
 
-/* MOBILE */
 @media (max-width:900px) {
   body { padding:12px; }
   .container { padding:10px; }
   form { grid-template-columns:1fr; }
-  .firme-container { flex-direction:column; gap:12px; }
+  .firme-container { flex-direction:column; }
   .firma-canvas-container { width:100%; }
-  .firma-canvas { max-width:100%; height:120px; }
-  .summary { font-size:12px; }
-  .panel { padding:10px; }
-  input, select, textarea { font-size:14px; padding:6px; }
-  h1 { font-size:18px; }
-  .btn { padding:6px 10px; font-size:14px; }
+  .firma-canvas { max-width:100%; }
 }
 
-/* PRINT A4 */
 @media print {
   @page { size:A4 portrait; margin:10mm; }
   body { padding:0; background:#fff; }
@@ -69,7 +62,6 @@ td, th { padding:8px; text-align:left; border-bottom:1px solid #f1f5f9; }
 <body>
 <div class="container" role="main">
 
-  <!-- Pulsante aggiorna JSON -->
   <div style="margin-bottom:12px; text-align:right;">
     <button type="button" class="btn secondary" id="reloadJson">Aggiorna dati JSON</button>
   </div>
@@ -89,7 +81,7 @@ td, th { padding:8px; text-align:left; border-bottom:1px solid #f1f5f9; }
   <h1>ORDINE DI SERVIZIO</h1>
 
   <form id="moduloForm" autocomplete="off">
-    <!-- Qui inserisci tutti i campi del modulo come nella tua versione originale -->
+    <!-- Qui inserisci tutto il contenuto del modulo (campi, riepilogo, firme) come nella tua versione originale -->
   </form>
 </div>
 
@@ -126,6 +118,7 @@ function aggiornaCascata(){
     if(strutture.length===0) strutture.push('SELEZIONARE');
     popolaSelect(strutturaEl,strutture);
     popolaSelect(enteEl,['SELEZIONARE']);
+    return;
   }
 }
 function popolaSelect(selectEl, items){
