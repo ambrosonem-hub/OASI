@@ -105,17 +105,15 @@ td, th { padding: 8px; text-align: left; border-bottom: 1px solid #f1f5f9; }
       <div class="panel">
         <div class="field">
           <label for="progetto">Progetto</label>
-          <select id="progetto" name="PROGETTO">
-            <option value="">Seleziona progetto</option>
-          </select>
+          <select id="progetto" name="PROGETTO"></select>
         </div>
         <div class="field">
           <label for="struttura">Struttura</label>
-          <select id="struttura" name="STRUTTURA"><option>SELEZIONARE</option></select>
+          <select id="struttura" name="STRUTTURA"></select>
         </div>
         <div class="field">
           <label for="ente">Ente</label>
-          <select id="ente" name="ENTE"><option>SELEZIONARE</option></select>
+          <select id="ente" name="ENTE"></select>
         </div>
         <div class="field">
           <label for="indirizzo">Indirizzo</label>
@@ -196,25 +194,24 @@ td, th { padding: 8px; text-align: left; border-bottom: 1px solid #f1f5f9; }
 </div>
 
 <script>
-const progettoEl=document.getElementById('progetto');
-const strutturaEl=document.getElementById('struttura');
-const enteEl=document.getElementById('ente');
-const operatoriEl=document.getElementById('operatori');
-const totOreEl=document.getElementById('totOre');
-const mqEl=document.getElementById('mq');
-const manutenzioneChk=document.getElementById('manutenzione_chk');
-const pulizieChk=document.getElementById('pulizie_chk');
-const sanificazioneChk=document.getElementById('sanificazione_chk');
-const disinfestazioneChk=document.getElementById('disinfestazione_chk');
-const derattizzazioneChk=document.getElementById('derattizzazione_chk');
-const subtotalEl=document.getElementById('subtotal');
-const ivaEl=document.getElementById('iva');
-const totalEl=document.getElementById('total');
-
 const RATES = { MANUTENZIONE:25, PULIZIE:20, SANIFICAZIONE:2, DISINFESTAZIONE:4.5, DERATTIZZAZIONE:6.5 };
+const progettoEl = document.getElementById('progetto');
+const strutturaEl = document.getElementById('struttura');
+const enteEl = document.getElementById('ente');
+const operatoriEl = document.getElementById('operatori');
+const totOreEl = document.getElementById('totOre');
+const mqEl = document.getElementById('mq');
+const manutenzioneChk = document.getElementById('manutenzione_chk');
+const pulizieChk = document.getElementById('pulizie_chk');
+const sanificazioneChk = document.getElementById('sanificazione_chk');
+const disinfestazioneChk = document.getElementById('disinfestazione_chk');
+const derattizzazioneChk = document.getElementById('derattizzazione_chk');
+const subtotalEl = document.getElementById('subtotal');
+const ivaEl = document.getElementById('iva');
+const totalEl = document.getElementById('total');
 
-// Funzione helper per popolare select
-function popolaSelect(selectEl, items){
+// Funzione per popolare select
+function popolaSelect(selectEl, items) {
   selectEl.innerHTML = '<option value="">Seleziona</option>';
   items.forEach(item => {
     const opt = document.createElement('option');
@@ -224,23 +221,17 @@ function popolaSelect(selectEl, items){
   });
 }
 
-// Carica i dati dal JSON
+// Carica JSON esterno
 fetch('enti_strutture.json')
-  .then(response => {
-    if (!response.ok) throw new Error('Impossibile caricare il file JSON.');
-    return response.json();
+  .then(res => res.json())
+  .then(data => {
+    popolaSelect(progettoEl, data.progetti || []);
+    popolaSelect(strutturaEl, data.strutture || []);
+    popolaSelect(enteEl, data.enti || []);
   })
-  .then(dati => {
-    if(dati.progetti) popolaSelect(progettoEl, dati.progetti);
-    if(dati.strutture) popolaSelect(strutturaEl, dati.strutture);
-    if(dati.enti) popolaSelect(enteEl, dati.enti);
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Errore nel caricamento dei dati JSON: " + err);
-  });
+  .catch(err => console.error('Errore caricamento JSON:', err));
 
-// Funzioni di calcolo
+// Calcolo costi
 function euro(n){ return Number(n||0).toFixed(2); }
 document.getElementById('calc').addEventListener('click', calcola);
 document.getElementById('reset').addEventListener('click', ()=>{
@@ -264,7 +255,7 @@ function calcola(){
   totalEl.textContent=euro(total);
 }
 
-// Funzioni firma
+// Gestione firme
 function abilitaFirma(canvasId){
   const canvas=document.getElementById(canvasId);
   const ctx=canvas.getContext('2d');
@@ -281,6 +272,8 @@ function abilitaFirma(canvasId){
 }
 function pulisciFirma(canvasId){ const canvas=document.getElementById(canvasId); canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height); }
 ['firmaOperatore','firmaCliente'].forEach(id=>abilitaFirma(id));
+
+// Stampa e esportazione JSON
 function canvasToImageForPrint(){
   ['firmaOperatore','firmaCliente'].forEach(id=>{
     const canvas=document.getElementById(id);
