@@ -606,20 +606,22 @@
     const operatorCanvas = document.getElementById('firmaOperatore');
     const clientCanvas = document.getElementById('firmaCliente');
     
+    // Mostra l'immagine generata solo per la stampa
     const operatorImg = new Image();
     operatorImg.src = operatorCanvas.toDataURL();
-    operatorImg.className = 'firma-stampa'; // Aggiungi la classe qui
+    operatorImg.className = 'firma-stampa';
     operatorCanvas.parentNode.insertBefore(operatorImg, operatorCanvas);
     operatorCanvas.style.display = 'none';
 
     const clientImg = new Image();
     clientImg.src = clientCanvas.toDataURL();
-    clientImg.className = 'firma-stampa'; // Aggiungi la classe qui
+    clientImg.className = 'firma-stampa';
     clientCanvas.parentNode.insertBefore(clientImg, clientCanvas);
     clientCanvas.style.display = 'none';
 
     window.print();
     
+    // Nascondi l'immagine e mostra di nuovo il canvas dopo la stampa
     operatorCanvas.style.display = 'block';
     operatorCanvas.parentNode.removeChild(operatorImg);
     clientCanvas.style.display = 'block';
