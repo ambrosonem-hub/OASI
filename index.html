@@ -302,10 +302,6 @@
           <input id="indirizzo" name="INDIRIZZO" type="text" placeholder="Via, Piazza, etc." />
         </div>
         <div class="field">
-          <label for="enteDaFatturare">Ente da fatturare</label>
-          <input id="enteDaFatturare" name="ENTE_DA_FATTURARE" type="text" />
-        </div>
-        <div class="field">
           <label for="descrizione">Descrizione dei lavori</label>
           <textarea id="descrizione" name="DESCRIZIONE" placeholder="Descrivi il lavoro svolto..."></textarea>
           <div class="small muted" style="margin-top:6px; white-space:pre-line;">
@@ -542,7 +538,7 @@
     const ore = Math.max(0, Number(totOreEl.value) || 0);
     const mq = Math.max(0, Number(mqEl.value) || 0);
     let subtotal = 0;
-    let dettagliCostiHTML = "<table><tbody>";
+    let dettagliCostiHTML = "";
 
     if (manutenzioneChk.checked) {
       const costo = RATES.MANUTENZIONE * ore * operatori;
@@ -569,8 +565,7 @@
       subtotal += costo;
       dettagliCostiHTML += `<tr><td>Derattizzazione (${mq} mq)</td><td class="right">€ ${euro(costo)}</td></tr>`;
     }
-    dettagliCostiHTML += "</tbody></table>";
-    costiSelezionatiEl.innerHTML = subtotal > 0 ? dettagliCostiHTML : "";
+    costiSelezionatiEl.innerHTML = subtotal > 0 ? "<table><tbody>" + dettagliCostiHTML + "</tbody></table>" : "";
 
     const iva = subtotal * 0.22;
     const total = subtotal + iva;
