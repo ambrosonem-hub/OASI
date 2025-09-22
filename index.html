@@ -224,10 +224,13 @@
         break-inside: avoid;
         margin-top: 15px;
       }
-      .firma-canvas + img {
+      .firma-canvas {
+        display: none !important;
+      }
+      .firma-stampa {
         border: 1px solid #000;
-        width: 150px;
-        height: 75px;
+        width: 300px;
+        height: 150px;
       }
       .panel, .firme-container > div {
         padding: 0;
@@ -605,13 +608,13 @@
     
     const operatorImg = new Image();
     operatorImg.src = operatorCanvas.toDataURL();
-    operatorImg.className = 'firma-stampa';
+    operatorImg.className = 'firma-stampa'; // Aggiungi la classe qui
     operatorCanvas.parentNode.insertBefore(operatorImg, operatorCanvas);
     operatorCanvas.style.display = 'none';
 
     const clientImg = new Image();
     clientImg.src = clientCanvas.toDataURL();
-    clientImg.className = 'firma-stampa';
+    clientImg.className = 'firma-stampa'; // Aggiungi la classe qui
     clientCanvas.parentNode.insertBefore(clientImg, clientCanvas);
     clientCanvas.style.display = 'none';
 
