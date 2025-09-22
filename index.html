@@ -256,6 +256,15 @@
         border: none;
         padding: 0;
       }
+      
+      /* Nuovo stile per l'indirizzo in stampa */
+      input#indirizzo {
+          display: none !important;
+      }
+      #indirizzo-stampa {
+          display: block !important;
+          margin-top: 5px; /* Adatta il margine se necessario */
+      }
     }
     .firma-canvas-container {
       break-inside: avoid;
@@ -300,6 +309,7 @@
         <div class="field">
           <label for="indirizzo">Indirizzo</label>
           <input id="indirizzo" name="INDIRIZZO" type="text" placeholder="Via, Piazza, etc." />
+          <span id="indirizzo-stampa" style="display:none;"></span>
         </div>
         <div class="field">
           <label for="descrizione">Descrizione dei lavori</label>
@@ -586,6 +596,10 @@
   });
   document.getElementById('print').addEventListener('click', ()=>{
     calcola();
+    const indirizzoEl = document.getElementById('indirizzo');
+    const indirizzoStampaEl = document.getElementById('indirizzo-stampa');
+    indirizzoStampaEl.textContent = indirizzoEl.value;
+
     const operatorCanvas = document.getElementById('firmaOperatore');
     const clientCanvas = document.getElementById('firmaCliente');
     
@@ -649,6 +663,7 @@
     ctx.lineCap = 'round';
     
     const startDrawing = (e) => {
+        e.preventDefault(); // Impedisce lo scorrimento
         disegnando = true;
         const rect = canvas.getBoundingClientRect();
         const x = (e.touches && e.touches[0]) ? e.touches[0].clientX - rect.left : e.offsetX;
@@ -659,6 +674,7 @@
 
     const draw = (e) => {
         if (!disegnando) return;
+        e.preventDefault(); // Impedisce lo scorrimento
         const rect = canvas.getBoundingClientRect();
         const x = (e.touches && e.touches[0]) ? e.touches[0].clientX - rect.left : e.offsetX;
         const y = (e.touches && e.touches[0]) ? e.touches[0].clientY - rect.top : e.offsetY;
@@ -676,8 +692,8 @@
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseleave', stopDrawing);
     
-    canvas.addEventListener('touchstart', startDrawing);
-    canvas.addEventListener('touchmove', draw);
+    canvas.addEventListener('touchstart', startDrawing, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
     canvas.addEventListener('touchend', stopDrawing);
     canvas.addEventListener('touchcancel', stopDrawing);
   }
