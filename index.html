@@ -121,7 +121,6 @@ td, th { padding: 8px; text-align: left; border-bottom: 1px solid #f1f5f9; }
           <label for="indirizzo">Indirizzo</label>
           <input id="indirizzo" name="INDIRIZZO" type="text" placeholder="Via, Piazza, etc.">
         </div>
-        <!-- NUOVO CAMPO -->
         <div class="field">
           <label for="descrizione">Descrizione lavoro svolto</label>
           <textarea id="descrizione" name="DESCRIZIONE" placeholder="Inserisci qui i dettagli del lavoro svolto..."></textarea>
@@ -197,7 +196,6 @@ td, th { padding: 8px; text-align: left; border-bottom: 1px solid #f1f5f9; }
 </div>
 
 <script>
-const RATES = { MANUTENZIONE:25, PULIZIE:20, SANIFICAZIONE:2, DISINFESTAZIONE:4.5, DERATTIZZAZIONE:6.5 };
 const progettoEl=document.getElementById('progetto');
 const strutturaEl=document.getElementById('struttura');
 const enteEl=document.getElementById('ente');
@@ -213,14 +211,42 @@ const subtotalEl=document.getElementById('subtotal');
 const ivaEl=document.getElementById('iva');
 const totalEl=document.getElementById('total');
 
-function euro(n){ return Number(n||0).toFixed(2); }
+const RATES = { MANUTENZIONE:25, PULIZIE:20, SANIFICAZIONE:2, DISINFESTAZIONE:4.5, DERATTIZZAZIONE:6.5 };
 
+// Funzione helper per popolare select
+function popolaSelect(selectEl, items){
+  selectEl.innerHTML = '<option value="">Seleziona</option>';
+  items.forEach(item => {
+    const opt = document.createElement('option');
+    opt.value = item.id;
+    opt.textContent = item.nome;
+    selectEl.appendChild(opt);
+  });
+}
+
+// Carica i dati dal JSON
+fetch('enti_strutture.json')
+  .then(response => {
+    if (!response.ok) throw new Error('Impossibile caricare il file JSON.');
+    return response.json();
+  })
+  .then(dati => {
+    if(dati.progetti) popolaSelect(progettoEl, dati.progetti);
+    if(dati.strutture) popolaSelect(strutturaEl, dati.strutture);
+    if(dati.enti) popolaSelect(enteEl, dati.enti);
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Errore nel caricamento dei dati JSON: " + err);
+  });
+
+// Funzioni di calcolo
+function euro(n){ return Number(n||0).toFixed(2); }
 document.getElementById('calc').addEventListener('click', calcola);
 document.getElementById('reset').addEventListener('click', ()=>{
   document.getElementById('moduloForm').reset();
   subtotalEl.textContent='0.00'; ivaEl.textContent='0.00'; totalEl.textContent='0.00';
 });
-
 function calcola(){
   const operatori=Math.max(0,Number(operatoriEl.value)||0);
   const ore=Math.max(0,Number(totOreEl.value)||0);
@@ -238,6 +264,7 @@ function calcola(){
   totalEl.textContent=euro(total);
 }
 
+// Funzioni firma
 function abilitaFirma(canvasId){
   const canvas=document.getElementById(canvasId);
   const ctx=canvas.getContext('2d');
@@ -254,7 +281,6 @@ function abilitaFirma(canvasId){
 }
 function pulisciFirma(canvasId){ const canvas=document.getElementById(canvasId); canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height); }
 ['firmaOperatore','firmaCliente'].forEach(id=>abilitaFirma(id));
-
 function canvasToImageForPrint(){
   ['firmaOperatore','firmaCliente'].forEach(id=>{
     const canvas=document.getElementById(id);
@@ -266,13 +292,11 @@ function canvasToImageForPrint(){
     canvas.parentNode.replaceChild(img,canvas);
   });
 }
-
 document.getElementById('print').addEventListener('click', ()=>{
   calcola();
   canvasToImageForPrint();
   setTimeout(()=>window.print(),100);
 });
-
 document.getElementById('exportJson').addEventListener('click', ()=>{
   calcola();
   const data=new FormData(document.getElementById('moduloForm'));
