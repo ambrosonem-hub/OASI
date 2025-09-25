@@ -35,11 +35,11 @@ td.right,th.right { text-align:right; }
 .header-info { text-align:center; font-size:13px; line-height:1.2; margin-bottom:20px; }
 .header-info .title { font-size:16px; font-weight:bold; margin-bottom:5px; }
 .header-info div { margin:0; }
-.firma-canvas { border:1px solid #000; cursor:crosshair; background-color:#fff; width:100%; max-width:300px; height:150px; box-sizing:border-box; display:block; margin-top:5px; }
-.firma-canvas-container { margin-bottom:15px; break-inside:avoid; }
+.firma-canvas-container { margin-bottom:15px; break-inside:avoid; position:relative; width:100%; max-width:300px; height:150px; }
+.firma-canvas { border:1px solid #000; cursor:crosshair; background-color:#fff; width:100%; height:100%; position:relative; z-index:1; }
+.firma-stampa { display:none; border:1px solid #000; width:300px; height:150px; position:absolute; top:0; left:0; pointer-events:none; z-index:0; }
 .firme-container { display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between; width:100%; margin-top:15px; }
 .firme-container > div { flex:1 1 300px; }
-.firma-canvas-container button { margin-top:5px; }
 .materiale-row { display:flex; gap:6px; margin-bottom:6px; }
 .materiale-row input[type=text]{ flex:2; } .materiale-row input[type=number]{ flex:1; }
 @media(max-width:900px){body{padding:12px}.container{padding:10px}form{grid-template-columns:1fr}.firme-container{flex-direction:column}.firma-canvas-container{width:100%}.firma-canvas{max-width:100%;}}
@@ -48,20 +48,17 @@ td.right,th.right { text-align:right; }
   body {padding:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .container {width:100%; max-width:100%; box-shadow:none; border-radius:0; padding:0; display:block;}
   .btn,#calc,#reset,#exportJson,#print,.firma-canvas-container button,.small.muted {display:none !important;}
-  .firma-stampa{border:1px solid #000;width:300px;height:150px;}
-  .firma-canvas{display:none !important;}
-  .panel,input,textarea,select{border:none;padding:0;background:transparent;}
   form{display:block;}
   .header-info{margin-bottom:10px;} h1{font-size:16px;margin:0;}
   .logo-container img{max-width:120px;max-height:80px;}
+  .firma-canvas { display: none !important; }
+  .firma-stampa { display: block !important; }
 }
 </style>
 </head>
 <body>
 <div class="container">
-  <div class="logo-container">
-    <img src="logo.jpg" alt="Logo Azienda"/>
-  </div>
+  <div class="logo-container"><img src="logo.jpg" alt="Logo Azienda"/></div>
   <div class="header-info">
     <div class="title">Sede Legale:</div>
     <div>Via Municipio, n. 14 - 83040 Fontanarosa (AV)</div>
@@ -74,24 +71,11 @@ td.right,th.right { text-align:right; }
   <form id="moduloForm" autocomplete="off">
     <div>
       <div class="panel">
-        <div class="field">
-          <label for="progetto">Progetto</label>
-          <select id="progetto" name="PROGETTO"></select>
-        </div>
-        <div class="field">
-          <label for="struttura">Struttura</label>
-          <select id="struttura" name="STRUTTURA"></select>
-        </div>
-        <div class="field">
-          <label for="ente">Ente</label>
-          <select id="ente" name="ENTE"></select>
-        </div>
-        <div class="field">
-          <label for="indirizzo">Indirizzo</label>
-          <select id="indirizzo" name="INDIRIZZO"></select>
-        </div>
-        <div class="field">
-          <label for="descrizione">Descrizione dei lavori</label>
+        <div class="field"><label for="progetto">Progetto</label><select id="progetto" name="PROGETTO"></select></div>
+        <div class="field"><label for="struttura">Struttura</label><select id="struttura" name="STRUTTURA"></select></div>
+        <div class="field"><label for="ente">Ente</label><select id="ente" name="ENTE"></select></div>
+        <div class="field"><label for="indirizzo">Indirizzo</label><select id="indirizzo" name="INDIRIZZO"></select></div>
+        <div class="field"><label for="descrizione">Descrizione dei lavori</label>
           <textarea id="descrizione" name="DESCRIZIONE" placeholder="Descrivi il lavoro svolto..."></textarea>
           <div class="small muted" style="white-space:pre-line;">
 Manutenzione (€/ora per operatore)  € 25.00
@@ -102,32 +86,14 @@ Derattizzazione (€/mq)            € 6.50
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-          <div class="field">
-            <label for="dataLavoro">Data lavoro</label>
-            <input id="dataLavoro" type="date"/>
-          </div>
-          <div class="field">
-            <label for="oraInizio">Ora inizio</label>
-            <input id="oraInizio" type="time"/>
-          </div>
-          <div class="field">
-            <label for="oraFine">Ora fine</label>
-            <input id="oraFine" type="time"/>
-          </div>
+          <div class="field"><label for="dataLavoro">Data lavoro</label><input id="dataLavoro" type="date"/></div>
+          <div class="field"><label for="oraInizio">Ora inizio</label><input id="oraInizio" type="time"/></div>
+          <div class="field"><label for="oraFine">Ora fine</label><input id="oraFine" type="time"/></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-          <div class="field">
-            <label for="operatori">Numero operatori</label>
-            <input id="operatori" type="number" min="0" step="1" value="1"/>
-          </div>
-          <div class="field">
-            <label for="totOre">Totale ore</label>
-            <input id="totOre" type="number" min="0" step="0.5" value="0"/>
-          </div>
-          <div class="field">
-            <label for="mq">Metri quadrati (mq)</label>
-            <input id="mq" type="number" min="0" step="0.1" value="0"/>
-          </div>
+          <div class="field"><label for="operatori">Numero operatori</label><input id="operatori" type="number" min="0" step="1" value="1"/></div>
+          <div class="field"><label for="totOre">Totale ore</label><input id="totOre" type="number" min="0" step="0.5" value="0"/></div>
+          <div class="field"><label for="mq">Metri quadrati (mq)</label><input id="mq" type="number" min="0" step="0.1" value="0"/></div>
         </div>
         <div class="field">
           <label>Tipologia lavoro (seleziona le voci applicate)</label>
@@ -149,19 +115,14 @@ Derattizzazione (€/mq)            € 6.50
     <aside class="panel">
       <h3>Riepilogo costi</h3>
       <div class="summary">
-        <table>
-          <tbody id="riepilogoBody"></tbody>
-        </table>
+        <table><tbody id="riepilogoBody"></tbody></table>
         <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
           <span>Subtotale € <span id="subtotal">0.00</span></span> | 
           <span>IVA € <span id="iva">0.00</span></span> | 
           <span>Totale € <span id="total">0.00</span></span>
         </div>
       </div>
-      <div style="margin-top:14px">
-        <label class="small">Operatore di struttura (firma)</label>
-        <input id="operatoreFirma" type="text"/>
-      </div>
+      <div style="margin-top:14px"><label class="small">Operatore di struttura (firma)</label><input id="operatoreFirma" type="text"/></div>
       <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end;">
         <button type="button" class="btn" id="print">Stampa / Salva PDF</button>
         <button type="button" class="btn secondary" id="exportJson">Esporta (JSON)</button>
@@ -171,11 +132,13 @@ Derattizzazione (€/mq)            € 6.50
       <div class="firma-canvas-container">
         <h3>Firma operatore</h3>
         <canvas id="firmaOperatore" class="firma-canvas"></canvas>
+        <img id="firmaOperatore_stampa" class="firma-stampa" />
         <button type="button" class="btn secondary" onclick="pulisciFirma('firmaOperatore')">Pulisci firma</button>
       </div>
       <div class="firma-canvas-container">
         <h3>Firma cliente</h3>
         <canvas id="firmaCliente" class="firma-canvas"></canvas>
+        <img id="firmaCliente_stampa" class="firma-stampa" />
         <button type="button" class="btn secondary" onclick="pulisciFirma('firmaCliente')">Pulisci firma</button>
       </div>
     </div>
@@ -183,35 +146,32 @@ Derattizzazione (€/mq)            € 6.50
 </div>
 
 <script>
-// ================= Dati esempio =================
-const enti_strutture = [
-  {"Progetto":"SAI-A01","Struttura":"AVELLINO","Ente":"PERCORSI","Indirizzo":"Via Roma 10, Avellino"},
-  {"Progetto":"SAI-A01","Struttura":"AVELLINO","Ente":"AIC","Indirizzo":"Via Roma 12, Avellino"},
-  {"Progetto":"SAI-A02","Struttura":"BENEVENTO","Ente":"PERCORSI","Indirizzo":"Corso Garibaldi 25, Benevento"}
-];
+// ================= Variabili =================
+let enti_strutture = [];
 const RATES = {MANUTENZIONE:25, PULIZIE:20, SANIFICAZIONE:2, DISINFESTAZIONE:4.5, DERATTIZZAZIONE:6.5};
 
 // ================= Elementi =================
-const progettoEl=document.getElementById('progetto'),
-      strutturaEl=document.getElementById('struttura'),
-      enteEl=document.getElementById('ente'),
-      indirizzoEl=document.getElementById('indirizzo');
-const operatoriEl=document.getElementById('operatori'),
-      totOreEl=document.getElementById('totOre'),
-      mqEl=document.getElementById('mq');
-const manutenzioneChk=document.getElementById('manutenzione_chk'),
-      pulizieChk=document.getElementById('pulizie_chk'),
-      sanificazioneChk=document.getElementById('sanificazione_chk'),
-      disinfestazioneChk=document.getElementById('disinfestazione_chk'),
-      derattizzazioneChk=document.getElementById('derattizzazione_chk');
-const subtotalEl=document.getElementById('subtotal'),
-      ivaEl=document.getElementById('iva'),
-      totalEl=document.getElementById('total'),
-      riepilogoBody=document.getElementById('riepilogoBody');
-const materialiContainer=document.getElementById('materiali-container'),
-      aggiungiMaterialeBtn=document.getElementById('aggiungiMaterialeBtn');
+const progettoEl=document.getElementById('progetto'), strutturaEl=document.getElementById('struttura'), enteEl=document.getElementById('ente'), indirizzoEl=document.getElementById('indirizzo');
+const operatoriEl=document.getElementById('operatori'), totOreEl=document.getElementById('totOre'), mqEl=document.getElementById('mq');
+const manutenzioneChk=document.getElementById('manutenzione_chk'), pulizieChk=document.getElementById('pulizie_chk'), sanificazioneChk=document.getElementById('sanificazione_chk'), disinfestazioneChk=document.getElementById('disinfestazione_chk'), derattizzazioneChk=document.getElementById('derattizzazione_chk');
+const subtotalEl=document.getElementById('subtotal'), ivaEl=document.getElementById('iva'), totalEl=document.getElementById('total'), riepilogoBody=document.getElementById('riepilogoBody');
+const materialiContainer=document.getElementById('materiali-container'), aggiungiMaterialeBtn=document.getElementById('aggiungiMaterialeBtn');
 
-// ================= Popolamento dropdown =================
+// ================= Carica JSON =================
+async function caricaEntiStrutture() {
+  try {
+    const response = await fetch('enti_strutture.json');
+    if (!response.ok) throw new Error("Errore caricamento JSON");
+    enti_strutture = await response.json();
+    popolaProgetti();
+    aggiornaRiepilogo();
+  } catch(e) {
+    console.error(e);
+    alert("Impossibile caricare enti_strutture.json");
+  }
+}
+
+// ================= Popola select =================
 function popolaProgetti(){
   const progetti=[...new Set(enti_strutture.map(d=>d.Progetto))];
   progettoEl.innerHTML="<option value=''>SELEZIONARE</option>";
@@ -219,15 +179,12 @@ function popolaProgetti(){
 }
 function popolaStrutture(){
   const strutture=[...new Set(enti_strutture.filter(d=>d.Progetto===progettoEl.value).map(d=>d.Struttura))];
-  strutturaEl.innerHTML="<option value=''>SELEZIONARE</option>";
-  strutture.forEach(s=>strutturaEl.innerHTML+=`<option value="${s}">${s}</option>`);
-  enteEl.innerHTML="<option value=''>SELEZIONARE</option>";
-  indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
+  strutturaEl.innerHTML="<option value=''>SELEZIONARE</option>"; strutture.forEach(s=>strutturaEl.innerHTML+=`<option value="${s}">${s}</option>`);
+  enteEl.innerHTML="<option value=''>SELEZIONARE</option>"; indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
 }
 function popolaEnti(){
   const enti=[...new Set(enti_strutture.filter(d=>d.Progetto===progettoEl.value && d.Struttura===strutturaEl.value).map(d=>d.Ente))];
-  enteEl.innerHTML="<option value=''>SELEZIONARE</option>";
-  enti.forEach(e=>enteEl.innerHTML+=`<option value="${e}">${e}</option>`);
+  enteEl.innerHTML="<option value=''>SELEZIONARE</option>"; enti.forEach(e=>enteEl.innerHTML+=`<option value="${e}">${e}</option>`);
   indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
 }
 function popolaIndirizzi(){
@@ -271,7 +228,19 @@ enteEl.addEventListener('change',()=>{popolaIndirizzi(); aggiornaRiepilogo();});
 materialiContainer.addEventListener('input',aggiornaRiepilogo);
 
 // ================= Stampa & Export =================
-document.getElementById('print').addEventListener('click',()=>window.print());
+function preparaFirmePerStampa() {
+  ['firmaOperatore','firmaCliente'].forEach(id => {
+    const canvas = document.getElementById(id);
+    const img = document.getElementById(id+'_stampa');
+    img.src = canvas.toDataURL('image/png');
+  });
+}
+
+document.getElementById('print').addEventListener('click',()=>{
+  preparaFirmePerStampa();
+  window.print();
+});
+
 document.getElementById('exportJson').addEventListener('click',()=>{
   const formData={PROGETTO:progettoEl.value,STRUTTURA:strutturaEl.value,ENTE:enteEl.value,INDIRIZZO:indirizzoEl.value,DESCRIZIONE:document.getElementById('descrizione').value,DATA:document.getElementById('dataLavoro').value,INIZIO:document.getElementById('oraInizio').value,FINE:document.getElementById('oraFine').value,OPERATORI:operatoriEl.value,ORE:totOreEl.value,MQ:mqEl.value,TIPI_LAVORO:{MANUTENZIONE:manutenzioneChk.checked,PULIZIE:pulizieChk.checked,SANIFICAZIONE:sanificazioneChk.checked,DISINFESTAZIONE:disinfestazioneChk.checked,DERATTIZZAZIONE:derattizzazioneChk.checked},MATERIALI:[]};
   document.querySelectorAll('#materiali-container .materiale-row').forEach(row=>{
@@ -279,13 +248,7 @@ document.getElementById('exportJson').addEventListener('click',()=>{
     if(desc!=="") formData.MATERIALI.push({descrizione:desc,prezzo:val});
   });
   console.log(JSON.stringify(formData,null,2));
-  // download JSON automatico
-  const blob = new Blob([JSON.stringify(formData,null,2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = "ordine_servizio.json"; a.click();
-  URL.revokeObjectURL(url);
-  alert('JSON stampato in console e scaricato.');
+  alert('JSON stampato in console.');
 });
 
 // ================= Firma =================
@@ -306,7 +269,7 @@ function pulisciFirma(canvasId){const canvas=document.getElementById(canvasId); 
 
 // ================= Inizializzazione =================
 document.addEventListener('DOMContentLoaded',()=>{
-  popolaProgetti();
+  caricaEntiStrutture();
   abilitaFirma('firmaOperatore');
   abilitaFirma('firmaCliente');
   aggiornaRiepilogo();
