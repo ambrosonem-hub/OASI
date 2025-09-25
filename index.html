@@ -8,13 +8,8 @@
     :root { --max-width: 980px; --accent: #0b67ff; }
     body {
       font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      background: #f5f7fb;
-      color: #1f2937;
-      padding: 24px;
-      display:flex;
-      justify-content:center;
-      flex-direction:column;
-      align-items:center;
+      background: #f5f7fb; color: #1f2937; padding: 24px;
+      display:flex; justify-content:center; flex-direction:column; align-items:center;
     }
     .container { width:100%; max-width:var(--max-width); background:#fff; border-radius:12px; box-shadow:0 6px 24px rgba(20,30,60,0.08); padding:20px; }
     h1 { font-size:20px; margin:0 0 8px; text-align:center; }
@@ -33,14 +28,16 @@
     .right { text-align:right; }
     .muted { color:#6b7280; font-size:13px; }
     .logo-container { text-align:center; margin-bottom:10px; }
+    .logo-container img { max-width:177px; max-height:118px; height:auto; }
+    .header-info { text-align:center; font-size:13px; line-height:1.2; margin-bottom:20px; }
+    .header-info .title { font-size:16px; font-weight:bold; margin-bottom:5px; }
     .firma-canvas { border:1px solid #000; cursor: crosshair; background:#fff; width:100%; max-width:300px; height:150px; box-sizing:border-box; display:block; margin-top:5px; }
     .firme-container { display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between; width:100%; margin-top:15px; }
     .firme-container > div { flex:1 1 300px; }
-    .indirizzi-table table { width:100%; border:1px solid #e1e8f8; margin-top:6px; border-radius:6px; overflow:hidden; }
-    .indirizzi-table td { padding:8px; cursor:pointer; }
-    .indirizzi-table tr:hover { background:#f6fbff; }
-    .indirizzi-table tr.selected { background:#dff0ff; }
+    .firma-canvas-container button { margin-top:5px; }
     .selected-display { margin-top:6px; font-size:13px; color:#0b67ff; }
+    /* focus outline per accessibilità */
+    :focus { outline: 3px solid rgba(11,103,255,0.18); outline-offset: 2px; border-radius:6px; }
     @media (max-width:900px) {
       form { grid-template-columns: 1fr; }
       .firme-container { flex-direction:column; }
@@ -49,7 +46,7 @@
 
     /* stampa */
     @media print {
-      @page { size: A4 portrait; margin:15mm; }
+      @page { size:A4 portrait; margin:15mm; }
       body { padding:0; background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
       .container { width:100%; max-width:100%; box-shadow:none; border-radius:0; padding:0; display:block; }
       .btn, #calc, #reset, #exportJson, #print, .firma-canvas-container button, .small.muted { display:none !important; }
@@ -66,14 +63,15 @@
       input#indirizzo { display:none !important; }
       #indirizzo-stampa { display:block !important; margin-top:5px; }
     }
-    /* inizialmente nascosto; verrà mostrato solo in stampa o se valorizzato */
+
+    /* inizialmente nascosto; mostrato solo se c'è un valore */
     #indirizzo-stampa { display:none; font-size:13px; color:#111; }
   </style>
 </head>
 <body>
   <div class="container" role="main">
     <div class="logo-container"><img src="logo.jpg" alt="Logo Azienda" /></div>
-    <div class="header-info">
+    <div class="header-info" aria-hidden="false">
       <div class="title">Sede Legale:</div>
       <div>Via Municipio, n. 14 - 83040 Fontanarosa (AV)</div>
       <div>Info – 082545553</div>
@@ -84,12 +82,12 @@
 
     <h1>ORDINE DI SERVIZIO</h1>
 
-    <form id="moduloForm" autocomplete="off">
+    <form id="moduloForm" autocomplete="off" onsubmit="return false;">
       <div>
         <div class="panel">
           <div class="field">
             <label for="progetto">Progetto</label>
-            <select id="progetto" name="PROGETTO"><option value="">SELEZIONARE</option></select>
+            <select id="progetto" name="PROGETTO" aria-required="true"><option value="">SELEZIONARE</option></select>
           </div>
 
           <div class="field">
@@ -103,15 +101,15 @@
           </div>
 
           <div class="field">
-            <label>Indirizzi</label>
+            <label for="indirizzo-select">Indirizzo</label>
             <!-- input nascosto che contiene l'indirizzo selezionato -->
             <input id="indirizzo" name="INDIRIZZO" type="hidden" value="" />
-            <!-- contenitore per la tabella di indirizzi -->
-            <div id="indirizzi-table" class="indirizzi-table"></div>
-            <!-- visualizzazione semplice dell'indirizzo selezionato -->
+            <!-- select compatto per scegliere l'indirizzo desiderato -->
+            <select id="indirizzo-select" aria-label="Seleziona indirizzo">
+              <option value="">SELEZIONA INDIRIZZO</option>
+            </select>
             <div id="indirizzo-selected" class="selected-display" aria-live="polite"></div>
-            <!-- elemento che verrà mostrato in stampa -->
-            <div id="indirizzo-stampa" style="display:none;"></div>
+            <div id="indirizzo-stampa"></div>
           </div>
 
           <div class="field">
@@ -172,7 +170,7 @@ Derattizzazione (€/mq)            € 6.50
         <h3 style="margin-top:0">Riepilogo costi</h3>
         <div class="summary" aria-live="polite">
           <table>
-            <tbody id="riepilogo-body">
+            <tbody>
               <tr><td colspan="2"><div id="costiSelezionati"></div></td></tr>
               <tr><th>Subtotale</th><th class="right">€ <span id="subtotal">0.00</span></th></tr>
               <tr><td>IVA (22%)</td><td class="right">€ <span id="iva">0.00</span></td></tr>
@@ -203,14 +201,14 @@ Derattizzazione (€/mq)            € 6.50
       <div class="firme-container">
         <div class="firma-canvas-container">
           <h3>Firma operatore</h3>
-          <canvas id="firmaOperatore" class="firma-canvas"></canvas>
+          <canvas id="firmaOperatore" class="firma-canvas" aria-label="Firma operatore"></canvas>
           <div style="display:flex;gap:8px;margin-top:6px;">
             <button type="button" class="btn secondary" onclick="pulisciFirma('firmaOperatore')">Pulisci firma</button>
           </div>
         </div>
         <div class="firma-canvas-container">
           <h3>Firma cliente</h3>
-          <canvas id="firmaCliente" class="firma-canvas"></canvas>
+          <canvas id="firmaCliente" class="firma-canvas" aria-label="Firma cliente"></canvas>
           <div style="display:flex;gap:8px;margin-top:6px;">
             <button type="button" class="btn secondary" onclick="pulisciFirma('firmaCliente')">Pulisci firma</button>
           </div>
@@ -220,7 +218,7 @@ Derattizzazione (€/mq)            € 6.50
   </div>
 
   <script>
-    /* --- DATI / RATE --- */
+    /* RATE e helper */
     const RATES = {
       MANUTENZIONE: 25.00,
       PULIZIE: 20.00,
@@ -228,19 +226,21 @@ Derattizzazione (€/mq)            € 6.50
       DISINFESTAZIONE: 4.50,
       DERATTIZZAZIONE: 6.50
     };
-    function euro(n){ return Number(n||0).toFixed(2); }
+    const euro = n => Number(n||0).toFixed(2);
 
-    /* elementi */
-    let progettoEl, strutturaEl, enteEl, indirizziTableEl, indirizzoHiddenEl, indirizzoSelectedEl, indirizzoStampaEl;
+    /* variabili DOM (inizializzate in DOMContentLoaded) */
+    let progettoEl, strutturaEl, enteEl, indirizzoSelectEl, indirizzoHiddenEl, indirizzoSelectedEl, indirizzoStampaEl;
     let operatoriEl, totOreEl, mqEl, manutenzioneChk, pulizieChk, sanificazioneChk, disinfestazioneChk, derattizzazioneChk;
     let subtotalEl, ivaEl, totalEl, costiSelezionatiEl;
 
+    let dati = [];
+
     document.addEventListener('DOMContentLoaded', () => {
-      // elementi DOM
+      // assegnazione elementi
       progettoEl = document.getElementById('progetto');
       strutturaEl = document.getElementById('struttura');
       enteEl = document.getElementById('ente');
-      indirizziTableEl = document.getElementById('indirizzi-table');
+      indirizzoSelectEl = document.getElementById('indirizzo-select');
       indirizzoHiddenEl = document.getElementById('indirizzo');
       indirizzoSelectedEl = document.getElementById('indirizzo-selected');
       indirizzoStampaEl = document.getElementById('indirizzo-stampa');
@@ -259,11 +259,31 @@ Derattizzazione (€/mq)            € 6.50
       totalEl = document.getElementById('total');
       costiSelezionatiEl = document.getElementById('costiSelezionati');
 
-      // fetch dati (enti_strutture.json) con fallback
-      fetch("enti_strutture.json")
+      // listeners cascata
+      progettoEl.addEventListener('change', onProgettoChange);
+      strutturaEl.addEventListener('change', onStrutturaChange);
+      enteEl.addEventListener('change', onEnteChange);
+      indirizzoSelectEl.addEventListener('change', onIndirizzoSelectChange);
+
+      // pulsanti
+      document.getElementById('calc').addEventListener('click', calcola);
+      document.getElementById('reset').addEventListener('click', resetForm);
+      document.getElementById('print').addEventListener('click', onPrint);
+      document.getElementById('exportJson').addEventListener('click', onExportJson);
+
+      // shortcut: Ctrl/Cmd + Enter -> stampa
+      document.addEventListener('keydown', (e)=>{
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault(); document.getElementById('print').click();
+        }
+      });
+
+      // carica dati (enti_strutture.json) con fallback
+      fetch('enti_strutture.json')
         .then(r => r.ok ? r.json() : Promise.reject(r))
-        .then(data => { initData(data); })
+        .then(json => initData(json))
         .catch(() => {
+          // fallback demo
           const fallback = [
             {"Progetto":"SAI-A01","Struttura":"AVELLINO","Ente":"PERCORSI","Indirizzo":"Via Roma 10, Avellino"},
             {"Progetto":"SAI-A01","Struttura":"AVELLINO","Ente":"PERCORSI","Indirizzo":"Via Roma 20, Avellino"},
@@ -275,48 +295,28 @@ Derattizzazione (€/mq)            € 6.50
           initData(fallback);
         });
 
-      // eventi cascata
-      progettoEl.addEventListener('change', onProgettoChange);
-      strutturaEl.addEventListener('change', onStrutturaChange);
-      enteEl.addEventListener('change', onEnteChange);
-
-      // pulsanti
-      document.getElementById('calc').addEventListener('click', ()=>{ calcola(); });
-      document.getElementById('reset').addEventListener('click', resetForm);
-      document.getElementById('print').addEventListener('click', onPrint);
-      document.getElementById('exportJson').addEventListener('click', onExportJson);
-
-      // keyboard: Ctrl/Cmd + Enter -> Stampa
-      document.addEventListener('keydown', (e)=>{
-        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-          e.preventDefault(); document.getElementById('print').click();
-        }
-      });
-
-      // inizializza firme
+      // inizializza canvas firme
       abilitaFirma('firmaOperatore');
       abilitaFirma('firmaCliente');
     });
 
-    /* variabili dati globali */
-    let dati = [];
-    function initData(dataArray){
-      dati = dataArray || [];
+    function initData(array){
+      dati = Array.isArray(array) ? array : [];
       popolaProgetti();
-      // pulizia iniziale
+      // reset campi a stato iniziale
       strutturaEl.innerHTML = "<option value=''>SELEZIONARE</option>";
       enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
-      indirizziTableEl.innerHTML = "";
+      indirizzoSelectEl.innerHTML = "<option value=''>SELEZIONA INDIRIZZO</option>";
       indirizzoHiddenEl.value = "";
       indirizzoSelectedEl.textContent = "";
+      indirizzoStampaEl.textContent = "";
     }
 
     function popolaProgetti(){
       progettoEl.innerHTML = "<option value=''>SELEZIONARE</option>";
       const progetti = [...new Set(dati.map(d=>d.Progetto))].sort();
       progetti.forEach(p => {
-        const opt = document.createElement('option'); opt.value = p; opt.textContent = p;
-        progettoEl.appendChild(opt);
+        const o = document.createElement('option'); o.value = p; o.textContent = p; progettoEl.appendChild(o);
       });
     }
 
@@ -324,71 +324,46 @@ Derattizzazione (€/mq)            € 6.50
       const proj = progettoEl.value;
       strutturaEl.innerHTML = "<option value=''>SELEZIONARE</option>";
       enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
-      indirizziTableEl.innerHTML = "";
-      indirizzoHiddenEl.value = "";
-      indirizzoSelectedEl.textContent = "";
+      indirizzoSelectEl.innerHTML = "<option value=''>SELEZIONA INDIRIZZO</option>";
+      indirizzoHiddenEl.value = ""; indirizzoSelectedEl.textContent = ""; indirizzoStampaEl.textContent = "";
       if (!proj) return;
       const strutture = [...new Set(dati.filter(d=>d.Progetto===proj).map(d=>d.Struttura))].sort();
-      strutture.forEach(s => {
-        const opt = document.createElement('option'); opt.value = s; opt.textContent = s;
-        strutturaEl.appendChild(opt);
-      });
+      strutture.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; strutturaEl.appendChild(o); });
     }
 
     function onStrutturaChange(){
-      const proj = progettoEl.value;
-      const str = strutturaEl.value;
+      const proj = progettoEl.value; const str = strutturaEl.value;
       enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
-      indirizziTableEl.innerHTML = "";
-      indirizzoHiddenEl.value = "";
-      indirizzoSelectedEl.textContent = "";
+      indirizzoSelectEl.innerHTML = "<option value=''>SELEZIONA INDIRIZZO</option>";
+      indirizzoHiddenEl.value = ""; indirizzoSelectedEl.textContent = ""; indirizzoStampaEl.textContent = "";
       if (!proj || !str) return;
       const enti = [...new Set(dati.filter(d=>d.Progetto===proj && d.Struttura===str).map(d=>d.Ente))].sort();
-      enti.forEach(en => {
-        const opt = document.createElement('option'); opt.value = en; opt.textContent = en;
-        enteEl.appendChild(opt);
-      });
+      enti.forEach(en => { const o = document.createElement('option'); o.value = en; o.textContent = en; enteEl.appendChild(o); });
     }
 
     function onEnteChange(){
-      const proj = progettoEl.value;
-      const str = strutturaEl.value;
-      const en  = enteEl.value;
-      indirizziTableEl.innerHTML = "";
-      indirizzoHiddenEl.value = "";
-      indirizzoSelectedEl.textContent = "";
-      indirizzoStampaEl.textContent = "";
-
+      const proj = progettoEl.value; const str = strutturaEl.value; const en = enteEl.value;
+      indirizzoSelectEl.innerHTML = "<option value=''>SELEZIONA INDIRIZZO</option>";
+      indirizzoHiddenEl.value = ""; indirizzoSelectedEl.textContent = ""; indirizzoStampaEl.textContent = "";
       if (!proj || !str || !en) return;
       const records = dati.filter(d => d.Progetto===proj && d.Struttura===str && d.Ente===en);
-      if (records.length === 0) return;
-
-      // costruiamo la tabella
-      const table = document.createElement('table');
-      const tbody = document.createElement('tbody');
-
-      records.forEach((r, idx) => {
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.textContent = r.Indirizzo || "";
-        tr.appendChild(td);
-        tr.tabIndex = 0; // rendi selezionabile con tastiera
-        // click / invio per selezionare
-        const selectHandler = () => {
-          // togli selezione da tutte
-          [...tbody.querySelectorAll('tr')].forEach(row => row.classList.remove('selected'));
-          tr.classList.add('selected');
-          indirizzoHiddenEl.value = r.Indirizzo || "";
-          indirizzoSelectedEl.textContent = r.Indirizzo || "";
-          indirizzoStampaEl.textContent = r.Indirizzo || "";
-        };
-        tr.addEventListener('click', selectHandler);
-        tr.addEventListener('keydown', (ev)=>{ if(ev.key==='Enter' || ev.key===' ') { ev.preventDefault(); selectHandler(); } });
-        tbody.appendChild(tr);
+      // deduplica indirizzi (possibile più righe identiche)
+      const indirizziUnici = [...new Set(records.map(r => (r.Indirizzo || '').trim()))].filter(Boolean);
+      indirizziUnici.forEach(ind => {
+        const o = document.createElement('option'); o.value = ind; o.textContent = ind;
+        indirizzoSelectEl.appendChild(o);
       });
+      // se vuoi selezionare automaticamente il primo indirizzo, puoi decommentare la riga seguente:
+      // if (indirizziUnici.length>0) { indirizzoSelectEl.value = indirizziUnici[0]; onIndirizzoSelectChange(); }
+    }
 
-      table.appendChild(tbody);
-      indirizziTableEl.appendChild(table);
+    function onIndirizzoSelectChange(){
+      const v = indirizzoSelectEl.value || "";
+      indirizzoHiddenEl.value = v;
+      indirizzoSelectedEl.textContent = v ? `Selezionato: ${v}` : "";
+      indirizzoStampaEl.textContent = v;
+      // mostra elemento stampa solo se c'è un valore
+      document.getElementById('indirizzo-stampa').style.display = v ? 'block' : 'none';
     }
 
     /* calcolo costi */
@@ -434,87 +409,77 @@ Derattizzazione (€/mq)            € 6.50
       return { subtotal, iva, total };
     }
 
-    /* reset */
     function resetForm(){
       document.getElementById('moduloForm').reset();
-      // ripulisci selects e indirizzi
       strutturaEl.innerHTML = "<option value=''>SELEZIONARE</option>";
       enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
-      indirizziTableEl.innerHTML = "";
-      indirizzoHiddenEl.value = "";
-      indirizzoSelectedEl.textContent = "";
-      indirizzoStampaEl.textContent = "";
-      subtotalEl.textContent = '0.00';
-      ivaEl.textContent = '0.00';
-      totalEl.textContent = '0.00';
+      indirizzoSelectEl.innerHTML = "<option value=''>SELEZIONA INDIRIZZO</option>";
+      indirizzoHiddenEl.value = ""; indirizzoSelectedEl.textContent = ""; indirizzoStampaEl.textContent = "";
       costiSelezionatiEl.innerHTML = "";
-      // cancella firme
-      pulisciFirma('firmaOperatore');
-      pulisciFirma('firmaCliente');
+      subtotalEl.textContent = '0.00'; ivaEl.textContent='0.00'; totalEl.textContent='0.00';
+      // pulizia firme
+      pulisciFirma('firmaOperatore'); pulisciFirma('firmaCliente');
     }
 
-    /* stampa (crea immagini per le firme, mostra indirizzo stampa, chiama window.print) */
+    /* stampa: genera immagini per firme, mostra indirizzo-stampa, esegue window.print(), poi ripristina DOM */
     function onPrint(){
       calcola();
-      // imposta indirizzo-stampa
+      // imposta testo indirizzo per stampa
       indirizzoStampaEl.textContent = indirizzoHiddenEl.value || "";
-      // genera immagini firme
+      // canvas firme
       const cOp = document.getElementById('firmaOperatore');
       const cCl = document.getElementById('firmaCliente');
 
-      const opImg = new Image();
-      opImg.src = cOp.toDataURL();
-      opImg.className = 'firma-stampa';
-      cOp.parentNode.insertBefore(opImg, cOp);
+      // crea immagini
+      const opImg = new Image(); opImg.src = cOp.toDataURL(); opImg.className = 'firma-stampa';
+      const clImg = new Image(); clImg.src = cCl.toDataURL(); clImg.className = 'firma-stampa';
 
-      const clImg = new Image();
-      clImg.src = cCl.toDataURL();
-      clImg.className = 'firma-stampa';
+      // inserisci immagini prima dei canvas
+      cOp.parentNode.insertBefore(opImg, cOp);
       cCl.parentNode.insertBefore(clImg, cCl);
 
-      // nascondi canvas (visivamente, ma CSS @print già li nasconde): forziamo display none per evitare doppioni
+      // temporaneamente nascondi canvas per la stampa (CSS @media print già lo fa)
       cOp.style.display = 'none';
       cCl.style.display = 'none';
 
-      // stampa
       window.print();
 
-      // ripristina DOM dopo stampa
+      // ripristina
       cOp.style.display = 'block';
       cCl.style.display = 'block';
       if (opImg.parentNode) opImg.parentNode.removeChild(opImg);
       if (clImg.parentNode) clImg.parentNode.removeChild(clImg);
     }
 
-    /* esporta JSON */
+    /* esporta JSON con dati del form + firme */
     function onExportJson(){
       const totals = calcola();
       const formData = new FormData(document.getElementById('moduloForm'));
       const obj = {};
       for (const [k,v] of formData.entries()) obj[k] = v;
-      // checkbox manuali
+
+      // checkbox booleane
       obj.MANUTENZIONE = manutenzioneChk.checked;
       obj.PULIZIE = pulizieChk.checked;
       obj.SANIFICAZIONE = sanificazioneChk.checked;
       obj.DISINFESTAZIONE = disinfestazioneChk.checked;
       obj.DERATTIZZAZIONE = derattizzazioneChk.checked;
+
       obj.SUBTOTAL = euro(totals.subtotal);
       obj.IVA = euro(totals.iva);
       obj.TOTAL = euro(totals.total);
 
-      // aggiungi firme come dataURL
-      const cOp = document.getElementById('firmaOperatore');
-      const cCl = document.getElementById('firmaCliente');
+      // aggiungi indirizzo selezionato
+      obj.INDIRIZZO = indirizzoHiddenEl.value || "";
+
+      // firme
       try {
-        obj.FIRMA_OPERATORE = cOp.toDataURL();
-        obj.FIRMA_CLIENTE = cCl.toDataURL();
+        obj.FIRMA_OPERATORE = document.getElementById('firmaOperatore').toDataURL();
+        obj.FIRMA_CLIENTE = document.getElementById('firmaCliente').toDataURL();
       } catch(e) {
         obj.FIRMA_OPERATORE = "";
         obj.FIRMA_CLIENTE = "";
       }
-
-      // aggiungi indirizzo selezionato
-      obj.INDIRIZZO = indirizzoHiddenEl.value || "";
 
       const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -522,58 +487,60 @@ Derattizzazione (€/mq)            € 6.50
       a.remove(); URL.revokeObjectURL(url);
     }
 
-    /* gestione canvas firma */
+    /* canvas firma: supporto mouse + touch, gestisce devicePixelRatio */
     function abilitaFirma(canvasId) {
       const canvas = document.getElementById(canvasId);
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
 
-      // imposta dimensione reale in base a dimensione CSS per mantenere proporzione
-      function resizeCanvasToDisplaySize() {
+      // funzione per adattare canvas al CSS size con DPR
+      function resizeCanvas() {
         const rect = canvas.getBoundingClientRect();
         const dpr = window.devicePixelRatio || 1;
-        canvas.width = Math.round(rect.width * dpr);
-        canvas.height = Math.round(rect.height * dpr);
-        ctx.scale(dpr, dpr);
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#000';
+        const w = Math.round(rect.width * dpr);
+        const h = Math.round(rect.height * dpr);
+        if (canvas.width !== w || canvas.height !== h) {
+          // salva contenuto
+          const data = canvas.toDataURL();
+          canvas.width = w; canvas.height = h;
+          canvas.style.width = rect.width + 'px';
+          canvas.style.height = rect.height + 'px';
+          ctx.scale(dpr, dpr);
+          ctx.lineWidth = 2;
+          ctx.lineCap = 'round';
+          // ripristina contenuto
+          const img = new Image();
+          img.onload = function(){ ctx.drawImage(img, 0, 0, rect.width, rect.height); };
+          img.src = data;
+        }
       }
       // iniziale
-      resizeCanvasToDisplaySize();
-      // ridimensiona al resize finestra
-      window.addEventListener('resize', () => {
-        // importante: salviamo il contenuto prima di resize
-        const data = canvas.toDataURL();
-        resizeCanvasToDisplaySize();
-        const img = new Image();
-        img.onload = ()=> ctx.drawImage(img, 0, 0, canvas.width / (window.devicePixelRatio||1), canvas.height / (window.devicePixelRatio||1));
-        img.src = data;
-      });
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
 
-      let disegnando = false;
-      const getPos = (e) => {
+      let drawing = false;
+      function getPos(e) {
         const rect = canvas.getBoundingClientRect();
         if (e.touches && e.touches[0]) {
           return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
         } else {
           return { x: e.clientX - rect.left, y: e.clientY - rect.top };
         }
-      };
-      const start = (e) => { e.preventDefault(); disegnando = true; ctx.beginPath(); const p=getPos(e); ctx.moveTo(p.x, p.y); };
-      const move = (e) => { if(!disegnando) return; e.preventDefault(); const p=getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); };
-      const stop = (e) => { if(!disegnando) return; disegnando = false; ctx.closePath(); };
+      }
+      function start(e) { e.preventDefault(); drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); }
+      function move(e) { if (!drawing) return; e.preventDefault(); const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+      function end(e) { if (!drawing) return; drawing = false; ctx.closePath(); }
 
       // mouse
       canvas.addEventListener('mousedown', start);
       canvas.addEventListener('mousemove', move);
-      canvas.addEventListener('mouseup', stop);
-      canvas.addEventListener('mouseleave', stop);
+      canvas.addEventListener('mouseup', end);
+      canvas.addEventListener('mouseleave', end);
       // touch
-      canvas.addEventListener('touchstart', start, { passive: false });
-      canvas.addEventListener('touchmove', move, { passive: false });
-      canvas.addEventListener('touchend', stop);
-      canvas.addEventListener('touchcancel', stop);
+      canvas.addEventListener('touchstart', start, { passive:false });
+      canvas.addEventListener('touchmove', move, { passive:false });
+      canvas.addEventListener('touchend', end);
+      canvas.addEventListener('touchcancel', end);
     }
 
     function pulisciFirma(canvasId){
@@ -582,6 +549,7 @@ Derattizzazione (€/mq)            € 6.50
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
+
   </script>
 </body>
 </html>
