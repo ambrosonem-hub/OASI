@@ -115,7 +115,7 @@ Derattizzazione (€/mq)            € 6.50
             <input id="oraFine" type="time"/>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
           <div class="field">
             <label for="operatori">Numero operatori</label>
             <input id="operatori" type="number" min="0" step="1" value="1"/>
@@ -184,7 +184,7 @@ Derattizzazione (€/mq)            € 6.50
 
 <script>
 // ================= Dati esempio =================
-const datiIndirizzi = [
+const enti_strutture = [
   {"Progetto":"SAI-A01","Struttura":"AVELLINO","Ente":"PERCORSI","Indirizzo":"Via Roma 10, Avellino"},
   {"Progetto":"SAI-A01","Struttura":"AVELLINO","Ente":"AIC","Indirizzo":"Via Roma 12, Avellino"},
   {"Progetto":"SAI-A02","Struttura":"BENEVENTO","Ente":"PERCORSI","Indirizzo":"Corso Garibaldi 25, Benevento"}
@@ -192,30 +192,46 @@ const datiIndirizzi = [
 const RATES = {MANUTENZIONE:25, PULIZIE:20, SANIFICAZIONE:2, DISINFESTAZIONE:4.5, DERATTIZZAZIONE:6.5};
 
 // ================= Elementi =================
-const progettoEl=document.getElementById('progetto'), strutturaEl=document.getElementById('struttura'), enteEl=document.getElementById('ente'), indirizzoEl=document.getElementById('indirizzo');
-const operatoriEl=document.getElementById('operatori'), totOreEl=document.getElementById('totOre'), mqEl=document.getElementById('mq');
-const manutenzioneChk=document.getElementById('manutenzione_chk'), pulizieChk=document.getElementById('pulizie_chk'), sanificazioneChk=document.getElementById('sanificazione_chk'), disinfestazioneChk=document.getElementById('disinfestazione_chk'), derattizzazioneChk=document.getElementById('derattizzazione_chk');
-const subtotalEl=document.getElementById('subtotal'), ivaEl=document.getElementById('iva'), totalEl=document.getElementById('total'), riepilogoBody=document.getElementById('riepilogoBody');
-const materialiContainer=document.getElementById('materiali-container'), aggiungiMaterialeBtn=document.getElementById('aggiungiMaterialeBtn');
+const progettoEl=document.getElementById('progetto'),
+      strutturaEl=document.getElementById('struttura'),
+      enteEl=document.getElementById('ente'),
+      indirizzoEl=document.getElementById('indirizzo');
+const operatoriEl=document.getElementById('operatori'),
+      totOreEl=document.getElementById('totOre'),
+      mqEl=document.getElementById('mq');
+const manutenzioneChk=document.getElementById('manutenzione_chk'),
+      pulizieChk=document.getElementById('pulizie_chk'),
+      sanificazioneChk=document.getElementById('sanificazione_chk'),
+      disinfestazioneChk=document.getElementById('disinfestazione_chk'),
+      derattizzazioneChk=document.getElementById('derattizzazione_chk');
+const subtotalEl=document.getElementById('subtotal'),
+      ivaEl=document.getElementById('iva'),
+      totalEl=document.getElementById('total'),
+      riepilogoBody=document.getElementById('riepilogoBody');
+const materialiContainer=document.getElementById('materiali-container'),
+      aggiungiMaterialeBtn=document.getElementById('aggiungiMaterialeBtn');
 
-// ================= Popola progetti =================
+// ================= Popolamento dropdown =================
 function popolaProgetti(){
-  const progetti=[...new Set(datiIndirizzi.map(d=>d.Progetto))];
+  const progetti=[...new Set(enti_strutture.map(d=>d.Progetto))];
   progettoEl.innerHTML="<option value=''>SELEZIONARE</option>";
   progetti.forEach(p=>progettoEl.innerHTML+=`<option value="${p}">${p}</option>`);
 }
 function popolaStrutture(){
-  const strutture=[...new Set(datiIndirizzi.filter(d=>d.Progetto===progettoEl.value).map(d=>d.Struttura))];
-  strutturaEl.innerHTML="<option value=''>SELEZIONARE</option>"; strutture.forEach(s=>strutturaEl.innerHTML+=`<option value="${s}">${s}</option>`);
-  enteEl.innerHTML="<option value=''>SELEZIONARE</option>"; indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
+  const strutture=[...new Set(enti_strutture.filter(d=>d.Progetto===progettoEl.value).map(d=>d.Struttura))];
+  strutturaEl.innerHTML="<option value=''>SELEZIONARE</option>";
+  strutture.forEach(s=>strutturaEl.innerHTML+=`<option value="${s}">${s}</option>`);
+  enteEl.innerHTML="<option value=''>SELEZIONARE</option>";
+  indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
 }
 function popolaEnti(){
-  const enti=[...new Set(datiIndirizzi.filter(d=>d.Progetto===progettoEl.value && d.Struttura===strutturaEl.value).map(d=>d.Ente))];
-  enteEl.innerHTML="<option value=''>SELEZIONARE</option>"; enti.forEach(e=>enteEl.innerHTML+=`<option value="${e}">${e}</option>`);
+  const enti=[...new Set(enti_strutture.filter(d=>d.Progetto===progettoEl.value && d.Struttura===strutturaEl.value).map(d=>d.Ente))];
+  enteEl.innerHTML="<option value=''>SELEZIONARE</option>";
+  enti.forEach(e=>enteEl.innerHTML+=`<option value="${e}">${e}</option>`);
   indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
 }
 function popolaIndirizzi(){
-  const indirizzi=datiIndirizzi.filter(d=>d.Progetto===progettoEl.value && d.Struttura===strutturaEl.value && d.Ente===enteEl.value).map(d=>d.Indirizzo);
+  const indirizzi=enti_strutture.filter(d=>d.Progetto===progettoEl.value && d.Struttura===strutturaEl.value && d.Ente===enteEl.value).map(d=>d.Indirizzo);
   indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
   indirizzi.forEach(i=>indirizzoEl.innerHTML+=`<option value="${i}">${i}</option>`);
 }
@@ -263,12 +279,19 @@ document.getElementById('exportJson').addEventListener('click',()=>{
     if(desc!=="") formData.MATERIALI.push({descrizione:desc,prezzo:val});
   });
   console.log(JSON.stringify(formData,null,2));
-  alert('JSON stampato in console.');
+  // download JSON automatico
+  const blob = new Blob([JSON.stringify(formData,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = "ordine_servizio.json"; a.click();
+  URL.revokeObjectURL(url);
+  alert('JSON stampato in console e scaricato.');
 });
 
 // ================= Firma =================
 function abilitaFirma(canvasId){
   const canvas=document.getElementById(canvasId); const ctx=canvas.getContext('2d'); let disegnando=false;
+  ctx.lineWidth = 2; ctx.strokeStyle = "#000";
   function getPos(e){const rect=canvas.getBoundingClientRect(); if(e.touches) return {x:e.touches[0].clientX-rect.left,y:e.touches[0].clientY-rect.top}; return {x:e.offsetX,y:e.offsetY};}
   canvas.addEventListener('mousedown',e=>{disegnando=true; const pos=getPos(e); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);});
   canvas.addEventListener('mousemove',e=>{if(!disegnando) return; const pos=getPos(e); ctx.lineTo(pos.x,pos.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);});
@@ -280,7 +303,14 @@ function abilitaFirma(canvasId){
   canvas.addEventListener('touchcancel',e=>{e.preventDefault(); disegnando=false; ctx.closePath();},{passive:false});
 }
 function pulisciFirma(canvasId){const canvas=document.getElementById(canvasId); canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);}
-document.addEventListener('DOMContentLoaded',()=>{popolaProgetti(); abilitaFirma('firmaOperatore'); abilitaFirma('firmaCliente'); aggiornaRiepilogo();});
+
+// ================= Inizializzazione =================
+document.addEventListener('DOMContentLoaded',()=>{
+  popolaProgetti();
+  abilitaFirma('firmaOperatore');
+  abilitaFirma('firmaCliente');
+  aggiornaRiepilogo();
+});
 </script>
 </body>
 </html>
