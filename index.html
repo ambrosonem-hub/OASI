@@ -5,715 +5,583 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Modulo Ordine di Servizio — Web</title>
   <style>
-    :root {
-      --max-width: 980px;
-      --gap: 12px;
-      --accent: #0b67ff;
-    }
+    :root { --max-width: 980px; --accent: #0b67ff; }
     body {
       font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
       background: #f5f7fb;
       color: #1f2937;
       padding: 24px;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
+      display:flex;
+      justify-content:center;
+      flex-direction:column;
+      align-items:center;
     }
-    .container {
-      width: 100%;
-      max-width: var(--max-width);
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 6px 24px rgba(20, 30, 60, 0.08);
-      padding: 20px;
+    .container { width:100%; max-width:var(--max-width); background:#fff; border-radius:12px; box-shadow:0 6px 24px rgba(20,30,60,0.08); padding:20px; }
+    h1 { font-size:20px; margin:0 0 8px; text-align:center; }
+    form { display:grid; grid-template-columns: 1fr 320px; gap:18px; }
+    .panel { background:#fbfdff; border:1px solid #e6eefb; padding:12px; border-radius:8px; }
+    .field { margin-bottom:12px; }
+    label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; }
+    select, input[type="text"], input[type="number"], textarea { width:100%; padding:8px; border:1px solid #d1d9e6; border-radius:6px; font-size:14px; box-sizing:border-box; }
+    textarea { min-height:80px; resize:vertical; }
+    .small { font-size:13px; color:#475569; }
+    .btn { background:var(--accent); color:#fff; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
+    .btn.secondary { background:#fff; color:var(--accent); border:1px solid #cfe0ff; }
+    .summary { background:#fff; padding:12px; border-radius:8px; border:1px solid #eef2ff; }
+    table { width:100%; border-collapse:collapse; }
+    td, th { padding:8px; text-align:left; border-bottom:1px solid #f1f5f9; }
+    .right { text-align:right; }
+    .muted { color:#6b7280; font-size:13px; }
+    .logo-container { text-align:center; margin-bottom:10px; }
+    .firma-canvas { border:1px solid #000; cursor: crosshair; background:#fff; width:100%; max-width:300px; height:150px; box-sizing:border-box; display:block; margin-top:5px; }
+    .firme-container { display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between; width:100%; margin-top:15px; }
+    .firme-container > div { flex:1 1 300px; }
+    .indirizzi-table table { width:100%; border:1px solid #e1e8f8; margin-top:6px; border-radius:6px; overflow:hidden; }
+    .indirizzi-table td { padding:8px; cursor:pointer; }
+    .indirizzi-table tr:hover { background:#f6fbff; }
+    .indirizzi-table tr.selected { background:#dff0ff; }
+    .selected-display { margin-top:6px; font-size:13px; color:#0b67ff; }
+    @media (max-width:900px) {
+      form { grid-template-columns: 1fr; }
+      .firme-container { flex-direction:column; }
+      .firma-canvas { max-width:100%; }
     }
-    h1 {
-      font-size: 20px;
-      margin: 0 0 8px;
-    }
-    p.lead {
-      margin: 0 0 18px;
-      color: #475569;
-    }
-    form {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 18px;
-    }
-    .panel {
-      background: #fbfdff;
-      border: 1px solid #e6eefb;
-      padding: 12px;
-      border-radius: 8px;
-    }
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .field {
-      margin-bottom: 12px;
-    }
-    select,
-    input[type="text"],
-    input[type="number"],
-    textarea {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #d1d9e6;
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-    .small {
-      font-size: 13px;
-      color: #475569;
-    }
-    .controls {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .full {
-      grid-column: 1/-1;
-    }
-    .btn {
-      background: var(--accent);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
-    .btn.secondary {
-      background: #fff;
-      color: var(--accent);
-      border: 1px solid #cfe0ff;
-    }
-    .summary {
-      background: #fff;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #eef2ff;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    td,
-    th {
-      padding: 8px;
-      text-align: left;
-      border-bottom: 1px solid #f1f5f9;
-    }
-    .right {
-      text-align: right;
-    }
-    .muted {
-      color: #6b7280;
-      font-size: 13px;
-    }
-    .error {
-      color: #b91c1c;
-      font-weight: 600;
-    }
-    /* Stili per il logo e l'intestazione */
-    .logo-container {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    .logo-container img {
-      max-width: 177px;
-      max-height: 118px;
-      height: auto;
-    }
-    .header-info {
-      text-align: center;
-      font-size: 13px;
-      line-height: 1.2;
-      margin-bottom: 20px;
-    }
-    .header-info .title {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .header-info div {
-      margin: 0;
-    }
-    /* Stili per le firme */
-    .firma-canvas {
-      border: 1px solid #000;
-      cursor: crosshair;
-      background-color: #fff;
-      width: 100%;
-      max-width: 300px;
-      height: 150px;
-      box-sizing: border-box;
-      display: block;
-      margin-top: 5px;
-    }
-    .firma-canvas-container {
-      margin-bottom: 15px;
-    }
-    .firme-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: space-between;
-      width: 100%;
-      margin-top: 15px;
-    }
-    .firme-container > div {
-      flex: 1 1 300px;
-    }
-    .firma-canvas-container button {
-      margin-top: 5px;
-    }
-    /* Media Query per mobile */
-    @media (max-width: 900px) {
-      body {
-        padding: 12px;
-      }
-      .container {
-        padding: 10px;
-      }
-      form {
-        grid-template-columns: 1fr;
-      }
-      .firme-container {
-        flex-direction: column;
-      }
-      .firma-canvas-container {
-        width: 100%;
-      }
-      .firma-canvas {
-        max-width: 100%;
-      }
-    }
-    /* Impostazioni per la stampa (corrette) */
+
+    /* stampa */
     @media print {
-      @page {
-        size: A4 portrait;
-        margin: 15mm;
-      }
-      body {
-        padding: 0;
-        background: #fff;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-      .container {
-        width: 100%;
-        max-width: 100%;
-        box-shadow: none;
-        border-radius: 0;
-        padding: 0;
-        display: block;
-      }
-      .btn, #calc, #reset, #exportJson, #print, .firma-canvas-container button, .small.muted {
-        display: none !important;
-      }
-      .firma-canvas-container {
-        break-inside: avoid;
-        margin-top: 15px;
-      }
-      .firma-canvas {
-        display: none !important;
-      }
-      .firma-stampa {
-        border: 1px solid #000;
-        width: 300px;
-        height: 150px;
-      }
-      .panel, .firme-container > div {
-        padding: 0;
-        border: none;
-      }
-      input, textarea, select {
-        border: none;
-        padding: 0;
-        background: transparent;
-      }
-      form {
-        display: block;
-      }
-      .header-info {
-        margin-bottom: 10px;
-      }
-      h1 {
-        font-size: 16px;
-        margin: 0;
-      }
-      .logo-container img {
-        max-width: 120px;
-        max-height: 80px;
-      }
-      .summary {
-        border: none;
-        padding: 0;
-      }
-      
-      /* Nuovo stile per l'indirizzo in stampa */
-      input#indirizzo {
-          display: none !important;
-      }
-      #indirizzo-stampa {
-          display: block !important;
-          margin-top: 5px; /* Adatta il margine se necessario */
-      }
+      @page { size: A4 portrait; margin:15mm; }
+      body { padding:0; background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      .container { width:100%; max-width:100%; box-shadow:none; border-radius:0; padding:0; display:block; }
+      .btn, #calc, #reset, #exportJson, #print, .firma-canvas-container button, .small.muted { display:none !important; }
+      .firma-canvas { display:none !important; }
+      .firma-stampa { border:1px solid #000; width:300px; height:150px; display:inline-block; }
+      .panel, .firme-container > div { padding:0; border:none; }
+      input, textarea, select { border:none; padding:0; background:transparent; }
+      form { display:block; }
+      .header-info { margin-bottom:10px; }
+      h1 { font-size:16px; margin:0; }
+      .logo-container img { max-width:120px; max-height:80px; }
+      .summary { border:none; padding:0; }
+      /* mostra indirizzo selezionato nella stampa */
+      input#indirizzo { display:none !important; }
+      #indirizzo-stampa { display:block !important; margin-top:5px; }
     }
-    .firma-canvas-container {
-      break-inside: avoid;
-    }
+    /* inizialmente nascosto; verrà mostrato solo in stampa o se valorizzato */
+    #indirizzo-stampa { display:none; font-size:13px; color:#111; }
   </style>
 </head>
 <body>
-<div class="container" role="main">
-  <div class="logo-container">
-    <img src="logo.jpg" alt="Logo Azienda" />
+  <div class="container" role="main">
+    <div class="logo-container"><img src="logo.jpg" alt="Logo Azienda" /></div>
+    <div class="header-info">
+      <div class="title">Sede Legale:</div>
+      <div>Via Municipio, n. 14 - 83040 Fontanarosa (AV)</div>
+      <div>Info – 082545553</div>
+      <div>Mail - irpinialogistica@gmail.com</div>
+      <div>PEC irpinialogistica@pec.it</div>
+      <div>C.F. / Partita IVA 03196380640</div>
+    </div>
+
+    <h1>ORDINE DI SERVIZIO</h1>
+
+    <form id="moduloForm" autocomplete="off">
+      <div>
+        <div class="panel">
+          <div class="field">
+            <label for="progetto">Progetto</label>
+            <select id="progetto" name="PROGETTO"><option value="">SELEZIONARE</option></select>
+          </div>
+
+          <div class="field">
+            <label for="struttura">Struttura</label>
+            <select id="struttura" name="STRUTTURA"><option value="">SELEZIONARE</option></select>
+          </div>
+
+          <div class="field">
+            <label for="ente">Ente</label>
+            <select id="ente" name="ENTE"><option value="">SELEZIONARE</option></select>
+          </div>
+
+          <div class="field">
+            <label>Indirizzi</label>
+            <!-- input nascosto che contiene l'indirizzo selezionato -->
+            <input id="indirizzo" name="INDIRIZZO" type="hidden" value="" />
+            <!-- contenitore per la tabella di indirizzi -->
+            <div id="indirizzi-table" class="indirizzi-table"></div>
+            <!-- visualizzazione semplice dell'indirizzo selezionato -->
+            <div id="indirizzo-selected" class="selected-display" aria-live="polite"></div>
+            <!-- elemento che verrà mostrato in stampa -->
+            <div id="indirizzo-stampa" style="display:none;"></div>
+          </div>
+
+          <div class="field">
+            <label for="descrizione">Descrizione dei lavori</label>
+            <textarea id="descrizione" name="DESCRIZIONE" placeholder="Descrivi il lavoro svolto..."></textarea>
+            <div class="small muted" style="margin-top:6px; white-space:pre-line;">
+Manutenzione (€/ora per operatore)  € 25.00
+Pulizie (€/ora per operatore)      € 20.00
+Sanificazione (€/mq)              € 2.00
+Disinfestazione (€/mq)            € 4.50
+Derattizzazione (€/mq)            € 6.50
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="field">
+              <label for="data">Data lavoro</label>
+              <input id="data" name="DATA" type="date" />
+            </div>
+            <div class="field">
+              <label for="operatori">Numero operatori</label>
+              <input id="operatori" name="NUM_OPERATORI" type="number" min="0" step="1" value="1" />
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="field">
+              <label for="totOre">Totale ore</label>
+              <input id="totOre" name="TOT_ORE" type="number" min="0" step="0.5" value="0" />
+            </div>
+            <div class="field">
+              <label for="mq">Metri quadrati (mq)</label>
+              <input id="mq" name="MQ" type="number" min="0" step="0.1" value="0" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Tipologia lavoro (seleziona le voci applicate)</label>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <label><input type="checkbox" id="manutenzione_chk" name="MANUTENZIONE_CHECK"/> Manutenzione</label>
+              <label><input type="checkbox" id="pulizie_chk" name="PULIZIE_CHECK"/> Servizio pulizie</label>
+              <label><input type="checkbox" id="sanificazione_chk" name="SANIFICAZIONE_CHECK"/> Sanificazione</label>
+              <label><input type="checkbox" id="disinfestazione_chk" name="DISINFESTAZIONE_CHECK"/> Disinfestazione</label>
+              <label><input type="checkbox" id="derattizzazione_chk" name="DERATTIZZAZIONE_CHECK"/> Derattizzazione</label>
+            </div>
+            <div class="small muted">I costi vengono calcolati automaticamente in base ai campi inseriti.</div>
+          </div>
+
+          <div class="panel" style="margin-top:12px">
+            <label>Appunto sul lavoro svolto</label>
+            <textarea id="appunto" name="APPUNTO" placeholder="Note aggiuntive..."></textarea>
+          </div>
+
+        </div>
+      </div>
+
+      <aside class="panel">
+        <h3 style="margin-top:0">Riepilogo costi</h3>
+        <div class="summary" aria-live="polite">
+          <table>
+            <tbody id="riepilogo-body">
+              <tr><td colspan="2"><div id="costiSelezionati"></div></td></tr>
+              <tr><th>Subtotale</th><th class="right">€ <span id="subtotal">0.00</span></th></tr>
+              <tr><td>IVA (22%)</td><td class="right">€ <span id="iva">0.00</span></td></tr>
+              <tr><th>Totale</th><th class="right">€ <span id="total">0.00</span></th></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+            <button type="button" class="btn" id="calc">Calcola</button>
+            <button type="button" class="btn secondary" id="reset">Reset</button>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <label class="small">Operatore di struttura (firma)</label>
+          <input id="operatoreFirma" name="OPERATORE_FIRMA" type="text" />
+        </div>
+
+        <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end;">
+          <button type="button" class="btn" id="print">Stampa / Salva PDF</button>
+          <button type="button" class="btn secondary" id="exportJson">Esporta (JSON)</button>
+        </div>
+      </aside>
+
+      <div class="full" style="margin-top:12px">
+        <div class="muted">Versione web del modulo. I campi compilati possono essere stampati o esportati in JSON.</div>
+      </div>
+
+      <div class="firme-container">
+        <div class="firma-canvas-container">
+          <h3>Firma operatore</h3>
+          <canvas id="firmaOperatore" class="firma-canvas"></canvas>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button type="button" class="btn secondary" onclick="pulisciFirma('firmaOperatore')">Pulisci firma</button>
+          </div>
+        </div>
+        <div class="firma-canvas-container">
+          <h3>Firma cliente</h3>
+          <canvas id="firmaCliente" class="firma-canvas"></canvas>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button type="button" class="btn secondary" onclick="pulisciFirma('firmaCliente')">Pulisci firma</button>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
-  <div class="header-info">
-    <div class="title">Sede Legale:</div>
-    <div>Via Municipio, n. 14 - 83040 Fontanarosa (AV)</div>
-    <div>Info – 082545553</div>
-    <div>Mail - irpinialogistica@gmail.com</div>
-    <div>PEC irpinialogistica@pec.it</div>
-    <div>C.F. / Partita IVA 03196380640</div>
-  </div>
-  <h1 style="text-align:center;">ORDINE DI SERVIZIO</h1>
-  <form id="moduloForm" autocomplete="off">
-    <div>
-      <div class="panel">
-        <div class="field">
-          <label for="progetto">Progetto</label>
-          <select id="progetto" name="PROGETTO">
-            <option value="SELEZIONARE">SELEZIONARE</option>
-            <option value="SAI-A01">SAI-A01</option>
-            <option value="SAI-A02">SAI-A02</option>
-            <option value="SAI-A03">SAI-A03</option>
-          </select>
-          <div class="small muted">Seleziona il progetto per popolare Struttura ed Ente</div>
-        </div>
-        <div class="field">
-          <label for="struttura">Struttura</label>
-          <select id="struttura" name="STRUTTURA"><option>SELEZIONARE</option></select>
-        </div>
-        <div class="field">
-          <label for="ente">Ente</label>
-          <select id="ente" name="ENTE"><option>SELEZIONARE</option></select>
-        </div>
-        <div class="field">
-          <label for="indirizzo">Indirizzo</label>
-          <input id="indirizzo" name="INDIRIZZO" type="text" placeholder="Via, Piazza, etc." />
-          <span id="indirizzo-stampa" style="display:none;"></span>
-        </div>
-        <div class="field">
-          <label for="descrizione">Descrizione dei lavori</label>
-          <textarea id="descrizione" name="DESCRIZIONE" placeholder="Descrivi il lavoro svolto..."></textarea>
-          <div class="small muted" style="margin-top:6px; white-space:pre-line;">
-            Manutenzione (€/ora per operatore)  € 25.00
-            Pulizie (€/ora per operatore)      € 20.00
-            Sanificazione (€/mq)              € 2.00
-            Disinfestazione (€/mq)            € 4.50
-            Derattizzazione (€/mq)            € 6.50
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div class="field">
-            <label for="data">Data lavoro</label>
-            <input id="data" name="DATA" type="date" />
-          </div>
-          <div class="field">
-            <label for="operatori">Numero operatori</label>
-            <input id="operatori" name="NUM_OPERATORI" type="number" min="0" step="1" value="1" />
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div class="field">
-            <label for="totOre">Totale ore</label>
-            <input id="totOre" name="TOT_ORE" type="number" min="0" step="0.5" value="0" />
-          </div>
-          <div class="field">
-            <label for="mq">Metri quadrati (mq)</label>
-            <input id="mq" name="MQ" type="number" min="0" step="0.1" value="0" />
-          </div>
-        </div>
-        <div class="field">
-          <label>Tipologia lavoro (seleziona le voci applicate)</label>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <label><input type="checkbox" id="manutenzione_chk" name="MANUTENZIONE_CHECK"/> Manutenzione</label>
-            <label><input type="checkbox" id="pulizie_chk" name="PULIZIE_CHECK"/> Servizio pulizie</label>
-            <label><input type="checkbox" id="sanificazione_chk" name="SANIFICAZIONE_CHECK"/> Sanificazione</label>
-            <label><input type="checkbox" id="disinfestazione_chk" name="DISINFESTAZIONE_CHECK"/> Disinfestazione</label>
-            <label><input type="checkbox" id="derattizzazione_chk" name="DERATTIZZAZIONE_CHECK"/> Derattizzazione</label>
-          </div>
-          <div class="small muted">I costi vengono calcolati automaticamente in base ai campi inseriti.</div>
-        </div>
-      </div>
-      <div class="panel" style="margin-top:12px">
-        <label>Appunto sul lavoro svolto</label>
-        <textarea id="appunto" name="APPUNTO" placeholder="Note aggiuntive..."></textarea>
-        <div class="small muted" style="margin-top:6px; white-space:pre-line;">
-          Manutenzione (€/ora per operatore)  € 25.00
-          Pulizie (€/ora per operatore)      € 20.00
-          Sanificazione (€/mq)              € 2.00
-          Disinfestazione (€/mq)            € 4.50
-          Derattizzazione (€/mq)            € 6.50
-        </div>
-      </div>
-    </div>
-    <aside class="panel">
-      <h3 style="margin-top:0">Riepilogo costi</h3>
-      <div class="summary">
-        <table aria-live="polite">
-          <tbody>
-            <tr><td colspan="2"><div id="costiSelezionati"></div></td></tr>
-            <tr><th>Subtotale</th><th class="right">€ <span id="subtotal">0.00</span></th></tr>
-            <tr><td>IVA (22%)</td><td class="right">€ <span id="iva">0.00</span></th></tr>
-            <tr><th>Totale</th><th class="right">€ <span id="total">0.00</span></th></tr>
-          </tbody>
-        </table>
-        <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
-          <button type="button" class="btn" id="calc">Calcola</button>
-          <button type="button" class="btn secondary" id="reset">Reset</button>
-        </div>
-      </div>
-      <div style="margin-top:14px">
-        <label class="small">Operatore di struttura (firma)</label>
-        <input id="operatoreFirma" name="OPERATORE_FIRMA" type="text" />
-      </div>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end;">
-        <button type="button" class="btn" id="print">Stampa / Salva PDF</button>
-        <button type="button" class="btn secondary" id="exportJson">Esporta (JSON)</button>
-      </div>
-    </aside>
-    <div class="full" style="margin-top:12px">
-      <div class="muted">Versione web del modulo. I campi compilati possono essere stampati o esportati in JSON.</div>
-    </div>
-    <div class="firme-container">
-      <div class="firma-canvas-container">
-        <h3>Firma operatore</h3>
-        <canvas id="firmaOperatore" class="firma-canvas"></canvas>
-        <button type="button" class="btn secondary" onclick="pulisciFirma('firmaOperatore')">Pulisci firma</button>
-      </div>
-      <div class="firma-canvas-container">
-        <h3>Firma cliente</h3>
-        <canvas id="firmaCliente" class="firma-canvas"></canvas>
-        <button type="button" class="btn secondary" onclick="pulisciFirma('firmaCliente')">Pulisci firma</button>
-      </div>
-    </div>
-  </form>
-</div>
-<script>
-  let dati = [];
-  fetch("enti_strutture.json")
-    .then(response => {
-      if (!response.ok) {
-        console.warn("File enti_strutture.json non trovato. Utilizzo i dati di fallback.");
-        return Promise.resolve({
-          json: () => Promise.resolve([
-            {"Progetto":"SAI-A01", "Struttura":"AVELLINO", "Ente":"PERCORSI", "Indirizzo":"Via Roma 10, Avellino"},
-            {"Progetto":"SAI-A01", "Struttura":"AVELLINO", "Ente":"AIC", "Indirizzo":"Via Roma 10, Avellino"},
-            {"Progetto":"SAI-A02", "Struttura":"AVELLINO", "Ente":"PERCORSI", "Indirizzo":"Via Roma 10, Avellino"},
-            {"Progetto":"SAI-A02", "Struttura":"BENEVENTO", "Ente":"PERCORSI", "Indirizzo":"Corso Garibaldi 25, Benevento"},
-            {"Progetto":"SAI-A03", "Struttura":"BENEVENTO", "Ente":"PERCORSI", "Indirizzo":"Corso Garibaldi 25, Benevento"}
-          ])
+
+  <script>
+    /* --- DATI / RATE --- */
+    const RATES = {
+      MANUTENZIONE: 25.00,
+      PULIZIE: 20.00,
+      SANIFICAZIONE: 2.00,
+      DISINFESTAZIONE: 4.50,
+      DERATTIZZAZIONE: 6.50
+    };
+    function euro(n){ return Number(n||0).toFixed(2); }
+
+    /* elementi */
+    let progettoEl, strutturaEl, enteEl, indirizziTableEl, indirizzoHiddenEl, indirizzoSelectedEl, indirizzoStampaEl;
+    let operatoriEl, totOreEl, mqEl, manutenzioneChk, pulizieChk, sanificazioneChk, disinfestazioneChk, derattizzazioneChk;
+    let subtotalEl, ivaEl, totalEl, costiSelezionatiEl;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // elementi DOM
+      progettoEl = document.getElementById('progetto');
+      strutturaEl = document.getElementById('struttura');
+      enteEl = document.getElementById('ente');
+      indirizziTableEl = document.getElementById('indirizzi-table');
+      indirizzoHiddenEl = document.getElementById('indirizzo');
+      indirizzoSelectedEl = document.getElementById('indirizzo-selected');
+      indirizzoStampaEl = document.getElementById('indirizzo-stampa');
+
+      operatoriEl = document.getElementById('operatori');
+      totOreEl = document.getElementById('totOre');
+      mqEl = document.getElementById('mq');
+      manutenzioneChk = document.getElementById('manutenzione_chk');
+      pulizieChk = document.getElementById('pulizie_chk');
+      sanificazioneChk = document.getElementById('sanificazione_chk');
+      disinfestazioneChk = document.getElementById('disinfestazione_chk');
+      derattizzazioneChk = document.getElementById('derattizzazione_chk');
+
+      subtotalEl = document.getElementById('subtotal');
+      ivaEl = document.getElementById('iva');
+      totalEl = document.getElementById('total');
+      costiSelezionatiEl = document.getElementById('costiSelezionati');
+
+      // fetch dati (enti_strutture.json) con fallback
+      fetch("enti_strutture.json")
+        .then(r => r.ok ? r.json() : Promise.reject(r))
+        .then(data => { initData(data); })
+        .catch(() => {
+          const fallback = [
+            {"Progetto":"SAI-A01","Struttura":"AVELLINO","Ente":"PERCORSI","Indirizzo":"Via Roma 10, Avellino"},
+            {"Progetto":"SAI-A01","Struttura":"AVELLINO","Ente":"PERCORSI","Indirizzo":"Via Roma 20, Avellino"},
+            {"Progetto":"SAI-A01","Struttura":"AVELLINO","Ente":"AIC","Indirizzo":"Via Roma 15, Avellino"},
+            {"Progetto":"SAI-A02","Struttura":"BENEVENTO","Ente":"PERCORSI","Indirizzo":"Corso Garibaldi 25, Benevento"},
+            {"Progetto":"SAI-A02","Struttura":"BENEVENTO","Ente":"PERCORSI","Indirizzo":"Via Napoli 5, Benevento"},
+            {"Progetto":"SAI-A03","Struttura":"AVELLINO","Ente":"COMUNE","Indirizzo":"Piazza Municipio 1, Avellino"}
+          ];
+          initData(fallback);
         });
+
+      // eventi cascata
+      progettoEl.addEventListener('change', onProgettoChange);
+      strutturaEl.addEventListener('change', onStrutturaChange);
+      enteEl.addEventListener('change', onEnteChange);
+
+      // pulsanti
+      document.getElementById('calc').addEventListener('click', ()=>{ calcola(); });
+      document.getElementById('reset').addEventListener('click', resetForm);
+      document.getElementById('print').addEventListener('click', onPrint);
+      document.getElementById('exportJson').addEventListener('click', onExportJson);
+
+      // keyboard: Ctrl/Cmd + Enter -> Stampa
+      document.addEventListener('keydown', (e)=>{
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault(); document.getElementById('print').click();
+        }
+      });
+
+      // inizializza firme
+      abilitaFirma('firmaOperatore');
+      abilitaFirma('firmaCliente');
+    });
+
+    /* variabili dati globali */
+    let dati = [];
+    function initData(dataArray){
+      dati = dataArray || [];
+      popolaProgetti();
+      // pulizia iniziale
+      strutturaEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+      enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+      indirizziTableEl.innerHTML = "";
+      indirizzoHiddenEl.value = "";
+      indirizzoSelectedEl.textContent = "";
+    }
+
+    function popolaProgetti(){
+      progettoEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+      const progetti = [...new Set(dati.map(d=>d.Progetto))].sort();
+      progetti.forEach(p => {
+        const opt = document.createElement('option'); opt.value = p; opt.textContent = p;
+        progettoEl.appendChild(opt);
+      });
+    }
+
+    function onProgettoChange(){
+      const proj = progettoEl.value;
+      strutturaEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+      enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+      indirizziTableEl.innerHTML = "";
+      indirizzoHiddenEl.value = "";
+      indirizzoSelectedEl.textContent = "";
+      if (!proj) return;
+      const strutture = [...new Set(dati.filter(d=>d.Progetto===proj).map(d=>d.Struttura))].sort();
+      strutture.forEach(s => {
+        const opt = document.createElement('option'); opt.value = s; opt.textContent = s;
+        strutturaEl.appendChild(opt);
+      });
+    }
+
+    function onStrutturaChange(){
+      const proj = progettoEl.value;
+      const str = strutturaEl.value;
+      enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+      indirizziTableEl.innerHTML = "";
+      indirizzoHiddenEl.value = "";
+      indirizzoSelectedEl.textContent = "";
+      if (!proj || !str) return;
+      const enti = [...new Set(dati.filter(d=>d.Progetto===proj && d.Struttura===str).map(d=>d.Ente))].sort();
+      enti.forEach(en => {
+        const opt = document.createElement('option'); opt.value = en; opt.textContent = en;
+        enteEl.appendChild(opt);
+      });
+    }
+
+    function onEnteChange(){
+      const proj = progettoEl.value;
+      const str = strutturaEl.value;
+      const en  = enteEl.value;
+      indirizziTableEl.innerHTML = "";
+      indirizzoHiddenEl.value = "";
+      indirizzoSelectedEl.textContent = "";
+      indirizzoStampaEl.textContent = "";
+
+      if (!proj || !str || !en) return;
+      const records = dati.filter(d => d.Progetto===proj && d.Struttura===str && d.Ente===en);
+      if (records.length === 0) return;
+
+      // costruiamo la tabella
+      const table = document.createElement('table');
+      const tbody = document.createElement('tbody');
+
+      records.forEach((r, idx) => {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.textContent = r.Indirizzo || "";
+        tr.appendChild(td);
+        tr.tabIndex = 0; // rendi selezionabile con tastiera
+        // click / invio per selezionare
+        const selectHandler = () => {
+          // togli selezione da tutte
+          [...tbody.querySelectorAll('tr')].forEach(row => row.classList.remove('selected'));
+          tr.classList.add('selected');
+          indirizzoHiddenEl.value = r.Indirizzo || "";
+          indirizzoSelectedEl.textContent = r.Indirizzo || "";
+          indirizzoStampaEl.textContent = r.Indirizzo || "";
+        };
+        tr.addEventListener('click', selectHandler);
+        tr.addEventListener('keydown', (ev)=>{ if(ev.key==='Enter' || ev.key===' ') { ev.preventDefault(); selectHandler(); } });
+        tbody.appendChild(tr);
+      });
+
+      table.appendChild(tbody);
+      indirizziTableEl.appendChild(table);
+    }
+
+    /* calcolo costi */
+    function calcola(){
+      const operatori = Math.max(0, Number(operatoriEl.value) || 0);
+      const ore = Math.max(0, Number(totOreEl.value) || 0);
+      const mq = Math.max(0, Number(mqEl.value) || 0);
+      let subtotal = 0;
+      let dettagli = "";
+
+      if (manutenzioneChk.checked) {
+        const costo = RATES.MANUTENZIONE * ore * operatori;
+        subtotal += costo;
+        dettagli += `<tr><td>Manutenzione (${operatori} op. x ${ore} ore)</td><td class="right">€ ${euro(costo)}</td></tr>`;
       }
-      return response;
-    })
-    .then(response => response.json())
-    .then(json => {
-      dati = json;
-      popolaProgetti();
-      aggiornaCascata();
-    })
-    .catch(error => {
-      console.error("Errore nel caricamento dei dati:", error);
-      dati = [
-        {"Progetto":"SAI-A01", "Struttura":"AVELLINO", "Ente":"PERCORSI", "Indirizzo":"Via Roma 10, Avellino"},
-        {"Progetto":"SAI-A01", "Struttura":"AVELLINO", "Ente":"AIC", "Indirizzo":"Via Roma 10, Avellino"},
-        {"Progetto":"SAI-A02", "Struttura":"AVELLINO", "Ente":"PERCORSI", "Indirizzo":"Via Roma 10, Avellino"},
-        {"Progetto":"SAI-A02", "Struttura":"BENEVENTO", "Ente":"PERCORSI", "Indirizzo":"Corso Garibaldi 25, Benevento"},
-        {"Progetto":"SAI-A03", "Struttura":"BENEVENTO", "Ente":"PERCORSI", "Indirizzo":"Corso Garibaldi 25, Benevento"}
-      ];
-      popolaProgetti();
-      aggiornaCascata();
-    });
+      if (pulizieChk.checked) {
+        const costo = RATES.PULIZIE * ore * operatori;
+        subtotal += costo;
+        dettagli += `<tr><td>Pulizie (${operatori} op. x ${ore} ore)</td><td class="right">€ ${euro(costo)}</td></tr>`;
+      }
+      if (sanificazioneChk.checked) {
+        const costo = RATES.SANIFICAZIONE * mq;
+        subtotal += costo;
+        dettagli += `<tr><td>Sanificazione (${mq} mq)</td><td class="right">€ ${euro(costo)}</td></tr>`;
+      }
+      if (disinfestazioneChk.checked) {
+        const costo = RATES.DISINFESTAZIONE * mq;
+        subtotal += costo;
+        dettagli += `<tr><td>Disinfestazione (${mq} mq)</td><td class="right">€ ${euro(costo)}</td></tr>`;
+      }
+      if (derattizzazioneChk.checked) {
+        const costo = RATES.DERATTIZZAZIONE * mq;
+        subtotal += costo;
+        dettagli += `<tr><td>Derattizzazione (${mq} mq)</td><td class="right">€ ${euro(costo)}</td></tr>`;
+      }
 
-  function popolaProgetti() {
-    const progettoSelect = document.getElementById("progetto");
-    if (!progettoSelect || dati.length === 0) return;
-    const progettiUnici = [...new Set(dati.map(d => d.Progetto))];
-    progettoSelect.innerHTML = "<option value=''>SELEZIONARE</option>";
-    progettiUnici.forEach(p => {
-      progettoSelect.innerHTML += `<option value="${p}">${p}</option>`;
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", function() {
-    const progettoEl = document.getElementById("progetto");
-    const strutturaEl = document.getElementById("struttura");
-    const enteEl = document.getElementById("ente");
-    const indirizzoEl = document.getElementById("indirizzo");
-
-    if (progettoEl) {
-      progettoEl.addEventListener("change", e => {
-        strutturaEl.innerHTML = "<option value=''>SELEZIONARE</option>";
-        enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
-        indirizzoEl.value = "";
-        const strutture = dati.filter(d => d.Progetto === e.target.value).map(d => d.Struttura);
-        [...new Set(strutture)].forEach(s => {
-          strutturaEl.innerHTML += `<option value="${s}">${s}</option>`;
-        });
-      });
+      costiSelezionatiEl.innerHTML = subtotal > 0 ? `<table><tbody>${dettagli}</tbody></table>` : "";
+      const iva = subtotal * 0.22;
+      const total = subtotal + iva;
+      subtotalEl.textContent = euro(subtotal);
+      ivaEl.textContent = euro(iva);
+      totalEl.textContent = euro(total);
+      return { subtotal, iva, total };
     }
-    if (strutturaEl) {
-      strutturaEl.addEventListener("change", e => {
-        const progettoVal = progettoEl.value;
-        enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
-        const enti = dati.filter(d => d.Progetto === progettoVal && d.Struttura === e.target.value).map(d => d.Ente);
-        [...new Set(enti)].forEach(en => {
-          enteEl.innerHTML += `<option value="${en}">${en}</option>`;
-        });
-      });
+
+    /* reset */
+    function resetForm(){
+      document.getElementById('moduloForm').reset();
+      // ripulisci selects e indirizzi
+      strutturaEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+      enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+      indirizziTableEl.innerHTML = "";
+      indirizzoHiddenEl.value = "";
+      indirizzoSelectedEl.textContent = "";
+      indirizzoStampaEl.textContent = "";
+      subtotalEl.textContent = '0.00';
+      ivaEl.textContent = '0.00';
+      totalEl.textContent = '0.00';
+      costiSelezionatiEl.innerHTML = "";
+      // cancella firme
+      pulisciFirma('firmaOperatore');
+      pulisciFirma('firmaCliente');
     }
-    if (enteEl) {
-      enteEl.addEventListener("change", e => {
-        const progettoVal = progettoEl.value;
-        const strutturaVal = strutturaEl.value;
-        const record = dati.find(d =>
-          d.Progetto === progettoVal &&
-          d.Struttura === strutturaVal &&
-          d.Ente === e.target.value
-        );
-        indirizzoEl.value = record ? record.Indirizzo : "";
-      });
+
+    /* stampa (crea immagini per le firme, mostra indirizzo stampa, chiama window.print) */
+    function onPrint(){
+      calcola();
+      // imposta indirizzo-stampa
+      indirizzoStampaEl.textContent = indirizzoHiddenEl.value || "";
+      // genera immagini firme
+      const cOp = document.getElementById('firmaOperatore');
+      const cCl = document.getElementById('firmaCliente');
+
+      const opImg = new Image();
+      opImg.src = cOp.toDataURL();
+      opImg.className = 'firma-stampa';
+      cOp.parentNode.insertBefore(opImg, cOp);
+
+      const clImg = new Image();
+      clImg.src = cCl.toDataURL();
+      clImg.className = 'firma-stampa';
+      cCl.parentNode.insertBefore(clImg, cCl);
+
+      // nascondi canvas (visivamente, ma CSS @print già li nasconde): forziamo display none per evitare doppioni
+      cOp.style.display = 'none';
+      cCl.style.display = 'none';
+
+      // stampa
+      window.print();
+
+      // ripristina DOM dopo stampa
+      cOp.style.display = 'block';
+      cCl.style.display = 'block';
+      if (opImg.parentNode) opImg.parentNode.removeChild(opImg);
+      if (clImg.parentNode) clImg.parentNode.removeChild(clImg);
     }
-  });
 
-  const RATES = {
-    MANUTENZIONE: 25.00,
-    PULIZIE: 20.00,
-    SANIFICAZIONE: 2.00,
-    DISINFESTAZIONE: 4.50,
-    DERATTIZZAZIONE: 6.50
-  };
+    /* esporta JSON */
+    function onExportJson(){
+      const totals = calcola();
+      const formData = new FormData(document.getElementById('moduloForm'));
+      const obj = {};
+      for (const [k,v] of formData.entries()) obj[k] = v;
+      // checkbox manuali
+      obj.MANUTENZIONE = manutenzioneChk.checked;
+      obj.PULIZIE = pulizieChk.checked;
+      obj.SANIFICAZIONE = sanificazioneChk.checked;
+      obj.DISINFESTAZIONE = disinfestazioneChk.checked;
+      obj.DERATTIZZAZIONE = derattizzazioneChk.checked;
+      obj.SUBTOTAL = euro(totals.subtotal);
+      obj.IVA = euro(totals.iva);
+      obj.TOTAL = euro(totals.total);
 
-  function euro(n){ return Number(n||0).toFixed(2); }
+      // aggiungi firme come dataURL
+      const cOp = document.getElementById('firmaOperatore');
+      const cCl = document.getElementById('firmaCliente');
+      try {
+        obj.FIRMA_OPERATORE = cOp.toDataURL();
+        obj.FIRMA_CLIENTE = cCl.toDataURL();
+      } catch(e) {
+        obj.FIRMA_OPERATORE = "";
+        obj.FIRMA_CLIENTE = "";
+      }
 
-  const progettoEl = document.getElementById('progetto');
-  const strutturaEl = document.getElementById('struttura');
-  const enteEl = document.getElementById('ente');
-  const operatoriEl = document.getElementById('operatori');
-  const totOreEl = document.getElementById('totOre');
-  const mqEl = document.getElementById('mq');
-  const manutenzioneChk = document.getElementById('manutenzione_chk');
-  const pulizieChk = document.getElementById('pulizie_chk');
-  const sanificazioneChk = document.getElementById('sanificazione_chk');
-  const disinfestazioneChk = document.getElementById('disinfestazione_chk');
-  const derattizzazioneChk = document.getElementById('derattizzazione_chk');
-  const subtotalEl = document.getElementById('subtotal');
-  const ivaEl = document.getElementById('iva');
-  const totalEl = document.getElementById('total');
-  const costiSelezionatiEl = document.getElementById('costiSelezionati');
-  
-  function popolaSelect(selectEl, items){
-    selectEl.innerHTML = '<option value="">SELEZIONARE</option>';
-    items.forEach(it=>{
-      const opt = document.createElement('option');
-      opt.value = it;
-      opt.textContent = it;
-      selectEl.appendChild(opt);
-    });
-  }
+      // aggiungi indirizzo selezionato
+      obj.INDIRIZZO = indirizzoHiddenEl.value || "";
 
-  function aggiornaCascata(){
-    const val = progettoEl.value;
-    const struttureFiltrate = dati.filter(d => d.Progetto === val).map(d => d.Struttura);
-    const struttureUniche = [...new Set(struttureFiltrate)];
-    popolaSelect(strutturaEl, struttureUniche);
-    popolaSelect(enteEl, []);
-    document.getElementById('indirizzo').value = "";
-  }
-
-  progettoEl.addEventListener('change', aggiornaCascata);
-
-  function calcola() {
-    const operatori = Math.max(0, Number(operatoriEl.value) || 0);
-    const ore = Math.max(0, Number(totOreEl.value) || 0);
-    const mq = Math.max(0, Number(mqEl.value) || 0);
-    let subtotal = 0;
-    let dettagliCostiHTML = "";
-
-    if (manutenzioneChk.checked) {
-      const costo = RATES.MANUTENZIONE * ore * operatori;
-      subtotal += costo;
-      dettagliCostiHTML += `<tr><td>Manutenzione (${operatori} op. x ${ore} ore)</td><td class="right">€ ${euro(costo)}</td></tr>`;
+      const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'modulo_compilato.json'; document.body.appendChild(a); a.click();
+      a.remove(); URL.revokeObjectURL(url);
     }
-    if (pulizieChk.checked) {
-      const costo = RATES.PULIZIE * ore * operatori;
-      subtotal += costo;
-      dettagliCostiHTML += `<tr><td>Pulizie (${operatori} op. x ${ore} ore)</td><td class="right">€ ${euro(costo)}</td></tr>`;
-    }
-    if (sanificazioneChk.checked) {
-      const costo = RATES.SANIFICAZIONE * mq;
-      subtotal += costo;
-      dettagliCostiHTML += `<tr><td>Sanificazione (${mq} mq)</td><td class="right">€ ${euro(costo)}</td></tr>`;
-    }
-    if (disinfestazioneChk.checked) {
-      const costo = RATES.DISINFESTAZIONE * mq;
-      subtotal += costo;
-      dettagliCostiHTML += `<tr><td>Disinfestazione (${mq} mq)</td><td class="right">€ ${euro(costo)}</td></tr>`;
-    }
-    if (derattizzazioneChk.checked) {
-      const costo = RATES.DERATTIZZAZIONE * mq;
-      subtotal += costo;
-      dettagliCostiHTML += `<tr><td>Derattizzazione (${mq} mq)</td><td class="right">€ ${euro(costo)}</td></tr>`;
-    }
-    costiSelezionatiEl.innerHTML = subtotal > 0 ? "<table><tbody>" + dettagliCostiHTML + "</tbody></table>" : "";
 
-    const iva = subtotal * 0.22;
-    const total = subtotal + iva;
-    subtotalEl.textContent = euro(subtotal);
-    ivaEl.textContent = euro(iva);
-    totalEl.textContent = euro(total);
-    return { subtotal, iva, total };
-  }
+    /* gestione canvas firma */
+    function abilitaFirma(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
 
-  document.getElementById('calc').addEventListener('click', calcola);
-  document.getElementById('reset').addEventListener('click', ()=>{
-    document.getElementById('moduloForm').reset();
-    aggiornaCascata();
-    subtotalEl.textContent = '0.00'; ivaEl.textContent='0.00'; totalEl.textContent='0.00';
-    costiSelezionatiEl.innerHTML = "";
-    pulisciFirma('firmaOperatore');
-    pulisciFirma('firmaCliente');
-  });
-  document.getElementById('print').addEventListener('click', ()=>{
-    calcola();
-    const indirizzoEl = document.getElementById('indirizzo');
-    const indirizzoStampaEl = document.getElementById('indirizzo-stampa');
-    indirizzoStampaEl.textContent = indirizzoEl.value;
-
-    const operatorCanvas = document.getElementById('firmaOperatore');
-    const clientCanvas = document.getElementById('firmaCliente');
-    
-    // Mostra l'immagine generata solo per la stampa
-    const operatorImg = new Image();
-    operatorImg.src = operatorCanvas.toDataURL();
-    operatorImg.className = 'firma-stampa';
-    operatorCanvas.parentNode.insertBefore(operatorImg, operatorCanvas);
-    operatorCanvas.style.display = 'none';
-
-    const clientImg = new Image();
-    clientImg.src = clientCanvas.toDataURL();
-    clientImg.className = 'firma-stampa';
-    clientCanvas.parentNode.insertBefore(clientImg, clientCanvas);
-    clientCanvas.style.display = 'none';
-
-    window.print();
-    
-    // Nascondi l'immagine e mostra di nuovo il canvas dopo la stampa
-    operatorCanvas.style.display = 'block';
-    operatorCanvas.parentNode.removeChild(operatorImg);
-    clientCanvas.style.display = 'block';
-    clientCanvas.parentNode.removeChild(clientImg);
-  });
-  document.getElementById('exportJson').addEventListener('click', ()=>{
-    calcola();
-    const data = new FormData(document.getElementById('moduloForm'));
-    const obj = {};
-    for (const [k,v] of data.entries()) obj[k] = v;
-    obj.MANUTENZIONE = manutenzioneChk.checked;
-    obj.PULIZIE = pulizieChk.checked;
-    obj.SANIFICAZIONE = sanificazioneChk.checked;
-    obj.DISINFESTAZIONE = disinfestazioneChk.checked;
-    obj.DERATTIZZAZIONE = derattizzazioneChk.checked;
-    const totals = calcola();
-    obj.SUBTOTAL = euro(totals.subtotal);
-    obj.IVA = euro(totals.iva);
-    obj.TOTAL = euro(totals.total);
-    
-    const firmaOperatoreCanvas = document.getElementById('firmaOperatore');
-    const firmaClienteCanvas = document.getElementById('firmaCliente');
-    obj.FIRMA_OPERATORE = firmaOperatoreCanvas.toDataURL();
-    obj.FIRMA_CLIENTE = firmaClienteCanvas.toDataURL();
-    
-    const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'modulo_compilato.json'; a.click(); URL.revokeObjectURL(url);
-  });
-  document.getElementById('moduloForm').addEventListener('submit', (e)=>{ e.preventDefault(); });
-  document.addEventListener('keydown', (e)=>{
-    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)){
-      e.preventDefault(); document.getElementById('print').click();
-    }
-  });
-
-  function abilitaFirma(canvasId) {
-    const canvas = document.getElementById(canvasId);
-    const ctx = canvas.getContext('2d');
-    let disegnando = false;
-    canvas.width = 300;
-    canvas.height = 150;
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    
-    const startDrawing = (e) => {
-        e.preventDefault(); // Impedisce lo scorrimento
-        disegnando = true;
+      // imposta dimensione reale in base a dimensione CSS per mantenere proporzione
+      function resizeCanvasToDisplaySize() {
         const rect = canvas.getBoundingClientRect();
-        const x = (e.touches && e.touches[0]) ? e.touches[0].clientX - rect.left : e.offsetX;
-        const y = (e.touches && e.touches[0]) ? e.touches[0].clientY - rect.top : e.offsetY;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-    };
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        ctx.scale(dpr, dpr);
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#000';
+      }
+      // iniziale
+      resizeCanvasToDisplaySize();
+      // ridimensiona al resize finestra
+      window.addEventListener('resize', () => {
+        // importante: salviamo il contenuto prima di resize
+        const data = canvas.toDataURL();
+        resizeCanvasToDisplaySize();
+        const img = new Image();
+        img.onload = ()=> ctx.drawImage(img, 0, 0, canvas.width / (window.devicePixelRatio||1), canvas.height / (window.devicePixelRatio||1));
+        img.src = data;
+      });
 
-    const draw = (e) => {
-        if (!disegnando) return;
-        e.preventDefault(); // Impedisce lo scorrimento
+      let disegnando = false;
+      const getPos = (e) => {
         const rect = canvas.getBoundingClientRect();
-        const x = (e.touches && e.touches[0]) ? e.touches[0].clientX - rect.left : e.offsetX;
-        const y = (e.touches && e.touches[0]) ? e.touches[0].clientY - rect.top : e.offsetY;
-        ctx.lineTo(x, y);
-        ctx.stroke();
-    };
+        if (e.touches && e.touches[0]) {
+          return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+        } else {
+          return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+      };
+      const start = (e) => { e.preventDefault(); disegnando = true; ctx.beginPath(); const p=getPos(e); ctx.moveTo(p.x, p.y); };
+      const move = (e) => { if(!disegnando) return; e.preventDefault(); const p=getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); };
+      const stop = (e) => { if(!disegnando) return; disegnando = false; ctx.closePath(); };
 
-    const stopDrawing = () => {
-        disegnando = false;
-        ctx.closePath();
-    };
+      // mouse
+      canvas.addEventListener('mousedown', start);
+      canvas.addEventListener('mousemove', move);
+      canvas.addEventListener('mouseup', stop);
+      canvas.addEventListener('mouseleave', stop);
+      // touch
+      canvas.addEventListener('touchstart', start, { passive: false });
+      canvas.addEventListener('touchmove', move, { passive: false });
+      canvas.addEventListener('touchend', stop);
+      canvas.addEventListener('touchcancel', stop);
+    }
 
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mouseleave', stopDrawing);
-    
-    canvas.addEventListener('touchstart', startDrawing, { passive: false });
-    canvas.addEventListener('touchmove', draw, { passive: false });
-    canvas.addEventListener('touchend', stopDrawing);
-    canvas.addEventListener('touchcancel', stopDrawing);
-  }
-
-  function pulisciFirma(canvasId) {
-    const canvas = document.getElementById(canvasId);
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-  
-  document.addEventListener("DOMContentLoaded", function(){
-    abilitaFirma('firmaOperatore');
-    abilitaFirma('firmaCliente');
-  });
-
-</script>
+    function pulisciFirma(canvasId){
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  </script>
 </body>
 </html>
