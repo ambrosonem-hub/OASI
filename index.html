@@ -32,7 +32,6 @@ td,th{padding:8px;text-align:left;border-bottom:1px solid #f1f5f9;}
 <div class="container">
   <h1>ORDINE DI SERVIZIO</h1>
   <form id="moduloForm" autocomplete="off" onsubmit="return false;">
-
     <!-- Progetto / Struttura / Ente / Indirizzo -->
     <div class="panel">
       <div class="field">
@@ -95,7 +94,6 @@ td,th{padding:8px;text-align:left;border-bottom:1px solid #f1f5f9;}
           <label><input type="checkbox" id="disinfestazione_chk"> Disinfestazione</label>
           <label><input type="checkbox" id="derattizzazione_chk"> Derattizzazione</label>
         </div>
-        <!-- Riepilogo costi per tipologia -->
         <div class="small muted" style="margin-top:6px; white-space:pre-line;">
           Riferimento costi:
           Manutenzione (€/ora per operatore)  € 25.00
@@ -141,15 +139,10 @@ td,th{padding:8px;text-align:left;border-bottom:1px solid #f1f5f9;}
 </div>
 
 <script>
-// ================= Dati =================
-const datiIndirizzi=[
-  {Progetto:"SAI-A01",Struttura:"AVELLINO",Ente:"PERCORSI",Indirizzo:"Via Roma 10, Avellino"},
-  {Progetto:"SAI-A01",Struttura:"AVELLINO",Ente:"AIC",Indirizzo:"Via Torino 5, Avellino"},
-  {Progetto:"SAI-A02",Struttura:"BENEVENTO",Ente:"PERCORSI",Indirizzo:"Corso Garibaldi 25, Benevento"}
-];
+// ================= Variabili =================
+let datiIndirizzi = [];
 const RATES={MANUTENZIONE:25,PULIZIE:20,SANIFICAZIONE:2,DISINFESTAZIONE:4.5,DERATTIZZAZIONE:6.5};
 
-// ================= Elementi =================
 const progettoEl=document.getElementById('progetto');
 const strutturaEl=document.getElementById('struttura');
 const enteEl=document.getElementById('ente');
@@ -169,7 +162,13 @@ const costiSelezionatiEl=document.getElementById('costiSelezionati');
 const materialiContainer=document.getElementById('materiali-container');
 const aggiungiMaterialeBtn=document.getElementById('aggiungi-materiale');
 
-// ================= Popola Progetti / Strutture / Enti / Indirizzi =================
+// ================= Caricamento JSON =================
+fetch('enti_strutture.json')
+  .then(res=>res.json())
+  .then(json=>{ datiIndirizzi=json; popolaProgetti(); })
+  .catch(err=>{ console.error('Errore caricamento JSON',err); });
+
+// ================= Popolamento =================
 function popolaProgetti(){
   const progetti=[...new Set(datiIndirizzi.map(d=>d.Progetto))];
   progettoEl.innerHTML="<option value=''>SELEZIONARE</option>";
@@ -213,11 +212,7 @@ mqEl.addEventListener('input',calcolaTotale);
 function aggiungiMateriale(){
   const div=document.createElement('div');
   div.className='materiale-row';
-  div.innerHTML=`
-    <input type="text" placeholder="Descrizione">
-    <input type="number" placeholder="€" value="0" min="0" step="0.01">
-    <button type="button" class="btn secondary">X</button>
-  `;
+  div.innerHTML=`<input type="text" placeholder="Descrizione"><input type="number" placeholder="€" value="0" min="0" step="0.01"><button type="button" class="btn secondary">X</button>`;
   const btn=div.querySelector('button');
   btn.addEventListener('click',()=>{div.remove(); calcolaTotale();});
   div.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',calcolaTotale));
@@ -228,13 +223,11 @@ aggiungiMaterialeBtn.addEventListener('click',aggiungiMateriale);
 // ================= Calcolo =================
 function calcolaTotale(){
   let subtotal=0;
-  // Tipologia lavoro
   if(manutenzioneChk.checked) subtotal+=RATES.MANUTENZIONE*operatoriEl.value*totOreEl.value;
   if(pulizieChk.checked) subtotal+=RATES.PULIZIE*operatoriEl.value*totOreEl.value;
   if(sanificazioneChk.checked) subtotal+=RATES.SANIFICAZIONE*mqEl.value;
   if(disinfestazioneChk.checked) subtotal+=RATES.DISINFESTAZIONE*mqEl.value;
   if(derattizzazioneChk.checked) subtotal+=RATES.DERATTIZZAZIONE*mqEl.value;
-  // Materiali
   const materialiPrezzi=[...materialiContainer.querySelectorAll('input[type=number]')].map(i=>parseFloat(i.value)||0);
   subtotal+=materialiPrezzi.reduce((a,b)=>a+b,0);
   const iva=subtotal*0.22;
@@ -243,55 +236,20 @@ function calcolaTotale(){
   ivaEl.textContent=iva.toFixed(2);
   totalEl.textContent=total.toFixed(2);
 
-  // Riepilogo selezioni
+  // Riepilogo
   let riassunto='';
-  if(manutenzioneChk.checked) riassunto+='Manutenzione € '+(RATES.MANUTENZIONE*operatoriEl.value*totOreEl.value).toFixed(2)+'\n';
-  if(pulizieChk.checked) riassunto+='Pulizie € '+(RATES.PULIZIE*operatoriEl.value*totOreEl.value).toFixed(2)+'\n';
-  if(sanificazioneChk.checked) riassunto+='Sanificazione € '+(RATES.SANIFICAZIONE*mqEl.value).toFixed(2)+'\n';
-  if(disinfestazioneChk.checked) riassunto+='Disinfestazione € '+(RATES.DISINFESTAZIONE*mqEl.value).toFixed(2)+'\n';
-  if(derattizzazioneChk.checked) riassunto+='Derattizzazione € '+(RATES.DERATTIZZAZIONE*mqEl.value).toFixed(2)+'\n';
-  materialiContainer.querySelectorAll('.materiale-row').forEach((row,i)=>{
+  if(manutenzioneChk.checked) riassunto+=`Manutenzione € ${(RATES.MANUTENZIONE*operatoriEl.value*totOreEl.value).toFixed(2)}\n`;
+  if(pulizieChk.checked) riassunto+=`Pulizie € ${(RATES.PULIZIE*operatoriEl.value*totOreEl.value).toFixed(2)}\n`;
+  if(sanificazioneChk.checked) riassunto+=`Sanificazione € ${(RATES.SANIFICAZIONE*mqEl.value).toFixed(2)}\n`;
+  if(disinfestazioneChk.checked) riassunto+=`Disinfestazione € ${(RATES.DISINFESTAZIONE*mqEl.value).toFixed(2)}\n`;
+  if(derattizzazioneChk.checked) riassunto+=`Derattizzazione € ${(RATES.DERATTIZZAZIONE*mqEl.value).toFixed(2)}\n`;
+  materialiContainer.querySelectorAll('.materiale-row').forEach(row=>{
     const desc=row.querySelector('input[type=text]').value;
     const prezzo=parseFloat(row.querySelector('input[type=number]').value)||0;
-    if(desc) riassunto+=desc+' € '+prezzo.toFixed(2)+'\n';
+    if(desc) riassunto+=`${desc} € ${prezzo.toFixed(2)}\n`;
   });
   costiSelezionatiEl.textContent=riassunto;
 }
-
-// ================= Popola iniziale =================
-popolaProgetti();
-calcolaTotale();
-
-// ================= Stampa / JSON =================
-document.getElementById('print').addEventListener('click',()=>{window.print();});
-document.getElementById('exportJson').addEventListener('click',()=>{
-  const data={
-    progetto:progettoEl.value,
-    struttura:strutturaEl.value,
-    ente:enteEl.value,
-    indirizzo:indirizzoEl.value,
-    descrizione:document.getElementById('descrizione').value,
-    materiali:[...materialiContainer.querySelectorAll('.materiale-row')].map(r=>{
-      return {desc:r.querySelector('input[type=text]').value, prezzo:parseFloat(r.querySelector('input[type=number]').value)||0};
-    }),
-    operatori:operatoriEl.value,
-    ore:totOreEl.value,
-    mq:mqEl.value,
-    tipologia:{
-      manutenzione:manutenzioneChk.checked,
-      pulizie:pulizieChk.checked,
-      sanificazione:sanificazioneChk.checked,
-      disinfestazione:disinfestazioneChk.checked,
-      derattizzazione:derattizzazioneChk.checked
-    },
-    subtotal:parseFloat(subtotalEl.textContent),
-    iva:parseFloat(ivaEl.textContent),
-    total:parseFloat(totalEl.textContent)
-  };
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download='ordine_servizio.json'; a.click(); URL.revokeObjectURL(url);
-});
 </script>
 </body>
 </html>
