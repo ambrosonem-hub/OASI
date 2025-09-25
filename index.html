@@ -8,6 +8,8 @@
 :root{--max-width:980px;--accent:#0b67ff;}
 body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;background:#f5f7fb;color:#1f2937;padding:24px;display:flex;justify-content:center;flex-direction:column;align-items:center;}
 .container{width:100%;max-width:var(--max-width);background:#fff;border-radius:12px;box-shadow:0 6px 24px rgba(20,30,60,.08);padding:20px;}
+.logo-container{text-align:center;margin-bottom:15px;}
+.logo-container img{max-width:177px;height:auto;}
 h1{text-align:center;margin-bottom:20px;}
 .panel{background:#fbfdff;border:1px solid #e6eefb;padding:12px;border-radius:8px;margin-bottom:12px;}
 label{display:block;font-weight:600;margin-bottom:6px;font-size:13px;}
@@ -30,36 +32,33 @@ td,th{padding:8px;text-align:left;border-bottom:1px solid #f1f5f9;}
 </head>
 <body>
 <div class="container">
+  <div class="logo-container">
+    <img src="logo.jpg" alt="Logo Azienda">
+  </div>
   <h1>ORDINE DI SERVIZIO</h1>
   <form id="moduloForm" autocomplete="off" onsubmit="return false;">
-    <!-- Progetto / Struttura / Ente / Indirizzo -->
     <div class="panel">
-      <div class="field"><label for="progetto">Progetto</label><select id="progetto"></select></div>
-      <div class="field"><label for="struttura">Struttura</label><select id="struttura"></select></div>
-      <div class="field"><label for="ente">Ente</label><select id="ente"></select></div>
-      <div class="field"><label for="indirizzo">Indirizzo</label><select id="indirizzo"></select><span id="indirizzo-stampa" style="display:none;"></span></div>
+      <div class="field"><label>Progetto</label><select id="progetto"></select></div>
+      <div class="field"><label>Struttura</label><select id="struttura"></select></div>
+      <div class="field"><label>Ente</label><select id="ente"></select></div>
+      <div class="field"><label>Indirizzo</label><select id="indirizzo"></select></div>
     </div>
 
-    <!-- Descrizione lavori -->
     <div class="panel">
-      <div class="field"><label for="descrizione">Descrizione dei lavori</label><textarea id="descrizione" name="DESCRIZIONE" placeholder="Descrivi il lavoro svolto..."></textarea></div>
+      <div class="field"><label>Descrizione dei lavori</label><textarea id="descrizione"></textarea></div>
 
-      <!-- Materiali dinamici -->
       <div class="field">
         <label>Materiale fornito</label>
         <div id="materiali-container"></div>
         <button type="button" class="btn secondary" id="aggiungi-materiale">+ Aggiungi materiale</button>
-        <div class="small muted">Inserisci descrizione e prezzo del materiale fornito. I costi si sommano al riepilogo.</div>
       </div>
 
-      <!-- Operatori, ore e metri quadrati -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div class="field"><label for="operatori">Numero operatori</label><input id="operatori" type="number" min="0" step="1" value="1"></div>
-        <div class="field"><label for="totOre">Totale ore</label><input id="totOre" type="number" min="0" step="0.5" value="0"></div>
+        <div class="field"><label>Numero operatori</label><input id="operatori" type="number" min="0" step="1" value="1"></div>
+        <div class="field"><label>Totale ore</label><input id="totOre" type="number" min="0" step="0.5" value="0"></div>
       </div>
-      <div class="field"><label for="mq">Metri quadrati (mq)</label><input id="mq" type="number" min="0" step="0.1" value="0"></div>
+      <div class="field"><label>Metri quadrati (mq)</label><input id="mq" type="number" min="0" step="0.1" value="0"></div>
 
-      <!-- Tipologia lavoro -->
       <div class="field">
         <label>Tipologia lavoro</label>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -69,31 +68,22 @@ td,th{padding:8px;text-align:left;border-bottom:1px solid #f1f5f9;}
           <label><input type="checkbox" id="disinfestazione_chk"> Disinfestazione</label>
           <label><input type="checkbox" id="derattizzazione_chk"> Derattizzazione</label>
         </div>
-        <div class="small muted" style="margin-top:6px; white-space:pre-line;">
-          Riferimento costi:
-          Manutenzione (€/ora per operatore)  € 25.00
-          Pulizie (€/ora per operatore)        € 20.00
-          Sanificazione (€/mq)                € 2.00
-          Disinfestazione (€/mq)              € 4.50
-          Derattizzazione (€/mq)              € 6.50
-        </div>
       </div>
     </div>
 
-    <!-- Riepilogo costi -->
     <div class="panel summary">
       <h3>Riepilogo costi</h3>
-      <pre id="costiSelezionati"></pre>
-      <table>
-        <tbody>
-          <tr><th>Subtotale</th><th class="right">€ <span id="subtotal">0.00</span></th></tr>
-          <tr><td>IVA (22%)</td><td class="right">€ <span id="iva">0.00</span></td></tr>
-          <tr><th>Totale</th><th class="right">€ <span id="total">0.00</span></th></tr>
-        </tbody>
+      <table id="riepilogo-costi">
+        <thead><tr><th>Voce</th><th class="right">€</th></tr></thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr><th>Subtotale</th><th class="right" id="subtotal">0.00</th></tr>
+          <tr><td>IVA (22%)</td><td class="right" id="iva">0.00</td></tr>
+          <tr><th>Totale</th><th class="right" id="total">0.00</th></tr>
+        </tfoot>
       </table>
     </div>
 
-    <!-- Firme -->
     <div class="firme-container">
       <div>
         <label>Firma operatore</label>
@@ -107,7 +97,6 @@ td,th{padding:8px;text-align:left;border-bottom:1px solid #f1f5f9;}
       </div>
     </div>
 
-    <!-- Bottoni -->
     <div style="margin-top:12px;display:flex;gap:8px;">
       <button type="button" class="btn" id="print">Stampa</button>
       <button type="button" class="btn secondary" id="exportJson">Esporta JSON</button>
@@ -116,8 +105,7 @@ td,th{padding:8px;text-align:left;border-bottom:1px solid #f1f5f9;}
 </div>
 
 <script>
-// ================= Variabili =================
-let datiIndirizzi = [];
+let datiIndirizzi=[];
 const RATES={MANUTENZIONE:25,PULIZIE:20,SANIFICAZIONE:2,DISINFESTAZIONE:4.5,DERATTIZZAZIONE:6.5};
 const progettoEl=document.getElementById('progetto');
 const strutturaEl=document.getElementById('struttura');
@@ -134,7 +122,7 @@ const derattizzazioneChk=document.getElementById('derattizzazione_chk');
 const subtotalEl=document.getElementById('subtotal');
 const ivaEl=document.getElementById('iva');
 const totalEl=document.getElementById('total');
-const costiSelezionatiEl=document.getElementById('costiSelezionati');
+const riepilogoBody=document.querySelector('#riepilogo-costi tbody');
 const materialiContainer=document.getElementById('materiali-container');
 const aggiungiMaterialeBtn=document.getElementById('aggiungi-materiale');
 
@@ -142,7 +130,7 @@ const aggiungiMaterialeBtn=document.getElementById('aggiungi-materiale');
 fetch('enti_strutture.json')
   .then(res=>res.json())
   .then(json=>{ datiIndirizzi=json; popolaProgetti(); })
-  .catch(err=>{ console.error('Errore caricamento JSON',err); });
+  .catch(err=>console.error('Errore caricamento JSON',err));
 
 // ================= Popolamento =================
 function popolaProgetti(){
@@ -155,111 +143,73 @@ function popolaStrutture(){
   const strutture=[...new Set(datiIndirizzi.filter(d=>d.Progetto===val).map(d=>d.Struttura))];
   strutturaEl.innerHTML="<option value=''>SELEZIONARE</option>";
   strutture.forEach(s=>strutturaEl.innerHTML+=`<option value="${s}">${s}</option>`);
-  enteEl.innerHTML="<option value=''>SELEZIONARE</option>";
-  indirizzoEl.innerHTML="";
+  enteEl.innerHTML="<option value=''>SELEZIONARE</option>"; indirizzoEl.innerHTML="";
 }
 function popolaEnti(){
-  const valProgetto=progettoEl.value;
-  const valStruttura=strutturaEl.value;
-  const enti=[...new Set(datiIndirizzi.filter(d=>d.Progetto===valProgetto && d.Struttura===valStruttura).map(d=>d.Ente))];
+  const valPro=progettoEl.value, valStr=strutturaEl.value;
+  const enti=[...new Set(datiIndirizzi.filter(d=>d.Progetto===valPro && d.Struttura===valStr).map(d=>d.Ente))];
   enteEl.innerHTML="<option value=''>SELEZIONARE</option>";
-  enti.forEach(e=>enteEl.innerHTML+=`<option value="${e}">${e}</option>`);
-  indirizzoEl.innerHTML="";
+  enti.forEach(e=>enteEl.innerHTML+=`<option value="${e}">${e}</option>`); indirizzoEl.innerHTML="";
 }
 function popolaIndirizzi(){
-  const valProgetto=progettoEl.value;
-  const valStruttura=strutturaEl.value;
-  const valEnte=enteEl.value;
-  const indirizzi=datiIndirizzi.filter(d=>d.Progetto===valProgetto && d.Struttura===valStruttura && d.Ente===valEnte).map(d=>d.Indirizzo);
+  const valPro=progettoEl.value,valStr=strutturaEl.value,valEnte=enteEl.value;
+  const indirizzi=datiIndirizzi.filter(d=>d.Progetto===valPro && d.Struttura===valStr && d.Ente===valEnte).map(d=>d.Indirizzo);
   indirizzoEl.innerHTML="";
   indirizzi.forEach(i=>{ const opt=document.createElement('option'); opt.value=i; opt.textContent=i; indirizzoEl.appendChild(opt); });
 }
-
-// ================= Eventi cascata =================
-progettoEl.addEventListener('change',()=>{ popolaStrutture(); });
-strutturaEl.addEventListener('change',()=>{ popolaEnti(); });
-enteEl.addEventListener('change',()=>{ popolaIndirizzi(); });
+progettoEl.addEventListener('change',()=>{popolaStrutture();});
+strutturaEl.addEventListener('change',()=>{popolaEnti();});
+enteEl.addEventListener('change',()=>{popolaIndirizzi();});
 
 // ================= Materiali =================
 function aggiungiMateriale(){
   const div=document.createElement('div'); div.className='materiale-row';
-  div.innerHTML='<input type="text" placeholder="Descrizione"><input type="number" placeholder="€" value="0" min="0" step="0.01"><button type="button" class="btn secondary">X</button>';
-  div.querySelector('button').addEventListener('click',()=>{div.remove(); calcolaTotale();});
-  div.querySelectorAll('input').forEach(i=>i.addEventListener('input',calcolaTotale));
+  div.innerHTML='<input type="text" placeholder="Descrizione"><input type="number" placeholder="€" value="0" min="0" step="0.01"><button type="button" class="btn secondary" onclick="this.parentNode.remove();aggiornaRiepilogo();">X</button>';
   materialiContainer.appendChild(div);
 }
 aggiungiMaterialeBtn.addEventListener('click',aggiungiMateriale);
 
-// ================= Calcolo =================
-function calcolaTotale(){
+// ================= Riepilogo =================
+function aggiornaRiepilogo(){
+  riepilogoBody.innerHTML="";
   let subtotal=0;
-  const operatori=Math.max(0,Number(operatoriEl.value)||0);
-  const ore=Math.max(0,Number(totOreEl.value)||0);
-  const mq=Math.max(0,Number(mqEl.value)||0);
-
-  if(manutenzioneChk.checked) subtotal+=RATES.MANUTENZIONE*operatori*ore;
-  if(pulizieChk.checked) subtotal+=RATES.PULIZIE*operatori*ore;
-  if(sanificazioneChk.checked) subtotal+=RATES.SANIFICAZIONE*mq;
-  if(disinfestazioneChk.checked) subtotal+=RATES.DISINFESTAZIONE*mq;
-  if(derattizzazioneChk.checked) subtotal+=RATES.DERATTIZZAZIONE*mq;
-
-  const materialiPrezzi=[...materialiContainer.querySelectorAll('input[type=number]')].map(i=>parseFloat(i.value)||0);
-  subtotal+=materialiPrezzi.reduce((a,b)=>a+b,0);
-
-  const iva=subtotal*0.22;
-  const total=subtotal+iva;
-  subtotalEl.textContent=subtotal.toFixed(2);
-  ivaEl.textContent=iva.toFixed(2);
-  totalEl.textContent=total.toFixed(2);
-
-  // Riepilogo
-  let riassunto='';
-  if(manutenzioneChk.checked) riassunto+=`Manutenzione € ${(RATES.MANUTENZIONE*operatori*ore).toFixed(2)}\n`;
-  if(pulizieChk.checked) riassunto+=`Pulizie € ${(RATES.PULIZIE*operatori*ore).toFixed(2)}\n`;
-  if(sanificazioneChk.checked) riassunto+=`Sanificazione € ${(RATES.SANIFICAZIONE*mq).toFixed(2)}\n`;
-  if(disinfestazioneChk.checked) riassunto+=`Disinfestazione € ${(RATES.DISINFESTAZIONE*mq).toFixed(2)}\n`;
-  if(derattizzazioneChk.checked) riassunto+=`Derattizzazione € ${(RATES.DERATTIZZAZIONE*mq).toFixed(2)}\n`;
-  materialiContainer.querySelectorAll('.materiale-row').forEach(row=>{
+  // Tipologie lavoro
+  if(manutenzioneChk.checked){ const val=RATES.MANUTENZIONE*operatoriEl.value*totOreEl.value; riepilogoBody.innerHTML+=`<tr><td>Manutenzione</td><td class="right">${val.toFixed(2)}</td></tr>`; subtotal+=val; }
+  if(pulizieChk.checked){ const val=RATES.PULIZIE*operatoriEl.value*totOreEl.value; riepilogoBody.innerHTML+=`<tr><td>Pulizie</td><td class="right">${val.toFixed(2)}</td></tr>`; subtotal+=val; }
+  if(sanificazioneChk.checked){ const val=RATES.SANIFICAZIONE*mqEl.value; riepilogoBody.innerHTML+=`<tr><td>Sanificazione</td><td class="right">${val.toFixed(2)}</td></tr>`; subtotal+=val; }
+  if(disinfestazioneChk.checked){ const val=RATES.DISINFESTAZIONE*mqEl.value; riepilogoBody.innerHTML+=`<tr><td>Disinfestazione</td><td class="right">${val.toFixed(2)}</td></tr>`; subtotal+=val; }
+  if(derattizzazioneChk.checked){ const val=RATES.DERATTIZZAZIONE*mqEl.value; riepilogoBody.innerHTML+=`<tr><td>Derattizzazione</td><td class="right">${val.toFixed(2)}</td></tr>`; subtotal+=val; }
+  // Materiali
+  document.querySelectorAll('#materiali-container .materiale-row').forEach(row=>{
     const desc=row.querySelector('input[type=text]').value;
-    const prezzo=parseFloat(row.querySelector('input[type=number]').value)||0;
-    if(desc) riassunto+=`${desc} € ${prezzo.toFixed(2)}\n`;
+    const val=parseFloat(row.querySelector('input[type=number]').value)||0;
+    if(desc!==""){ riepilogoBody.innerHTML+=`<tr><td>${desc}</td><td class="right">${val.toFixed(2)}</td></tr>`; subtotal+=val; }
   });
-  costiSelezionatiEl.textContent=riassunto;
+  subtotalEl.textContent=subtotal.toFixed(2);
+  const iva=subtotal*0.22; ivaEl.textContent=iva.toFixed(2);
+  totalEl.textContent=(subtotal+iva).toFixed(2);
 }
-operatoriEl.addEventListener('input',calcolaTotale);
-totOreEl.addEventListener('input',calcolaTotale);
-mqEl.addEventListener('input',calcolaTotale);
-[manutenzioneChk,pulizieChk,sanificazioneChk,disinfestazioneChk,derattizzazioneChk].forEach(c=>c.addEventListener('change',calcolaTotale));
+[operatoriEl,totOreEl,mqEl,manutenzioneChk,pulizieChk,sanificazioneChk,disinfestazioneChk,derattizzazioneChk].forEach(el=>el.addEventListener('change',aggiornaRiepilogo));
+setInterval(aggiornaRiepilogo,1000);
 
-// ================= Firma =================
-function abilitaFirma(canvasId){
-  const canvas=document.getElementById(canvasId);
-  const ctx=canvas.getContext('2d');
-  let disegnando=false;
-  canvas.width=300; canvas.height=150; ctx.lineWidth=2; ctx.lineCap='round';
-  const start=(e)=>{ e.preventDefault(); disegnando=true; const rect=canvas.getBoundingClientRect(); const x=(e.touches?e.touches[0].clientX:e.clientX)-rect.left; const y=(e.touches?e.touches[0].clientY:e.clientY)-rect.top; ctx.beginPath(); ctx.moveTo(x,y);}
-  const draw=(e)=>{ if(!disegnando) return; e.preventDefault(); const rect=canvas.getBoundingClientRect(); const x=(e.touches?e.touches[0].clientX:e.clientX)-rect.left; const y=(e.touches?e.touches[0].clientY:e.clientY)-rect.top; ctx.lineTo(x,y); ctx.stroke();}
-  const stop=()=>{ disegnando=false; ctx.closePath();}
-  canvas.addEventListener('mousedown',start); canvas.addEventListener('mousemove',draw); canvas.addEventListener('mouseup',stop); canvas.addEventListener('mouseleave',stop);
-  canvas.addEventListener('touchstart',start,{passive:false}); canvas.addEventListener('touchmove',draw,{passive:false}); canvas.addEventListener('touchend',stop); canvas.addEventListener('touchcancel',stop);
-}
-function pulisciFirma(canvasId){ const canvas=document.getElementById(canvasId); canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);}
-document.addEventListener('DOMContentLoaded',()=>{ abilitaFirma('firmaOperatore'); abilitaFirma('firmaCliente'); });
+// ================= Firme =================
+function pulisciFirma(id){ const c=document.getElementById(id); const ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height); }
+['firmaOperatore','firmaCliente'].forEach(id=>{
+  const c=document.getElementById(id); const ctx=c.getContext('2d'); let dis=false;
+  c.addEventListener('mousedown',()=>dis=true); c.addEventListener('mouseup',()=>dis=false); c.addEventListener('mouseout',()=>dis=false);
+  c.addEventListener('mousemove',e=>{ if(!dis) return; const rect=c.getBoundingClientRect(); ctx.lineWidth=2; ctx.lineCap='round'; ctx.strokeStyle='black'; ctx.lineTo(e.clientX-rect.left,e.clientY-rect.top); ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX-rect.left,e.clientY-rect.top); });
+});
 
-// ================= Stampa / Export =================
-document.getElementById('print').addEventListener('click',()=>{ calcolaTotale(); window.print(); });
+// ================= Stampa / JSON =================
+document.getElementById('print').addEventListener('click',()=>window.print());
 document.getElementById('exportJson').addEventListener('click',()=>{
-  calcolaTotale();
-  const data=new FormData(document.getElementById('moduloForm'));
-  const obj={};
-  for(const [k,v] of data.entries()) obj[k]=v;
-  obj.MANUTENZIONE=manutenzioneChk.checked; obj.PULIZIE=pulizieChk.checked; obj.SANIFICAZIONE=sanificazioneChk.checked; obj.DISINFESTAZIONE=disinfestazioneChk.checked; obj.DERATTIZZAZIONE=derattizzazioneChk.checked;
-  obj.SUBTOTAL=subtotalEl.textContent; obj.IVA=ivaEl.textContent; obj.TOTAL=totalEl.textContent;
-  obj.MATERIALI=[...materialiContainer.querySelectorAll('.materiale-row')].map(r=>({desc:r.querySelector('input[type=text]').value,prezzo:r.querySelector('input[type=number]').value}));
-  const canvasOp=document.getElementById('firmaOperatore'); obj.FIRMA_OPERATORE=canvasOp.toDataURL();
-  const canvasCl=document.getElementById('firmaCliente'); obj.FIRMA_CLIENTE=canvasCl.toDataURL();
-  const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='modulo_compilato.json'; a.click(); URL.revokeObjectURL(url);
+  const materiali=[];
+  document.querySelectorAll('#materiali-container .materiale-row').forEach(row=>{
+    materiali.push({desc:row.querySelector('input[type=text]').value,prezzo:parseFloat(row.querySelector('input[type=number]').value)||0});
+  });
+  const data={progetto:progettoEl.value,struttura:strutturaEl.value,ente:enteEl.value,indirizzo:indirizzoEl.value,descrizione:document.getElementById('descrizione').value,operatori:operatoriEl.value,ore:totOreEl.value,mq:mqEl.value,tipo_lavoro:{manutenzione:manutenzioneChk.checked,pulizie:pulizieChk.checked,sanificazione:sanificazioneChk.checked,disinfestazione:disinfestazioneChk.checked,derattizzazione:derattizzazioneChk.checked},materiali:materiali,totale:totalEl.textContent};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ordine.json'; a.click();
 });
 </script>
 </body>
