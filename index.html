@@ -8,8 +8,14 @@
 body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
        background:#f5f7fb; color:#1f2937; padding:24px;
        display:flex; justify-content:center; flex-direction:column; align-items:center; }
-.container { width:100%; max-width:var(--max-width); background:#fff; border-radius:12px;
-            box-shadow:0 6px 24px rgba(20,30,60,0.08); padding:20px; }
+.container {
+  width: 150%;
+  max-width: var(--max-width);
+  background: #fff; /* Questo imposta lo sfondo bianco */
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(20, 30, 60, 0.08);
+  padding: 20px;
+  min-height: calc(100vh - 48px);
 h1 { font-size:20px; margin:0 0 8px; text-align:center; }
 form { display:grid; grid-template-columns:1fr 320px; gap:18px; }
 .panel { background:#fbfdff; border:1px solid #e6eefb; padding:12px; border-radius:8px; }
