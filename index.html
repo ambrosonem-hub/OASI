@@ -1,4 +1,3 @@
-
 <html lang="it">
 <head>
 <meta charset="utf-8" />
@@ -29,20 +28,39 @@ td.right,th.right { text-align:right; }
 .logo-container img { max-width:177px; max-height:118px; height:auto; }
 .header-info { text-align:center; font-size:13px; line-height:1.2; margin-bottom:20px; }
 .header-info .title { font-size:16px; font-weight:bold; margin-bottom:5px; }
-.firma-canvas-container { margin-bottom:15px; position:relative; width:100%; max-width:300px; height:150px; }
-.firma-canvas { border:1px solid #000; cursor:crosshair; background-color:#fff; width:100%; height:100%; display:block; }
-.firma-stampa { display:none; border:1px solid #000; width:300px; height:150px; position:absolute; top:0; left:0; pointer-events:none; }
-.firme-container { display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between; width:100%; margin-top:15px; }
 .materiale-row { display:flex; gap:6px; margin-bottom:6px; }
 .materiale-row input[type=text]{ flex:2; } .materiale-row input[type=number]{ flex:1; }
-@media(max-width:900px){form{grid-template-columns:1fr}.firme-container{flex-direction:column}.firma-canvas-container{width:100%}.firma-canvas{max-width:100%;}}
+
+.firme-tabella {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  text-align: center;
+}
+.firme-tabella th {
+  font-size: 14px;
+  font-weight: 600;
+  padding-bottom: 8px;
+}
+.firme-tabella td {
+  vertical-align: top;
+  padding: 10px;
+}
+.firma-canvas { border:1px solid #000; cursor:crosshair; background-color:#fff; width:100%; max-width:260px; height:150px; display:block; margin:0 auto; }
+.firma-stampa { display:none; border:1px solid #000; width:100%; max-width:220px; height:auto; max-height:100px; margin:0 auto; object-fit:contain; }
+
+@media(max-width:900px){
+  form{grid-template-columns:1fr}
+}
+
 @media print{
   @page {size:A4 portrait;margin:15mm;}
   body {padding:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .container {width:100%; max-width:100%; box-shadow:none; border-radius:0; padding:0; display:block;}
-  .btn,.firma-canvas-container button,.small.muted {display:none !important;}
+  .btn {display:none !important;}
   .firma-canvas { display: none !important; }
   .firma-stampa { display: block !important; }
+  .firme-tabella td { padding: 6px; border:none; }
 }
 </style>
 </head>
@@ -108,20 +126,32 @@ td.right,th.right { text-align:right; }
         <button type="button" class="btn secondary" id="exportJson">Esporta (JSON)</button>
       </div>
     </aside>
-    <div class="firme-container">
-      <div class="firma-canvas-container">
-        <h3>Firma operatore</h3>
-        <canvas id="firmaOperatore" class="firma-canvas"></canvas>
-        <img id="firmaOperatore_stampa" class="firma-stampa" />
-        <button type="button" class="btn secondary" onclick="pulisciFirma('firmaOperatore')">Pulisci firma</button>
-      </div>
-      <div class="firma-canvas-container">
-        <h3>Firma cliente</h3>
-        <canvas id="firmaCliente" class="firma-canvas"></canvas>
-        <img id="firmaCliente_stampa" class="firma-stampa" />
-        <button type="button" class="btn secondary" onclick="pulisciFirma('firmaCliente')">Pulisci firma</button>
-      </div>
-    </div>
+
+    <!-- Firme in tabella -->
+    <table class="firme-tabella">
+      <tr>
+        <th>Firma operatore</th>
+        <th>Firma cliente</th>
+      </tr>
+      <tr>
+        <td>
+          <canvas id="firmaOperatore" class="firma-canvas"></canvas>
+          <img id="firmaOperatore_stampa" class="firma-stampa" />
+          <div style="margin-top:6px; display:flex; gap:6px; justify-content:center;">
+            <button type="button" class="btn secondary" onclick="pulisciFirma('firmaOperatore')">Pulisci</button>
+            <button type="button" class="btn secondary" onclick="salvaFirma('firmaOperatore')">Salva</button>
+          </div>
+        </td>
+        <td>
+          <canvas id="firmaCliente" class="firma-canvas"></canvas>
+          <img id="firmaCliente_stampa" class="firma-stampa" />
+          <div style="margin-top:6px; display:flex; gap:6px; justify-content:center;">
+            <button type="button" class="btn secondary" onclick="pulisciFirma('firmaCliente')">Pulisci</button>
+            <button type="button" class="btn secondary" onclick="salvaFirma('firmaCliente')">Salva</button>
+          </div>
+        </td>
+      </tr>
+    </table>
   </form>
 </div>
 
@@ -193,54 +223,103 @@ function aggiornaRiepilogo(){
 }
 
 // ================= Firma =================
-function setupCanvas(canvas){
-  const rect=canvas.getBoundingClientRect();
-  canvas.width=rect.width; canvas.height=rect.height;
-  const ctx=canvas.getContext('2d'); ctx.lineWidth=2; ctx.strokeStyle="#000"; return ctx;
+function setupCanvas(canvas) {
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+  const ctx = canvas.getContext('2d');
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "#000";
+  return ctx;
 }
-function abilitaFirma(canvasId){
-  const canvas=document.getElementById(canvasId); const ctx=setupCanvas(canvas);
-  let disegnando=false;
-  function getPos(e){const rect=canvas.getBoundingClientRect(); if(e.touches) return {x:e.touches[0].clientX-rect.left,y:e.touches[0].clientY-rect.top}; return {x:e.offsetX,y:e.offsetY};}
-  canvas.addEventListener('mousedown',e=>{disegnando=true; const pos=getPos(e); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);});
-  canvas.addEventListener('mousemove',e=>{if(!disegnando) return; const pos=getPos(e); ctx.lineTo(pos.x,pos.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);});
-  canvas.addEventListener('mouseup',()=>{disegnando=false; ctx.closePath();});
-  canvas.addEventListener('mouseleave',()=>{disegnando=false; ctx.closePath();});
-  canvas.addEventListener('touchstart',e=>{e.preventDefault(); disegnando=true; const pos=getPos(e); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);},{passive:false});
-  canvas.addEventListener('touchmove',e=>{e.preventDefault(); if(!disegnando) return; const pos=getPos(e); ctx.lineTo(pos.x,pos.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);},{passive:false});
-  canvas.addEventListener('touchend',e=>{e.preventDefault(); disegnando=false; ctx.closePath();},{passive:false});
+
+function abilitaFirma(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = setupCanvas(canvas);
+  let disegnando = false;
+
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    if (e.touches) {
+      return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+    }
+    return { x: e.offsetX, y: e.offsetY };
+  }
+
+  canvas.addEventListener("mousedown", e => {
+    disegnando = true;
+    const pos = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  });
+  canvas.addEventListener("mousemove", e => {
+    if (!disegnando) return;
+    const pos = getPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  });
+  canvas.addEventListener("mouseup", () => { disegnando = false; });
+  canvas.addEventListener("mouseleave", () => { disegnando = false; });
+
+  // Touch
+  canvas.addEventListener("touchstart", e => {
+    e.preventDefault();
+    disegnando = true;
+    const pos = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  });
+  canvas.addEventListener("touchmove", e => {
+    e.preventDefault();
+    if (!disegnando) return;
+    const pos = getPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  });
+  canvas.addEventListener("touchend", () => { disegnando = false; });
 }
-function pulisciFirma(canvasId){const canvas=document.getElementById(canvasId); canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);}
-function preparaFirmePerStampa(){
-  ['firmaOperatore','firmaCliente'].forEach(id=>{
-    const canvas=document.getElementById(id);
-    const img=document.getElementById(id+'_stampa');
-    img.width=canvas.width; img.height=canvas.height;
-    img.src=canvas.toDataURL('image/png');
+
+function pulisciFirma(id) {
+  const canvas = document.getElementById(id);
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  document.getElementById(id + "_stampa").src = "";
+}
+
+function salvaFirma(id) {
+  const canvas = document.getElementById(id);
+  const img = document.getElementById(id + "_stampa");
+  img.src = canvas.toDataURL("image/png");
+}
+
+// Prepara firme per stampa
+function preparaFirmePerStampa() {
+  ["firmaOperatore", "firmaCliente"].forEach(id => {
+    const canvas = document.getElementById(id);
+    const img = document.getElementById(id + "_stampa");
+    img.src = canvas.toDataURL("image/png");
   });
 }
 
 // ================= Eventi =================
-progettoEl.addEventListener('change',()=>{popolaStrutture(); aggiornaRiepilogo();});
-strutturaEl.addEventListener('change',()=>{popolaEnti(); aggiornaRiepilogo();});
-enteEl.addEventListener('change',()=>{popolaIndirizzi(); aggiornaRiepilogo();});
-[indirizzoEl,operatoriEl,totOreEl,mqEl,manutenzioneChk,pulizieChk,sanificazioneChk,disinfestazioneChk,derattizzazioneChk].forEach(el=>el.addEventListener('change',aggiornaRiepilogo));
+progettoEl.addEventListener('change',popolaStrutture); strutturaEl.addEventListener('change',popolaEnti); enteEl.addEventListener('change',popolaIndirizzi);
+[operatoriEl, totOreEl, mqEl, manutenzioneChk, pulizieChk, sanificazioneChk, disinfestazioneChk, derattizzazioneChk].forEach(el=>el.addEventListener('input',aggiornaRiepilogo));
 aggiungiMaterialeBtn.addEventListener('click',aggiungiMateriale);
-materialiContainer.addEventListener('input',aggiornaRiepilogo);
 
 document.getElementById('print').addEventListener('click',()=>{preparaFirmePerStampa(); window.print();});
 document.getElementById('exportJson').addEventListener('click',()=>{
-  const data={PROGETTO:progettoEl.value,STRUTTURA:strutturaEl.value,ENTE:enteEl.value,INDIRIZZO:indirizzoEl.value,DESCRIZIONE:document.getElementById('descrizione').value,OPERATORI:operatoriEl.value,ORE:totOreEl.value,MQ:mqEl.value,TIPI_LAVORO:{MANUTENZIONE:manutenzioneChk.checked,PULIZIE:pulizieChk.checked,SANIFICAZIONE:sanificazioneChk.checked,DISINFESTAZIONE:disinfestazioneChk.checked,DERATTIZZAZIONE:derattizzazioneChk.checked},MATERIALI:[]};
-  document.querySelectorAll('#materiali-container .materiale-row').forEach(r=>{const desc=r.querySelector('input[type=text]').value; const val=parseFloat(r.querySelector('input[type=number]').value)||0;if(desc!=="") data.MATERIALI.push({descrizione:desc,prezzo:val});});
-  console.log(JSON.stringify(data,null,2)); alert('JSON stampato in console.');
+  const data={progetto:progettoEl.value,struttura:strutturaEl.value,ente:enteEl.value,indirizzo:indirizzoEl.value,descrizione:document.getElementById('descrizione').value,
+              dataLavoro:document.getElementById('dataLavoro').value,oraInizio:document.getElementById('oraInizio').value,oraFine:document.getElementById('oraFine').value,
+              operatori:operatoriEl.value,totOre:totOreEl.value,mq:mqEl.value,
+              tipologie:{manutenzione:manutenzioneChk.checked,pulizie:pulizieChk.checked,sanificazione:sanificazioneChk.checked,disinfestazione:disinfestazioneChk.checked,derattizzazione:derattizzazioneChk.checked},
+              materiali:[...document.querySelectorAll('#materiali-container .materiale-row')].map(r=>({descrizione:r.querySelector('input[type=text]').value,prezzo:r.querySelector('input[type=number]').value})),
+              riepilogo: riepilogoBody.innerText, subtotal:subtotalEl.innerText, iva:ivaEl.innerText, total:totalEl.innerText,
+              firme:{operatore:document.getElementById('firmaOperatore_stampa').src, cliente:document.getElementById('firmaCliente_stampa').src}};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download="modulo.json"; a.click(); URL.revokeObjectURL(url);
 });
 
-document.addEventListener('DOMContentLoaded',()=>{
-  caricaEntiStrutture();
-  abilitaFirma('firmaOperatore');
-  abilitaFirma('firmaCliente');
-  aggiornaRiepilogo();
-});
+window.addEventListener('load',()=>{caricaEntiStrutture(); aggiornaRiepilogo(); abilitaFirma("firmaOperatore"); abilitaFirma("firmaCliente");});
 </script>
 </body>
 </html>
