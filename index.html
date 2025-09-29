@@ -7,7 +7,9 @@
 <style>
 :root { --max-width:980px; --gap:12px; --accent:#0b67ff; }
 
-/* Body */
+/* Global box-sizing */
+* { box-sizing: border-box; }
+
 body {
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   background:#f5f7fb;
@@ -20,7 +22,6 @@ body {
   margin:0;
 }
 
-/* Contenitore principale */
 .container {
   width: 100%;
   max-width: var(--max-width);
@@ -29,73 +30,43 @@ body {
   box-shadow: 0 6px 24px rgba(20, 30, 60, 0.08);
   padding: 20px;
   min-height: calc(100vh - 48px);
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
 }
 
-/* Titolo centrato */
-h1 {
-  font-size: 20px;
-  margin: 0 0 16px;
-  text-align: center;
-}
+h1 { font-size: 20px; margin: 0 0 16px; text-align: center; }
 
-/* Logo e info */
-.logo-container {
-  text-align:center;
-  margin-bottom:10px;
-}
-.logo-container img {
-  max-width:177px;
-  max-height:118px;
-  height:auto;
-}
+.logo-container { text-align:center; margin-bottom:10px; }
+.logo-container img { max-width:177px; max-height:118px; height:auto; }
+
 .header-info {
   text-align:center;
   font-size:13px;
   line-height:1.2;
   margin-bottom:20px;
 }
-.header-info .title {
-  font-size:16px;
-  font-weight:bold;
-  margin-bottom:5px;
-}
+.header-info .title { font-size:16px; font-weight:bold; margin-bottom:5px; }
 
-/* Form a due colonne */
-form {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 24px;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
+form { display: grid; grid-template-columns: 1fr 320px; gap: 24px; width: 100%; }
 
-/* Pannelli interni */
 .panel {
   background: #fbfdff;
   border: 1px solid #e6eefb;
   padding: 16px;
   border-radius: 8px;
   width: 100%;
-  box-sizing: border-box;
 }
 
-/* Riepilogo */
 .summary {
   background: #fff;
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #eef2ff;
   width: 100%;
-  box-sizing: border-box;
 }
 
-/* Etichette e campi */
 label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; }
 .field { margin-bottom:12px; }
 select,input[type="text"],input[type="number"],textarea {
@@ -104,30 +75,24 @@ select,input[type="text"],input[type="number"],textarea {
   border:1px solid #d1d9e6;
   border-radius:6px;
   font-size:14px;
-  box-sizing:border-box;
 }
 textarea { min-height:80px; resize:vertical; }
 
-/* Materiali */
 .materiale-row { display:flex; gap:6px; margin-bottom:6px; }
 .materiale-row input[type=text] { flex:2; }
 .materiale-row input[type=number] { flex:1; }
 
-/* Bottoni */
 .btn { background:var(--accent); color:#fff; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
 .btn.secondary { background:#fff; color:var(--accent); border:1px solid #cfe0ff; }
 
-/* Tabelle */
 table { width:100%; border-collapse:collapse; }
 td,th { padding:8px; text-align:left; border-bottom:1px solid #f1f5f9; }
 td.right,th.right { text-align:right; }
 
-/* Firme */
 .firme-tabella { width:100%; border-collapse:collapse; margin-top:20px; text-align:center; }
 .firme-tabella th { font-size:14px; font-weight:600; padding-bottom:8px; }
 .firme-tabella td { vertical-align:top; padding:10px; text-align:center; }
 
-/* Canvas firme */
 .firma-canvas {
   width:auto;
   height:100px;
@@ -148,7 +113,6 @@ td.right,th.right { text-align:right; }
   border:1px solid #000;
 }
 
-/* Responsive */
 @media(max-width:900px){
   form{ grid-template-columns:1fr; }
   aside.panel{ max-width:100%; }
@@ -256,102 +220,192 @@ td.right,th.right { text-align:right; }
 </div>
 
 <script>
-/* --- TUTTO IL JS ORIGINALE --- */
+/* --- JS Migliorato --- */
 let enti_strutture = [];
-const RATES = {MANUTENZIONE:25,PULIZIE:20,SANIFICAZIONE:2,DISINFESTAZIONE:4.5,DERATTIZZAZIONE:6.5};
-const progettoEl=document.getElementById('progetto'), strutturaEl=document.getElementById('struttura'), enteEl=document.getElementById('ente'), indirizzoEl=document.getElementById('indirizzo');
-const operatoriEl=document.getElementById('operatori'), totOreEl=document.getElementById('totOre'), mqEl=document.getElementById('mq');
-const manutenzioneChk=document.getElementById('manutenzione_chk'), pulizieChk=document.getElementById('pulizie_chk'), sanificazioneChk=document.getElementById('sanificazione_chk'), disinfestazioneChk=document.getElementById('disinfestazione_chk'), derattizzazioneChk=document.getElementById('derattizzazione_chk');
-const subtotalEl=document.getElementById('subtotal'), ivaEl=document.getElementById('iva'), totalEl=document.getElementById('total'), riepilogoBody=document.getElementById('riepilogoBody');
-const materialiContainer=document.getElementById('materiali-container'), aggiungiMaterialeBtn=document.getElementById('aggiungiMaterialeBtn');
+const RATES = { MANUTENZIONE:25, PULIZIE:20, SANIFICAZIONE:2, DISINFESTAZIONE:4.5, DERATTIZZAZIONE:6.5 };
+
+const progettoEl = document.getElementById('progetto');
+const strutturaEl = document.getElementById('struttura');
+const enteEl = document.getElementById('ente');
+const indirizzoEl = document.getElementById('indirizzo');
+
+const operatoriEl = document.getElementById('operatori');
+const totOreEl = document.getElementById('totOre');
+const mqEl = document.getElementById('mq');
+
+const tipoLavoro = {
+  MANUTENZIONE: document.getElementById('manutenzione_chk'),
+  PULIZIE: document.getElementById('pulizie_chk'),
+  SANIFICAZIONE: document.getElementById('sanificazione_chk'),
+  DISINFESTAZIONE: document.getElementById('disinfestazione_chk'),
+  DERATTIZZAZIONE: document.getElementById('derattizzazione_chk')
+};
+
+const materialiContainer = document.getElementById('materiali-container');
+const aggiungiMaterialeBtn = document.getElementById('aggiungiMaterialeBtn');
+
+const subtotalEl = document.getElementById('subtotal');
+const ivaEl = document.getElementById('iva');
+const totalEl = document.getElementById('total');
+const riepilogoBody = document.getElementById('riepilogoBody');
 
 async function caricaEntiStrutture() {
   try {
     const response = await fetch('enti_strutture.json');
-    if(!response.ok) throw new Error("Errore caricamento JSON");
+    if (!response.ok) throw new Error("Errore caricamento JSON");
     enti_strutture = await response.json();
     popolaProgetti();
-  } catch(e){console.error(e); alert("Impossibile caricare enti_strutture.json");}
-}
-function popolaProgetti(){
-  const progetti=[...new Set(enti_strutture.map(d=>d.Progetto))];
-  progettoEl.innerHTML="<option value=''>SELEZIONARE</option>";
-  progetti.forEach(p=>progettoEl.innerHTML+=`<option value="${p}">${p}</option>`);
-  strutturaEl.innerHTML="<option value=''>SELEZIONARE</option>"; enteEl.innerHTML="<option value=''>SELEZIONARE</option>"; indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
-}
-function popolaStrutture(){
-  const strutture=[...new Set(enti_strutture.filter(d=>d.Progetto===progettoEl.value).map(d=>d.Struttura))];
-  strutturaEl.innerHTML="<option value=''>SELEZIONARE</option>"; strutture.forEach(s=>strutturaEl.innerHTML+=`<option value="${s}">${s}</option>`);
-  enteEl.innerHTML="<option value=''>SELEZIONARE</option>"; indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
-}
-function popolaEnti(){
-  const enti=[...new Set(enti_strutture.filter(d=>d.Progetto===progettoEl.value && d.Struttura===strutturaEl.value).map(d=>d.Ente))];
-  enteEl.innerHTML="<option value=''>SELEZIONARE</option>"; enti.forEach(e=>enteEl.innerHTML+=`<option value="${e}">${e}</option>`);
-  indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
-}
-function popolaIndirizzi(){
-  const indirizzi=enti_strutture.filter(d=>d.Progetto===progettoEl.value && d.Struttura===strutturaEl.value && d.Ente===enteEl.value).map(d=>d.Indirizzo);
-  indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>"; indirizzi.forEach(i=>indirizzoEl.innerHTML+=`<option value="${i}">${i}</option>`);
-}
-function aggiungiMateriale(){
-  const div=document.createElement('div'); div.className='materiale-row';
-  div.innerHTML=`<input type="text" placeholder="Descrizione materiale"><input type="number" step="0.01" placeholder="Prezzo €"><button type="button" class="btn secondary">X</button>`;
-  div.querySelector('button').onclick=()=>{div.remove(); aggiornaRiepilogo();};
-  materialiContainer.appendChild(div);
-}
-function aggiornaRiepilogo(){
-  riepilogoBody.innerHTML=""; let subtotal=0;
-  const operatori=Number(operatoriEl.value)||0, ore=Number(totOreEl.value)||0, mq=Number(mqEl.value)||0;
-  if(manutenzioneChk.checked){const val=RATES.MANUTENZIONE*operatori*ore; subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>Manutenzione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-  if(pulizieChk.checked){const val=RATES.PULIZIE*operatori*ore; subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>Pulizie</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-  if(sanificazioneChk.checked){const val=RATES.SANIFICAZIONE*mq; subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>Sanificazione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-  if(disinfestazioneChk.checked){const val=RATES.DISINFESTAZIONE*mq; subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>Disinfestazione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-  if(derattizzazioneChk.checked){const val=RATES.DERATTIZZAZIONE*mq; subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>Derattizzazione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-  document.querySelectorAll('#materiali-container .materiale-row').forEach(row=>{
-    const desc=row.querySelector('input[type=text]').value;
-    const val=parseFloat(row.querySelector('input[type=number]').value)||0;
-    if(desc!==""){ subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>${desc}</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-  });
-  subtotalEl.textContent=subtotal.toFixed(2); const iva=subtotal*0.22; ivaEl.textContent=iva.toFixed(2);
-  totalEl.textContent=(subtotal+iva).toFixed(2);
+  } catch (e) { console.error(e); alert("Impossibile caricare enti_strutture.json"); }
 }
 
+function popolaProgetti() {
+  const progetti = [...new Set(enti_strutture.map(d => d.Progetto))];
+  progettoEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+  progetti.forEach(p => progettoEl.appendChild(new Option(p, p)));
+  strutturaEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+  enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+  indirizzoEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+}
+
+function popolaStrutture() {
+  const strutture = [...new Set(enti_strutture.filter(d => d.Progetto === progettoEl.value).map(d => d.Struttura))];
+  strutturaEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+  strutture.forEach(s => strutturaEl.appendChild(new Option(s, s)));
+  enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+  indirizzoEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+  strutturaEl.disabled = strutture.length === 0;
+}
+
+function popolaEnti() {
+  const enti = [...new Set(enti_strutture
+    .filter(d => d.Progetto === progettoEl.value && d.Struttura === strutturaEl.value)
+    .map(d => d.Ente))];
+  enteEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+  enti.forEach(e => enteEl.appendChild(new Option(e, e)));
+  indirizzoEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+  enteEl.disabled = enti.length === 0;
+}
+
+function popolaIndirizzi() {
+  const indirizzi = enti_strutture
+    .filter(d => d.Progetto === progettoEl.value && d.Struttura === strutturaEl.value && d.Ente === enteEl.value)
+    .map(d => d.Indirizzo);
+  indirizzoEl.innerHTML = "<option value=''>SELEZIONARE</option>";
+  indirizzi.forEach(i => indirizzoEl.appendChild(new Option(i, i)));
+  indirizzoEl.disabled = indirizzi.length === 0;
+}
+
+function aggiungiMateriale() {
+  const div = document.createElement('div');
+  div.className = 'materiale-row';
+  div.innerHTML = `
+    <input type="text" placeholder="Descrizione materiale">
+    <input type="number" step="0.01" placeholder="Prezzo €">
+    <button type="button" class="btn secondary">X</button>
+  `;
+  div.querySelector('button').onclick = () => { div.remove(); aggiornaRiepilogo(); };
+  materialiContainer.appendChild(div);
+}
+
+function calcolaRiepilogo() {
+  const operatori = Number(operatoriEl.value) || 0;
+  const ore = Number(totOreEl.value) || 0;
+  const mq = Number(mqEl.value) || 0;
+  let subtotal = 0;
+  const voci = [];
+
+  for (const [tipo, checkbox] of Object.entries(tipoLavoro)) {
+    if (checkbox.checked) {
+      const val = (tipo === 'MANUTENZIONE' || tipo === 'PULIZIE') ? RATES[tipo] * operatori * ore : RATES[tipo] * mq;
+      subtotal += val;
+      voci.push({ desc: tipo.charAt(0) + tipo.slice(1).toLowerCase(), val });
+    }
+  }
+
+  document.querySelectorAll('#materiali-container .materiale-row').forEach(row => {
+    const desc = row.querySelector('input[type=text]').value.trim();
+    const val = parseFloat(row.querySelector('input[type=number]').value) || 0;
+    if (desc) { subtotal += val; voci.push({ desc, val }); }
+  });
+
+  const iva = subtotal * 0.22;
+  const total = subtotal + iva;
+  return { voci, subtotal, iva, total };
+}
+
+function aggiornaRiepilogo() {
+  const { voci, subtotal, iva, total } = calcolaRiepilogo();
+  riepilogoBody.innerHTML = '';
+  voci.forEach(item => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${item.desc}</td><td class="right">${item.val.toFixed(2)}</td>`;
+    riepilogoBody.appendChild(tr);
+  });
+  subtotalEl.textContent = subtotal.toFixed(2);
+  ivaEl.textContent = iva.toFixed(2);
+  totalEl.textContent = total.toFixed(2);
+}
+
+/* --- Canvas firme --- */
 function setupCanvas(canvas){
-  const rect=canvas.getBoundingClientRect();
-  canvas.width=rect.width; canvas.height=rect.height;
-  const ctx=canvas.getContext('2d'); ctx.lineWidth=2; ctx.strokeStyle="#000"; return ctx;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+  const ctx = canvas.getContext('2d'); 
+  ctx.lineWidth = 2; ctx.strokeStyle = "#000"; 
+  return ctx;
 }
+
 function abilitaFirma(id){
-  const canvas=document.getElementById(id); const ctx=setupCanvas(canvas); let disegnando=false;
-  function getPos(e){const rect=canvas.getBoundingClientRect(); if(e.touches) return {x:e.touches[0].clientX-rect.left,y:e.touches[0].clientY-rect.top}; return {x:e.offsetX,y:e.offsetY};}
-  canvas.addEventListener('mousedown',e=>{disegnando=true; const pos=getPos(e); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);});
-  canvas.addEventListener('mousemove',e=>{if(!disegnando) return; const pos=getPos(e); ctx.lineTo(pos.x,pos.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);});
-  canvas.addEventListener('mouseup',()=>{disegnando=false; ctx.closePath();});
-  canvas.addEventListener('mouseleave',()=>{disegnando=false; ctx.closePath();});
-  canvas.addEventListener('touchstart',e=>{e.preventDefault(); disegnando=true; const pos=getPos(e); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);},{passive:false});
-  canvas.addEventListener('touchmove',e=>{e.preventDefault(); if(!disegnando) return; const pos=getPos(e); ctx.lineTo(pos.x,pos.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);},{passive:false});
-  canvas.addEventListener('touchend',e=>{e.preventDefault(); disegnando=false; ctx.closePath();},{passive:false});
+  const canvas = document.getElementById(id);
+  const ctx = setupCanvas(canvas);
+  let disegnando = false;
+  function getPos(e){const rect = canvas.getBoundingClientRect(); return e.touches ? {x:e.touches[0].clientX-rect.left,y:e.touches[0].clientY-rect.top} : {x:e.offsetX,y:e.offsetY};}
+  canvas.addEventListener('mousedown', e=>{disegnando=true; const pos=getPos(e); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);});
+  canvas.addEventListener('mousemove', e=>{if(!disegnando) return; const pos=getPos(e); ctx.lineTo(pos.x,pos.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);});
+  canvas.addEventListener('mouseup', ()=>{disegnando=false; ctx.closePath();});
+  canvas.addEventListener('mouseleave', ()=>{disegnando=false; ctx.closePath();});
+  canvas.addEventListener('touchstart', e=>{e.preventDefault(); disegnando=true; const pos=getPos(e); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);},{passive:false});
+  canvas.addEventListener('touchmove', e=>{e.preventDefault(); if(!disegnando) return; const pos=getPos(e); ctx.lineTo(pos.x,pos.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pos.x,pos.y);},{passive:false});
+  canvas.addEventListener('touchend', e=>{e.preventDefault(); disegnando=false; ctx.closePath();},{passive:false});
 }
+
 function pulisciFirma(id){const canvas=document.getElementById(id); canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height); document.getElementById(id+"_stampa").src="";}
 function salvaFirma(id){const canvas=document.getElementById(id); document.getElementById(id+"_stampa").src=canvas.toDataURL("image/png");}
 function preparaFirmePerStampa(){["firmaOperatore","firmaCliente"].forEach(id=>{const c=document.getElementById(id); document.getElementById(id+"_stampa").src=c.toDataURL("image/png");});}
 
-// Eventi
-progettoEl.addEventListener('change',()=>{popolaStrutture(); aggiornaRiepilogo();});
-strutturaEl.addEventListener('change',()=>{popolaEnti(); aggiornaRiepilogo();});
-enteEl.addEventListener('change',()=>{popolaIndirizzi(); aggiornaRiepilogo();});
-[indirizzoEl,operatoriEl,totOreEl,mqEl,manutenzioneChk,pulizieChk,sanificazioneChk,disinfestazioneChk,derattizzazioneChk].forEach(el=>el.addEventListener('change',aggiornaRiepilogo));
-aggiungiMaterialeBtn.addEventListener('click',aggiungiMateriale);
-materialiContainer.addEventListener('input',aggiornaRiepilogo);
+/* --- Eventi --- */
+progettoEl.addEventListener('change', ()=>{ popolaStrutture(); aggiornaRiepilogo(); });
+strutturaEl.addEventListener('change', ()=>{ popolaEnti(); aggiornaRiepilogo(); });
+enteEl.addEventListener('change', ()=>{ popolaIndirizzi(); aggiornaRiepilogo(); });
+[indirizzoEl, operatoriEl, totOreEl, mqEl, ...Object.values(tipoLavoro)].forEach(el => el.addEventListener('change', aggiornaRiepilogo));
+aggiungiMaterialeBtn.addEventListener('click', aggiungiMateriale);
+materialiContainer.addEventListener('input', aggiornaRiepilogo);
 
-document.getElementById('print').addEventListener('click',()=>{preparaFirmePerStampa(); window.print();});
-document.getElementById('exportJson').addEventListener('click',()=>{
-  const data={PROGETTO:progettoEl.value,STRUTTURA:strutturaEl.value,ENTE:enteEl.value,INDIRIZZO:indirizzoEl.value,DESCRIZIONE:document.getElementById('descrizione').value,OPERATORI:operatoriEl.value,ORE:totOreEl.value,MQ:mqEl.value,TIPI_LAVORO:{MANUTENZIONE:manutenzioneChk.checked,PULIZIE:pulizieChk.checked,SANIFICAZIONE:sanificazioneChk.checked,DISINFESTAZIONE:disinfestazioneChk.checked,DERATTIZZAZIONE:derattizzazioneChk.checked},MATERIALI:[]};
-  document.querySelectorAll('#materiali-container .materiale-row').forEach(r=>{const desc=r.querySelector('input[type=text]').value; const val=parseFloat(r.querySelector('input[type=number]').value)||0;if(desc!=="") data.MATERIALI.push({descrizione:desc,prezzo:val});});
-  console.log(JSON.stringify(data,null,2)); alert('JSON stampato in console.');
+document.getElementById('print').addEventListener('click', ()=>{preparaFirmePerStampa(); window.print();});
+document.getElementById('exportJson').addEventListener('click', ()=>{
+  const data = {
+    PROGETTO: progettoEl.value,
+    STRUTTURA: strutturaEl.value,
+    ENTE: enteEl.value,
+    INDIRIZZO: indirizzoEl.value,
+    DESCRIZIONE: document.getElementById('descrizione').value,
+    OPERATORI: operatoriEl.value,
+    ORE: totOreEl.value,
+    MQ: mqEl.value,
+    TIPI_LAVORO: Object.fromEntries(Object.entries(tipoLavoro).map(([k,v])=>[k,v.checked])),
+    MATERIALI: Array.from(document.querySelectorAll('#materiali-container .materiale-row'))
+      .map(r => {
+        const desc = r.querySelector('input[type=text]').value;
+        const val = parseFloat(r.querySelector('input[type=number]').value) || 0;
+        return desc ? { descrizione: desc, prezzo: val } : null;
+      }).filter(x => x)
+  };
+  console.log(JSON.stringify(data, null, 2));
+  alert('JSON stampato in console.');
 });
 
-document.addEventListener('DOMContentLoaded',()=>{caricaEntiStrutture(); abilitaFirma('firmaOperatore'); abilitaFirma('firmaCliente'); aggiornaRiepilogo();});
+document.addEventListener('DOMContentLoaded', ()=>{ caricaEntiStrutture(); abilitaFirma('firmaOperatore'); abilitaFirma('firmaCliente'); aggiornaRiepilogo(); });
 </script>
 </body>
 </html>
