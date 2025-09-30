@@ -31,7 +31,7 @@ td.right,th.right { text-align:right; }
 .header-info .title { font-size:16px; font-weight:bold; margin-bottom:5px; }
 .firme-container { display: flex; gap: 20px; justify-content: space-between; width: 100%; margin-top: 15px; flex-wrap: nowrap; }
 .firma-canvas-container { flex: 1; max-width: 48%; position: relative; }
-.firma-canvas { border:1px solid #000; cursor:crosshair; background-color:#fff; width:100%; height:150px; display:block; }
+.firma-canvas { border:1px solid #000; cursor:crosshair; background-color:#fff; width:100%; height:150px; display:block; touch-action:none; }
 .firma-stampa { display:none; border:1px solid #000; width:100%; height:150px; pointer-events:none; }
 .materiale-row { display:flex; gap:6px; margin-bottom:6px; }
 .materiale-row input[type=text]{ flex:2; } .materiale-row input[type=number]{ flex:1; }
@@ -126,7 +126,7 @@ td.right,th.right { text-align:right; }
         <h3>Firma operatore</h3>
         <canvas id="firmaOperatore" class="firma-canvas"></canvas>
         <img id="firmaOperatore_stampa" class="firma-stampa" />
-        <input type="text" id="nomeCliente" placeholder="Nome Operatore" style="margin-top:6px;width:100%;padding:6px;border:1px solid #d1d9e6;border-radius:6px;">
+        <input type="text" id="nomeOperatore" placeholder="Nome Operatore" style="margin-top:6px;width:100%;padding:6px;border:1px solid #d1d9e6;border-radius:6px;">
         <button type="button" class="btn secondary" onclick="pulisciFirma('firmaOperatore')">Pulisci firma</button>
       </div>
       <div class="firma-canvas-container">
@@ -227,24 +227,53 @@ function aggiornaRiepilogo(){
   totalEl.textContent=(subtotal+iva).toFixed(2);
 }
 
-// ================= Eventi =================
 [operatoriEl, totOreEl, mqEl, manutenzioneChk, pulizieChk, sanificazioneChk, disinfestazioneChk, derattizzazioneChk].forEach(el=>el.addEventListener('input', aggiornaRiepilogo));
 materialiContainer.addEventListener('input', aggiornaRiepilogo);
 
 // ================= Firme =================
 function inizializzaFirma(idCanvas,idImg){
-  const canvas=document.getElementById(idCanvas); const ctx=canvas.getContext('2d'); let disegno=false;
-  function ridimensiona(){canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight; ctx.lineWidth=2; ctx.lineCap='round'; ctx.strokeStyle='#000';}
-  ridimensiona(); window.addEventListener('resize',ridimensiona);
-  function inizio(e){disegno=true; ctx.beginPath(); const pos=getPos(e); ctx.moveTo(pos.x,pos.y);}
-  function muovi(e){if(!disegno) return; const pos=getPos(e); ctx.lineTo(pos.x,pos.y); ctx.stroke();}
-  function fine(){disegno=false;}
-  function getPos(e){const rect=canvas.getBoundingClientRect(); const touch=e.touches?e.touches[0]:null; const clientX=touch?touch.clientX:e.clientX; const clientY=touch?touch.clientY:e.clientY; return {x:clientX-rect.left, y:clientY-rect.top};}
-  canvas.addEventListener('mousedown',inizio); canvas.addEventListener('mousemove',muovi); canvas.addEventListener('mouseup',fine);
-  canvas.addEventListener('touchstart',inizio); canvas.addEventListener('touchmove',muovi); canvas.addEventListener('touchend',fine);
-  window[idCanvas+'_aggiornaImg']=()=>{document.getElementById(idImg).src=canvas.toDataURL();}
+  const canvas = document.getElementById(idCanvas);
+  const ctx = canvas.getContext('2d');
+  let disegno = false;
+
+  function ridimensiona() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000';
+  }
+  ridimensiona();
+  window.addEventListener('resize', () => { if (!disegno) ridimensiona(); });
+
+  function getPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches ? e.touches[0] : null;
+    const clientX = touch ? touch.clientX : e.clientX;
+    const clientY = touch ? touch.clientY : e.clientY;
+    return {x: clientX - rect.left, y: clientY - rect.top};
+  }
+
+  function inizio(e){ e.preventDefault(); disegno=true; ctx.beginPath(); const pos=getPos(e); ctx.moveTo(pos.x,pos.y); }
+  function muovi(e){ e.preventDefault(); if(!disegno) return; const pos=getPos(e); ctx.lineTo(pos.x,pos.y); ctx.stroke(); }
+  function fine(){ disegno=false; }
+
+  canvas.addEventListener('mousedown',inizio);
+  canvas.addEventListener('mousemove',muovi);
+  canvas.addEventListener('mouseup',fine);
+  canvas.addEventListener('touchstart',inizio);
+  canvas.addEventListener('touchmove',muovi);
+  canvas.addEventListener('touchend',fine);
+
+  window[idCanvas+'_aggiornaImg'] = () => {
+    document.getElementById(idImg).src = canvas.toDataURL();
+  };
 }
-function pulisciFirma(idCanvas){const canvas=document.getElementById(idCanvas); canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height); window[idCanvas+'_aggiornaImg']();}
+function pulisciFirma(idCanvas){
+  const canvas = document.getElementById(idCanvas);
+  canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  window[idCanvas+'_aggiornaImg']();
+}
 inizializzaFirma('firmaOperatore','firmaOperatore_stampa');
 inizializzaFirma('firmaCliente','firmaCliente_stampa');
 
