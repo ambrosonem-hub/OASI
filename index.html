@@ -288,6 +288,31 @@ document.getElementById('exportJson').addEventListener('click',()=>{
   const blob=new Blob([JSON.stringify(dati,null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download="ordine_servizio.json"; a.click(); URL.revokeObjectURL(url);
 });
+// ================= Calcolo automatico ore =================
+function calcolaOreAutomatico() {
+  const inizio = document.getElementById('oraInizio').value;
+  const fine = document.getElementById('oraFine').value;
+
+  if (inizio && fine) {
+    const [h1, m1] = inizio.split(':').map(Number);
+    const [h2, m2] = fine.split(':').map(Number);
+
+    // Converto tutto in minuti
+    const minutiInizio = h1 * 60 + m1;
+    const minutiFine = h2 * 60 + m2;
+
+    let diff = (minutiFine - minutiInizio) / 60; // in ore
+
+    if (diff < 0) diff = 0; // Evito valori negativi
+
+    document.getElementById('totOre').value = diff.toFixed(2);
+    aggiornaRiepilogo();
+  }
+}
+
+// Aggiorno ore ogni volta che cambia ora inizio/fine
+document.getElementById('oraInizio').addEventListener('change', calcolaOreAutomatico);
+document.getElementById('oraFine').addEventListener('change', calcolaOreAutomatico);
 
 // ================= Init =================
 caricaEntiStrutture();
