@@ -181,6 +181,12 @@
   },
   {
     "Progetto":"SAI VILLAMAINA",
+    "Struttura":"GUARDIA DEI LOMBARDI",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA PIAZZA DELLA VITTORIA"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
     "Struttura":"VILLAMAINA",
     "Ente":"INTRA",
     "Indirizzo":"VIA PACE"
@@ -225,25 +231,31 @@
     "Progetto":"SAI VILLAMAINA",
     "Struttura":"MORRA DE SANCTIS",
     "Ente":"PERCORSI",
-    "Indirizzo":"VIA ROMA"
+    "Indirizzo":"VIA ROMA 68"
   },
   {
     "Progetto":"SAI VILLAMAINA",
     "Struttura":"MORRA DE SANCTIS",
     "Ente":"PERCORSI",
-    "Indirizzo":null
+    "Indirizzo":"VIA LONGOBARDI 86"
   },
   {
     "Progetto":"SAI VILLAMAINA",
     "Struttura":"MORRA DE SANCTIS",
     "Ente":"PERCORSI",
-    "Indirizzo":null
+    "Indirizzo":"VIA SAN ROCCO"
   },
   {
     "Progetto":"SAI VILLAMAINA",
     "Struttura":"MORRA DE SANCTIS",
     "Ente":"PERCORSI",
-    "Indirizzo":null
+    "Indirizzo":"VIA SANT'ANTUONO ZONA 3 "
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"MORRA DE SANCTIS",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA LONGORBARDI UFFICIO"
   },
   {
     "Progetto":"SAI VILLAMAINA",
@@ -274,6 +286,12 @@
     "Struttura":"ROCCA SAN FELICE",
     "Ente":"INTRA",
     "Indirizzo":"VIA M. SANTOLI CENTRO STORICO APP 5"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"ROCCA SAN FELICE",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA M. SANTOLI CENTRO STORICO APP UFFICIO"
   },
   {
     "Progetto":"SAI PETRURO",
