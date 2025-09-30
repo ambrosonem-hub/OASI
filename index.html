@@ -1,48 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ordine di Servizio — Irpinia Logistica</title>
 <style>
-:root{--accent:#0b67ff;}
-body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;background:#f5f7fb;color:#1f2937;padding:24px;display:flex;justify-content:center;align-items:center;}
-.container{width:100%;max-width:980px;background:#fff;border-radius:12px;box-shadow:0 6px 24px rgba(20,30,60,0.08);padding:20px;}
-h1{text-align:center;margin-bottom:10px;}
-form{display:grid;grid-template-columns:1fr 320px;gap:18px;}
-.panel{background:#fbfdff;border:1px solid #e6eefb;padding:12px;border-radius:8px;}
-label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
-.field{margin-bottom:12px;}
-select,input[type="text"],input[type="number"],textarea,input[type="time"],input[type="date"]{width:100%;padding:8px;border:1px solid #d1d9e6;border-radius:6px;font-size:14px;box-sizing:border-box;}
-textarea{min-height:80px;resize:vertical;}
-.btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;}
-.btn.secondary{background:#fff;color:var(--accent);border:1px solid #cfe0ff;}
-.summary{background:#fff;padding:12px;border-radius:8px;border:1px solid #eef2ff;}
-table{width:100%;border-collapse:collapse;}
-td,th{padding:8px;text-align:left;border-bottom:1px solid #f1f5f9;}
-td.right,th.right{text-align:right;}
-.firme-container{display:flex;gap:20px;justify-content:space-between;width:100%;margin-top:15px;flex-wrap:wrap;}
-.firma-canvas-container{flex:1;max-width:48%;position:relative;}
-.firma-canvas{border:1px solid #000;cursor:crosshair;background-color:#fff;width:100%;height:150px;display:block;}
-.firma-stampa{display:none;border:1px solid #000;width:100%;height:150px;pointer-events:none;}
-.firma-nome{margin-top:5px;font-size:13px;}
-.materiale-row{display:flex;gap:6px;margin-bottom:6px;}
-.materiale-row input[type=text]{flex:2;}
-.materiale-row input[type=number]{flex:1;}
-.riepilogo-testo{font-size:12px;margin-top:10px;color:#475569;}
-@media(max-width:900px){form{grid-template-columns:1fr}.firma-canvas{max-width:100%;}}
+:root { --max-width:980px; --gap:12px; --accent:#0b67ff; }
+body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+       background:#f5f7fb; color:#1f2937; padding:24px;
+       display:flex; justify-content:center; flex-direction:column; align-items:center; }
+.container { width:100%; max-width:var(--max-width); background:#fff; border-radius:12px;
+            box-shadow:0 6px 24px rgba(20,30,60,0.08); padding:20px; }
+h1 { font-size:20px; margin:0 0 8px; text-align:center; }
+form { display:grid; grid-template-columns:1fr 320px; gap:18px; }
+.panel { background:#fbfdff; border:1px solid #e6eefb; padding:12px; border-radius:8px; }
+label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; }
+.field { margin-bottom:12px; }
+select,input[type="text"],input[type="number"],textarea { width:100%; padding:8px; border:1px solid #d1d9e6; border-radius:6px; font-size:14px; box-sizing:border-box; }
+textarea { min-height:80px; resize:vertical; }
+.small { font-size:13px; color:#475569; }
+.btn { background:var(--accent); color:#fff; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
+.btn.secondary { background:#fff; color:var(--accent); border:1px solid #cfe0ff; }
+.summary { background:#fff; padding:12px; border-radius:8px; border:1px solid #eef2ff; }
+table { width:100%; border-collapse:collapse; }
+td,th { padding:8px; text-align:left; border-bottom:1px solid #f1f5f9; }
+td.right,th.right { text-align:right; }
+.logo-container { text-align:center; margin-bottom:10px; }
+.logo-container img { max-width:177px; max-height:118px; height:auto; }
+.header-info { text-align:center; font-size:13px; line-height:1.2; margin-bottom:20px; }
+.header-info .title { font-size:16px; font-weight:bold; margin-bottom:5px; }
+.firme-container { display: flex; gap: 20px; justify-content: space-between; width: 100%; margin-top: 15px; flex-wrap: nowrap; }
+.firma-canvas-container { flex: 1; max-width: 48%; position: relative; }
+.firma-canvas { border:1px solid #000; cursor:crosshair; background-color:#fff; width:100%; height:150px; display:block; }
+.firma-stampa { display:none; border:1px solid #000; width:100%; height:150px; pointer-events:none; }
+.materiale-row { display:flex; gap:6px; margin-bottom:6px; }
+.materiale-row input[type=text]{ flex:2; } .materiale-row input[type=number]{ flex:1; }
+@media(max-width:900px){
+  form{grid-template-columns:1fr}
+  .firma-canvas{max-width:100%;}
+}
 @media print{
-  @page{size:A4 portrait;margin:15mm;}
-  body{padding:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .container{width:100%;max-width:100%;box-shadow:none;border-radius:0;padding:0;display:block;}
-  .btn,.firma-canvas-container button,.small.muted{display:none !important;}
-  .firma-canvas{display:none !important;}
-  .firma-stampa{display:block !important;width:150px;height:75px;margin-bottom:5px;}
+  @page {size:A4 portrait;margin:15mm;}
+  body {padding:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .container {width:100%; max-width:100%; box-shadow:none; border-radius:0; padding:0; display:block;}
+  .btn,.firma-canvas-container button,.small.muted {display:none !important;}
+  .firma-canvas { display: none !important; }
+  .firma-canvas-container { display: flex; flex-direction: column; align-items: center; }
+  .firma-canvas-container h3 { display: block !important; text-align:center; margin-bottom:5px; }
+  .firma-stampa { display: block !important; width:150px; height:75px; margin-bottom:5px; }
 }
 </style>
 </head>
 <body>
 <div class="container">
+  <div class="logo-container"><img src="logo.jpg" alt="Logo Azienda"/></div>
+  <div class="header-info">
+    <div class="title">Sede Legale:</div>
+    <div>Via Municipio, n. 14 - 83040 Fontanarosa (AV)</div>
+    <div>Info – 082545553</div>
+    <div>Mail - irpinialogistica@gmail.com</div>
+    <div>PEC - irpinialogistica@pec.it</div>
+    <div>C.F. / Partita IVA 03196380640</div>
+  </div>
   <h1>ORDINE DI SERVIZIO</h1>
   <form id="moduloForm" autocomplete="off">
     <div>
@@ -77,6 +96,14 @@ td.right,th.right{text-align:right;}
           <div id="materiali-container"></div>
           <button type="button" class="btn secondary" id="aggiungiMaterialeBtn">Aggiungi materiale</button>
         </div>
+        <p class="small">
+          COSTI DEL PERSONALE E DEI SERVIZI SVOLTI DA IRPINIA LOGISTICA SOCIETA’ COOP.SOC. ETS<br>
+          - Il costo della manutenzione è di 25,00€ l’ora per singolo operatore<br>
+          - Il costo del servizio di pulizia è di 20.00€ l’ora per singolo operatore<br>
+          - Il costo della sanificazione a metro quadro è di 2.00€<br>
+          - Il costo della disinfestazione a metro quadro è di 4.50€<br>
+          - Il costo della derattizzazione a metro quadro è di 6.50€
+        </p>
       </div>
     </div>
     <aside class="panel">
@@ -88,14 +115,6 @@ td.right,th.right{text-align:right;}
           <span>IVA € <span id="iva">0.00</span></span> | 
           <span>Totale € <span id="total">0.00</span></span>
         </div>
-        <div class="riepilogo-testo">
-          COSTI DEL PERSONALE E DEI SERVIZI SVOLTI DA IRPINIA LOGISTICA SOCIETA’ COOP.SOC. ETS<br>
-          - Il costo della manutenzione è di 25,00€ l’ora per singolo operatore<br>
-          - Il costo del servizio di pulizia è di 20,00€ l’ora per singolo operatore<br>
-          - Il costo della sanificazione a metro quadro è di 2,00€<br>
-          - Il costo della disinfestazione a metro quadro è di 4,50€<br>
-          - Il costo della derattizzazione a metro quadro è di 6,50€
-        </div>
       </div>
       <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end;">
         <button type="button" class="btn" id="print">Stampa / Salva PDF</button>
@@ -106,35 +125,34 @@ td.right,th.right{text-align:right;}
       <div class="firma-canvas-container">
         <h3>Firma operatore</h3>
         <canvas id="firmaOperatore" class="firma-canvas"></canvas>
-        <input type="text" id="nomeOperatore" placeholder="Nome operatore" class="firma-nome"/>
-        <img id="firmaOperatore_stampa" class="firma-stampa"/>
+        <img id="firmaOperatore_stampa" class="firma-stampa" />
+        <input type="text" id="nomeCliente" placeholder="Nome Operatore" style="margin-top:6px;width:100%;padding:6px;border:1px solid #d1d9e6;border-radius:6px;">
+        <button type="button" class="btn secondary" onclick="pulisciFirma('firmaOperatore')">Pulisci firma</button>
       </div>
       <div class="firma-canvas-container">
         <h3>Firma cliente</h3>
         <canvas id="firmaCliente" class="firma-canvas"></canvas>
-        <input type="text" id="nomeCliente" placeholder="Nome cliente" class="firma-nome"/>
-        <img id="firmaCliente_stampa" class="firma-stampa"/>
+        <img id="firmaCliente_stampa" class="firma-stampa" />
+        <input type="text" id="nomeCliente" placeholder="Nome Cliente" style="margin-top:6px;width:100%;padding:6px;border:1px solid #d1d9e6;border-radius:6px;">
+        <button type="button" class="btn secondary" onclick="pulisciFirma('firmaCliente')">Pulisci firma</button>
       </div>
     </div>
   </form>
 </div>
 
 <script>
-// ================= Dati JSON =================
-let enti_strutture=[];
-async function caricaEntiStrutture(){
-  try{
-    const response=await fetch('enti_strutture.json');
-    if(!response.ok) throw new Error('Errore caricamento JSON');
-    enti_strutture=await response.json();
+// ================= JSON =================
+let enti_strutture = [];
+async function caricaEntiStrutture() {
+  try {
+    const response = await fetch('enti_strutture.json');
+    if(!response.ok) throw new Error("Errore caricamento JSON");
+    enti_strutture = await response.json();
     popolaProgetti();
-  }catch(e){
-    console.error(e);
-    alert("Impossibile caricare enti_strutture.json. Controlla percorso su GitHub Pages.");
-  }
+  } catch(e){console.error(e); alert("Impossibile caricare enti_strutture.json");}
 }
 
-// ================= Popolamento select =================
+// ================= Select cascading =================
 const progettoEl=document.getElementById('progetto');
 const strutturaEl=document.getElementById('struttura');
 const enteEl=document.getElementById('ente');
@@ -144,112 +162,105 @@ function popolaProgetti(){
   const progetti=[...new Set(enti_strutture.map(d=>d.Progetto))];
   progettoEl.innerHTML="<option value=''>SELEZIONARE</option>";
   progetti.forEach(p=>progettoEl.innerHTML+=`<option value="${p}">${p}</option>`);
-  popolaStrutture(); popolaEnti(); popolaIndirizzi();
+  strutturaEl.innerHTML="<option value=''>SELEZIONARE</option>";
+  enteEl.innerHTML="<option value=''>SELEZIONARE</option>";
+  indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
 }
+
 function popolaStrutture(){
   const strutture=[...new Set(enti_strutture.filter(d=>d.Progetto===progettoEl.value).map(d=>d.Struttura))];
   strutturaEl.innerHTML="<option value=''>SELEZIONARE</option>";
   strutture.forEach(s=>strutturaEl.innerHTML+=`<option value="${s}">${s}</option>`);
-  popolaEnti(); popolaIndirizzi();
+  enteEl.innerHTML="<option value=''>SELEZIONARE</option>";
+  indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
 }
+
 function popolaEnti(){
   const enti=[...new Set(enti_strutture.filter(d=>d.Progetto===progettoEl.value && d.Struttura===strutturaEl.value).map(d=>d.Ente))];
   enteEl.innerHTML="<option value=''>SELEZIONARE</option>";
   enti.forEach(e=>enteEl.innerHTML+=`<option value="${e}">${e}</option>`);
-  popolaIndirizzi();
+  indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
 }
+
 function popolaIndirizzi(){
   const indirizzi=[...new Set(enti_strutture.filter(d=>d.Progetto===progettoEl.value && d.Struttura===strutturaEl.value && d.Ente===enteEl.value).map(d=>d.Indirizzo))];
   indirizzoEl.innerHTML="<option value=''>SELEZIONARE</option>";
   indirizzi.forEach(i=>indirizzoEl.innerHTML+=`<option value="${i}">${i}</option>`);
 }
 
+progettoEl.addEventListener('change',()=>{popolaStrutture(); aggiornaRiepilogo();});
+strutturaEl.addEventListener('change',()=>{popolaEnti(); aggiornaRiepilogo();});
+enteEl.addEventListener('change',()=>{popolaIndirizzi(); aggiornaRiepilogo();});
+indirizzoEl.addEventListener('change',aggiornaRiepilogo);
+
 // ================= Materiali =================
 const materialiContainer=document.getElementById('materiali-container');
 const aggiungiMaterialeBtn=document.getElementById('aggiungiMaterialeBtn');
-function aggiungiMateriale(){
+aggiungiMaterialeBtn.addEventListener('click',()=>{
   const div=document.createElement('div'); div.className='materiale-row';
   div.innerHTML=`<input type="text" placeholder="Descrizione materiale"><input type="number" step="0.01" placeholder="Prezzo €"><button type="button" class="btn secondary">X</button>`;
   div.querySelector('button').onclick=()=>{div.remove(); aggiornaRiepilogo();};
   materialiContainer.appendChild(div);
-}
+});
 
 // ================= Riepilogo =================
-const operatoriEl=document.getElementById('operatori');
-const totOreEl=document.getElementById('totOre');
-const mqEl=document.getElementById('mq');
-const manutenzioneChk=document.getElementById('manutenzione_chk');
-const pulizieChk=document.getElementById('pulizie_chk');
-const sanificazioneChk=document.getElementById('sanificazione_chk');
-const disinfestazioneChk=document.getElementById('disinfestazione_chk');
-const derattizzazioneChk=document.getElementById('derattizzazione_chk');
-const riepilogoBody=document.getElementById('riepilogoBody');
-const subtotalEl=document.getElementById('subtotal');
-const ivaEl=document.getElementById('iva');
-const totalEl=document.getElementById('total');
+const operatoriEl=document.getElementById('operatori'), totOreEl=document.getElementById('totOre'), mqEl=document.getElementById('mq');
+const manutenzioneChk=document.getElementById('manutenzione_chk'), pulizieChk=document.getElementById('pulizie_chk'), sanificazioneChk=document.getElementById('sanificazione_chk'), disinfestazioneChk=document.getElementById('disinfestazione_chk'), derattizzazioneChk=document.getElementById('derattizzazione_chk');
+const subtotalEl=document.getElementById('subtotal'), ivaEl=document.getElementById('iva'), totalEl=document.getElementById('total'), riepilogoBody=document.getElementById('riepilogoBody');
 
 function aggiornaRiepilogo(){
-  riepilogoBody.innerHTML=""; let subtotal=0;
-  const operatori=Number(operatoriEl.value)||0;
-  const ore=Number(totOreEl.value)||0;
-  const mq=Number(mqEl.value)||0;
-
-  if(manutenzioneChk.checked){const val=25*operatori*ore; subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>Manutenzione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-  if(pulizieChk.checked){const val=20*operatori*ore; subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>Pulizie</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-  if(sanificazioneChk.checked){const val=2*mq; subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>Sanificazione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-  if(disinfestazioneChk.checked){const val=4.5*mq; subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>Disinfestazione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-  if(derattizzazioneChk.checked){const val=6.5*mq; subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>Derattizzazione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
-
-  document.querySelectorAll('#materiali-container .materiale-row').forEach(row=>{
-    const desc=row.children[0].value;
-    const val=parseFloat(row.children[1].value)||0;
-    if(desc!==""){ subtotal+=val; riepilogoBody.innerHTML+=`<tr><td>${desc}</td><td class="right">${val.toFixed(2)}</td></tr>`;}
+  riepilogoBody.innerHTML=""; let subtotal=0; let iva=0;
+  const operatori=Number(operatoriEl.value)||0, ore=Number(totOreEl.value)||0, mq=Number(mqEl.value)||0;
+  if(manutenzioneChk.checked){const val=25*operatori*ore; subtotal+=val; iva+=0.1*val; riepilogoBody.innerHTML+=`<tr><td>Manutenzione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
+  if(pulizieChk.checked){const val=20*operatori*ore; subtotal+=val; /* IVA 0 */ riepilogoBody.innerHTML+=`<tr><td>Pulizie</td><td class="right">${val.toFixed(2)}</td></tr>`;}
+  if(sanificazioneChk.checked){const val=2*mq; subtotal+=val; iva+=0.22*val; riepilogoBody.innerHTML+=`<tr><td>Sanificazione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
+  if(disinfestazioneChk.checked){const val=4.5*mq; subtotal+=val; iva+=0.22*val; riepilogoBody.innerHTML+=`<tr><td>Disinfestazione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
+  if(derattizzazioneChk.checked){const val=6.5*mq; subtotal+=val; iva+=0.22*val; riepilogoBody.innerHTML+=`<tr><td>Derattizzazione</td><td class="right">${val.toFixed(2)}</td></tr>`;}
+  Array.from(materialiContainer.querySelectorAll('div.materiale-row')).forEach(row=>{
+    const prezzo=Number(row.querySelector('input[type=number]').value)||0;
+    const desc=row.querySelector('input[type=text]').value||'Materiale';
+    subtotal+=prezzo; iva+=0.22*prezzo;
+    riepilogoBody.innerHTML+=`<tr><td>${desc}</td><td class="right">${prezzo.toFixed(2)}</td></tr>`;
   });
-
-  // Calcolo IVA
-  let iva=0;
-  if(manutenzioneChk.checked) iva += 0.1*25*operatori*ore;
-  if(sanificazioneChk.checked) iva += 0.22*2*mq;
-  if(disinfestazioneChk.checked) iva += 0.22*4.5*mq;
-  if(derattizzazioneChk.checked) iva += 0.22*6.5*mq;
   subtotalEl.textContent=subtotal.toFixed(2);
   ivaEl.textContent=iva.toFixed(2);
   totalEl.textContent=(subtotal+iva).toFixed(2);
 }
 
 // ================= Eventi =================
-[progettoEl,strutturaEl,enteEl,indirizzoEl,operatoriEl,totOreEl,mqEl,manutenzioneChk,pulizieChk,sanificazioneChk,disinfestazioneChk,derattizzazioneChk].forEach(el=>el.addEventListener('input', aggiornaRiepilogo));
-aggiungiMaterialeBtn.addEventListener('click', aggiungiMateriale);
+[operatoriEl, totOreEl, mqEl, manutenzioneChk, pulizieChk, sanificazioneChk, disinfestazioneChk, derattizzazioneChk].forEach(el=>el.addEventListener('input', aggiornaRiepilogo));
+materialiContainer.addEventListener('input', aggiornaRiepilogo);
 
-// ================= Firma =================
-function setupFirma(canvasId,imgId){
-  const canvas=document.getElementById(canvasId);
-  const img=document.getElementById(imgId);
-  const ctx=canvas.getContext('2d'); ctx.lineWidth=2; ctx.strokeStyle="#000"; ctx.lineCap='round';
-  let drawing=false;
-  canvas.addEventListener('pointerdown',e=>{drawing=true; ctx.beginPath(); ctx.moveTo(e.offsetX,e.offsetY);});
-  canvas.addEventListener('pointermove',e=>{if(drawing){ctx.lineTo(e.offsetX,e.offsetY);ctx.stroke();}});
-  canvas.addEventListener('pointerup',e=>{drawing=false; img.src=canvas.toDataURL();});
-  canvas.addEventListener('pointerleave',e=>{drawing=false; img.src=canvas.toDataURL();});
+// ================= Firme =================
+function inizializzaFirma(idCanvas,idImg){
+  const canvas=document.getElementById(idCanvas); const ctx=canvas.getContext('2d'); let disegno=false;
+  function ridimensiona(){canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight; ctx.lineWidth=2; ctx.lineCap='round'; ctx.strokeStyle='#000';}
+  ridimensiona(); window.addEventListener('resize',ridimensiona);
+  function inizio(e){disegno=true; ctx.beginPath(); const pos=getPos(e); ctx.moveTo(pos.x,pos.y);}
+  function muovi(e){if(!disegno) return; const pos=getPos(e); ctx.lineTo(pos.x,pos.y); ctx.stroke();}
+  function fine(){disegno=false;}
+  function getPos(e){const rect=canvas.getBoundingClientRect(); const touch=e.touches?e.touches[0]:null; const clientX=touch?touch.clientX:e.clientX; const clientY=touch?touch.clientY:e.clientY; return {x:clientX-rect.left, y:clientY-rect.top};}
+  canvas.addEventListener('mousedown',inizio); canvas.addEventListener('mousemove',muovi); canvas.addEventListener('mouseup',fine);
+  canvas.addEventListener('touchstart',inizio); canvas.addEventListener('touchmove',muovi); canvas.addEventListener('touchend',fine);
+  window[idCanvas+'_aggiornaImg']=()=>{document.getElementById(idImg).src=canvas.toDataURL();}
 }
-setupFirma('firmaOperatore','firmaOperatore_stampa');
-setupFirma('firmaCliente','firmaCliente_stampa');
+function pulisciFirma(idCanvas){const canvas=document.getElementById(idCanvas); canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height); window[idCanvas+'_aggiornaImg']();}
+inizializzaFirma('firmaOperatore','firmaOperatore_stampa');
+inizializzaFirma('firmaCliente','firmaCliente_stampa');
 
-// ================= Stampa / Export =================
-document.getElementById('print').onclick=()=>window.print();
-document.getElementById('exportJson').onclick=()=>{
-  const data={progetto:progettoEl.value,struttura:strutturaEl.value,ente:enteEl.value,indirizzo:indirizzoEl.value,descrizione:document.getElementById('descrizione').value,
-    dataLavoro:document.getElementById('dataLavoro').value,oraInizio:document.getElementById('oraInizio').value,oraFine:document.getElementById('oraFine').value,
-    operatori:operatoriEl.value,totOre:totOreEl.value,mq:mqEl.value,
-    manutenzione:manutenzioneChk.checked,pulizie:pulizieChk.checked,sanificazione:sanificazioneChk.checked,disinfestazione:disinfestazioneChk.checked,derattizzazione:derattizzazioneChk.checked,
-    materiali:Array.from(document.querySelectorAll('#materiali-container .materiale-row')).map(row=>({desc:row.children[0].value,prezzo:row.children[1].value})),
-    nomeOperatore:document.getElementById('nomeOperatore').value,nomeCliente:document.getElementById('nomeCliente').value};
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download='ordine_servizio.json'; a.click(); URL.revokeObjectURL(url);
-}
+// ================= Stampa =================
+document.getElementById('print').addEventListener('click',()=>{
+  window.firmaOperatore_aggiornaImg(); window.firmaCliente_aggiornaImg(); window.print();
+});
 
-// ================= Inizializzazione =================
+// ================= JSON export =================
+document.getElementById('exportJson').addEventListener('click',()=>{
+  const dati={progetto:progettoEl.value,struttura:strutturaEl.value,ente:enteEl.value,indirizzo:indirizzoEl.value,descrizione:document.getElementById('descrizione').value,data:document.getElementById('dataLavoro').value,oraInizio:document.getElementById('oraInizio').value,oraFine:document.getElementById('oraFine').value,operatori:operatoriEl.value,totOre:totOreEl.value,mq:mqEl.value,tipoLavoro:{manutenzione:manutenzioneChk.checked,pulizie:pulizieChk.checked,sanificazione:sanificazioneChk.checked,disinfestazione:disinfestazioneChk.checked,derattizzazione:derattizzazioneChk.checked},materiali:Array.from(materialiContainer.querySelectorAll('div.materiale-row')).map(r=>({descrizione:r.querySelector('input[type=text]').value,prezzo:r.querySelector('input[type=number]').value})),nomeOperatore:document.getElementById('nomeOperatore').value,nomeCliente:document.getElementById('nomeCliente').value,firmaOperatore:document.getElementById('firmaOperatore_stampa').src,firmaCliente:document.getElementById('firmaCliente_stampa').src};
+  const blob=new Blob([JSON.stringify(dati,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download="ordine_servizio.json"; a.click(); URL.revokeObjectURL(url);
+});
+
+// ================= Init =================
 caricaEntiStrutture();
 </script>
 </body>
