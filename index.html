@@ -52,19 +52,17 @@ td.right,th.right { text-align:right; }
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="logo-container"><img src="logo.jpg" alt="Logo Azienda"/></div>
-  <div class="header-info">
-    <div class="title">Sede Legale:</div>
-    <div>Via Municipio, n. 14 - 83040 Fontanarosa (AV)</div>
-    <div>Info – 082545553</div>
-    <div>Mail - irpinialogistica@gmail.com</div>
-    <div>PEC - irpinialogistica@pec.it</div>
-    <div>C.F. / Partita IVA 03196380640</div>
-  </div>
   <h1>ORDINE DI SERVIZIO</h1>
   <form id="moduloForm" autocomplete="off">
-    <div>
+ <div class="field">
+  <label for="azienda">Azienda</label>
+  <select id="azienda">
+    <option value="">SELEZIONARE</option>
+    <option value=“OASI PROJECT”>OASI PROJECT</option>
+    <option value=“IRPINIA LOGISTICA”>IRPINIA LOGISTICA</option>
+  </select>
+</div>
+
       <div class="panel">
         <div class="field"><label for="progetto">Progetto</label><select id="progetto"></select></div>
         <div class="field"><label for="struttura">Struttura</label><select id="struttura"></select></div>
