@@ -19,15 +19,10 @@ label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; }
 select,input[type="text"],input[type="number"],textarea { width:100%; padding:8px; border:1px solid #d1d9e6; border-radius:6px; font-size:14px; box-sizing:border-box; }
 textarea {
   min-height: 80px;
-  resize: none;
-  overflow: hidden;
-  box-sizing: border-box;
-  width: 100%;
+  resize: none;           /* blocca il resize manuale */
+  overflow: hidden;       /* niente scrollbar */
+  transition: height 0.2s ease;
 }
-
-
-.small { font-size:13px; color:#475569; }
-.btn { background:var(--accent); color:#fff; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
 .btn.secondary { background:#fff; color:var(--accent); border:1px solid #cfe0ff; }
 .summary { background:#fff; padding:12px; border-radius:8px; border:1px solid #eef2ff; }
 table { width:100%; border-collapse:collapse; }
@@ -62,7 +57,10 @@ td.right,th.right { text-align:right; }
 <body>
   <h1>ORDINE DI SERVIZIO</h1>
   <form id="moduloForm" autocomplete="off">
- <div class="field">
+
+
+      <div class="panel">
+           <div class="field">
   <label for="azienda">Azienda</label>
   <select id="azienda">
     <option value="">SELEZIONARE</option>
@@ -70,8 +68,6 @@ td.right,th.right { text-align:right; }
     <option value=“IRPINIA LOGISTICA”>IRPINIA LOGISTICA</option>
   </select>
 </div>
-
-      <div class="panel">
         <div class="field"><label for="progetto">Progetto</label><select id="progetto"></select></div>
         <div class="field"><label for="struttura">Struttura</label><select id="struttura"></select></div>
         <div class="field"><label for="ente">Ente</label><select id="ente"></select></div>
