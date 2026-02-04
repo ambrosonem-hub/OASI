@@ -1,446 +1,536 @@
-	
-0	
-Progetto	"SAI A01"
-Struttura	"FONTANAROSA"
-Ente	"PERCORSI"
-Indirizzo	"VIA PRINCIPE DI PIEMONTE"
-1	
-Progetto	"SAI A01"
-Struttura	"FONTANAROSA"
-Ente	"PERCORSI"
-Indirizzo	"VIALE RINASCITA"
-2	
-Progetto	"SAI A01"
-Struttura	"FONTANAROSA"
-Ente	"PERCORSI"
-Indirizzo	"VIA MERCATO"
-3	
-Progetto	"SAI A01"
-Struttura	"FONTANAROSA"
-Ente	"PERCORSI"
-Indirizzo	"VIA PASTENE"
-4	
-Progetto	"SAI A01"
-Struttura	"S. ANGELO ALL'ESCA"
-Ente	"PERCORSI"
-Indirizzo	"VIA ROMA"
-5	
-Progetto	"SAI A01"
-Struttura	"S. ANGELO ALL'ESCA"
-Ente	"PERCORSI"
-Indirizzo	"VIA BELVEDERE 10"
-6	
-Progetto	"SAI A01"
-Struttura	"SAN NICOLA BARONIA"
-Ente	"PERCORSI"
-Indirizzo	"VIA VITTORIO VENETO"
-7	
-Progetto	"SAI A01"
-Struttura	"ARIANO IRPINO"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA CAMPOREALE APP.1"
-8	
-Progetto	"SAI A01"
-Struttura	"ARIANO IRPINO"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA CAMPOREALE APP.2"
-9	
-Progetto	"SAI A01"
-Struttura	"ARIANO IRPINO"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA CAMPOREALE APP.3"
-10	
-Progetto	"SAI A01"
-Struttura	"ARIANO IRPINO"
-Ente	"SOLIDARCI"
-Indirizzo	" VIA CAMPOREALE APP. 4"
-11	
-Progetto	"SAI A01"
-Struttura	"ARIANO IRPINO"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA SANT'ANTONIO"
-12	
-Progetto	"SAI A01"
-Struttura	"S. ANGELO ALL'ESCA"
-Ente	"SOLIDARCI"
-Indirizzo	"UFFICIO SALITA SAN MICHELE"
-13	
-Progetto	"SAI A01"
-Struttura	"FRIGENTO"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA TAVERNA BIANCA"
-14	
-Progetto	"SAI A01"
-Struttura	"S. ANGELO ALL'ESCA"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA DANTE"
-15	
-Progetto	"SAI A01"
-Struttura	"S. ANGELO ALL'ESCA"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA MAFFEI"
-16	
-Progetto	"SAI A01"
-Struttura	"S. ANGELO ALL'ESCA"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA PERAINE"
-17	
-Progetto	"SAI A01"
-Struttura	"S. ANGELO ALL'ESCA"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA PRISCO DE MUSIS 4"
-18	
-Progetto	"SAI A01"
-Struttura	"PATERNOPOLI"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA SAN FRANCESCO 4 "
-19	
-Progetto	"SAI A01"
-Struttura	"PATERNOPOLI"
-Ente	"SOLIDARCI"
-Indirizzo	"VIA SCALA SANTA 20"
-20	
-Progetto	"SAI A01"
-Struttura	"PATERNOPOLI"
-Ente	"INTRA"
-Indirizzo	"VIA MODESTINO"
-21	
-Progetto	"SAI A01"
-Struttura	"SAN NICOLA BARONIA"
-Ente	"INTRA"
-Indirizzo	"VIA VINCENZO LEONE"
-22	
-Progetto	"SAI A01"
-Struttura	"FRIGENTO"
-Ente	"INTRA"
-Indirizzo	"VIA PIANO DELLA CROCE"
-23	
-Progetto	"SAI A01"
-Struttura	"FRIGENTO"
-Ente	"INTRA"
-Indirizzo	"VIA PALATUCCI"
-24	
-Progetto	"SAI A01"
-Struttura	"VALLESACCARDA"
-Ente	"INTRA"
-Indirizzo	"VIA TAVERNA DELLE NOCI"
-25	
-Progetto	"SAI A01"
-Struttura	"PATERNOPOLI"
-Ente	"INTRA"
-Indirizzo	"VIA TORRE"
-26	
-Progetto	"SAI VILLAMAINA"
-Struttura	"GUARDIA DEI LOMBARDI"
-Ente	"PERCORSI"
-Indirizzo	"VIA G. FISCHIETTI"
-27	
-Progetto	"SAI VILLAMAINA"
-Struttura	"GUARDIA DEI LOMBARDI"
-Ente	"PERCORSI"
-Indirizzo	"VIA LONGOBARDA"
-28	
-Progetto	"SAI VILLAMAINA"
-Struttura	"GUARDIA DEI LOMBARDI"
-Ente	"PERCORSI"
-Indirizzo	"VIA PIAZZA DELLA VITTORIA 12"
-29	
-Progetto	"SAI VILLAMAINA"
-Struttura	"GUARDIA DEI LOMBARDI"
-Ente	"PERCORSI"
-Indirizzo	"VIA PIAZZA DELLA VITTORIA 13"
-30	
-Progetto	"SAI VILLAMAINA"
-Struttura	"GUARDIA DEI LOMBARDI"
-Ente	"INTRA"
-Indirizzo	"VIA PIAZZA DELLA VITTORIA"
-31	
-Progetto	"SAI VILLAMAINA"
-Struttura	"VILLAMAINA"
-Ente	"INTRA"
-Indirizzo	"VIA PACE"
-32	
-Progetto	"SAI VILLAMAINA"
-Struttura	"VILLAMAINA"
-Ente	"INTRA"
-Indirizzo	"VIA CISTERNE 5A"
-33	
-Progetto	"SAI VILLAMAINA"
-Struttura	"VILLAMAINA"
-Ente	"INTRA"
-Indirizzo	"VIA CISTERNE 5B"
-34	
-Progetto	"SAI VILLAMAINA"
-Struttura	"VILLAMAINA"
-Ente	"INTRA"
-Indirizzo	"VIA ROMA"
-35	
-Progetto	"SAI VILLAMAINA"
-Struttura	"VILLAMAINA"
-Ente	"INTRA"
-Indirizzo	"VIA SARDEGNA"
-36	
-Progetto	"SAI VILLAMAINA"
-Struttura	"TORELLA DEI LOMBARDI"
-Ente	"INTRA"
-Indirizzo	"VIA PALATUCCI"
-37	
-Progetto	"SAI VILLAMAINA"
-Struttura	"TORELLA DEI LOMBARDI"
-Ente	"INTRA"
-Indirizzo	"VIA TOSETTI"
-38	
-Progetto	"SAI VILLAMAINA"
-Struttura	"MORRA DE SANCTIS"
-Ente	"PERCORSI"
-Indirizzo	"VIA ROMA 68"
-39	
-Progetto	"SAI VILLAMAINA"
-Struttura	"MORRA DE SANCTIS"
-Ente	"PERCORSI"
-Indirizzo	"VIA LONGOBARDI 86"
-40	
-Progetto	"SAI VILLAMAINA"
-Struttura	"MORRA DE SANCTIS"
-Ente	"PERCORSI"
-Indirizzo	"VIA SAN ROCCO"
-41	
-Progetto	"SAI VILLAMAINA"
-Struttura	"MORRA DE SANCTIS"
-Ente	"PERCORSI"
-Indirizzo	"VIA SANT'ANTUONO ZONA 3 "
-42	
-Progetto	"SAI VILLAMAINA"
-Struttura	"MORRA DE SANCTIS"
-Ente	"PERCORSI"
-Indirizzo	"VIA LONGORBARDI UFFICIO"
-43	
-Progetto	"SAI VILLAMAINA"
-Struttura	"ROCCA SAN FELICE"
-Ente	"INTRA"
-Indirizzo	"VIA M. SANTOLI CENTRO STORICO APP 1"
-44	
-Progetto	"SAI VILLAMAINA"
-Struttura	"ROCCA SAN FELICE"
-Ente	"INTRA"
-Indirizzo	"VIA M. SANTOLI CENTRO STORICO APP 2"
-45	
-Progetto	"SAI VILLAMAINA"
-Struttura	"ROCCA SAN FELICE"
-Ente	"INTRA"
-Indirizzo	"VIA M. SANTOLI CENTRO STORICO APP 3"
-46	
-Progetto	"SAI VILLAMAINA"
-Struttura	"ROCCA SAN FELICE"
-Ente	"INTRA"
-Indirizzo	"VIA M. SANTOLI CENTRO STORICO APP 4"
-47	
-Progetto	"SAI VILLAMAINA"
-Struttura	"ROCCA SAN FELICE"
-Ente	"INTRA"
-Indirizzo	"VIA M. SANTOLI CENTRO STORICO APP 5"
-48	
-Progetto	"SAI VILLAMAINA"
-Struttura	"ROCCA SAN FELICE"
-Ente	"INTRA"
-Indirizzo	"VIA M. SANTOLI CENTRO STORICO APP UFFICIO"
-49	
-Progetto	"SAI PETRURO"
-Struttura	"AVELLINO"
-Ente	"PERCORSI"
-Indirizzo	"VIA SANTOLI 2"
-50	
-Progetto	"SAI PETRURO"
-Struttura	"BELLIZZI IRPINO"
-Ente	"PERCORSI"
-Indirizzo	"VIA GIANCOLA 237"
-51	
-Progetto	"SAI PETRURO"
-Struttura	"AVELLINO"
-Ente	"PERCORSI"
-Indirizzo	"VIA F. SAVERIO"
-52	
-Progetto	"SAI PETRURO"
-Struttura	"ATRIPALDA"
-Ente	"PERCORSI"
-Indirizzo	"VIA CAMMAROTA 25"
-53	
-Progetto	"SAI PETRURO"
-Struttura	"MONTORO"
-Ente	"INTRA"
-Indirizzo	"VIA GIUGLIELMO PEPE 52"
-54	
-Progetto	"SAI PETRURO"
-Struttura	"MONTORO"
-Ente	"INTRA"
-Indirizzo	"VIA GUGLIELMO PEPE 54"
-55	
-Progetto	"SAI PETRURO"
-Struttura	"AVELLINO"
-Ente	"INTRA"
-Indirizzo	"VIA PIAVE"
-56	
-Progetto	"MSNA BRACIGLIANO"
-Struttura	"BRACIGLIANO"
-Ente	"PERCORSI"
-Indirizzo	"VIA SAN MICHELE"
-57	
-Progetto	"CAS RETE DON GALLO"
-Struttura	"MONTEFORTE"
-Ente	"PERCORSI"
-Indirizzo	"VIA ACCORCIATOIA"
-58	
-Progetto	"CAS RETE DON GALLO"
-Struttura	"AVELLINO"
-Ente	"PERCORSI"
-Indirizzo	"VIA CONSERVATORIO DELLE OBLATE"
-59	
-Progetto	"CAS RETE DON GALLO"
-Struttura	"AVELLINO"
-Ente	"PERCORSI"
-Indirizzo	"CASA NICODEMI VIA PIANODARDINE APP 1"
-60	
-Progetto	"CAS RETE DON GALLO"
-Struttura	"AVELLINO"
-Ente	"PERCORSI"
-Indirizzo	"CASA NICODEMI VIA PIANODARDINE APP 2"
-61	
-Progetto	"CAS RETE DON GALLO"
-Struttura	"AVELLINO"
-Ente	"PERCORSI"
-Indirizzo	"CASA NICODEMI VIA PIANODARDINE APP 3"
-62	
-Progetto	"CAS RETE NEI BORGHI"
-Struttura	"PIETRADEFUSI"
-Ente	"PERCORSI"
-Indirizzo	"VIA SANTA CROCE 72"
-63	
-Progetto	"CAS RETE NEI BORGHI"
-Struttura	"BELLIZZI IRPINO"
-Ente	"PERCORSI"
-Indirizzo	"VIA GIANCOLA 235"
-64	
-Progetto	"CAS RETE NEI BORGHI"
-Struttura	"BELLIZZI IRPINO"
-Ente	"PERCORSI"
-Indirizzo	"VIA GIANCOLA 233"
-65	
-Progetto	"CAS RETE NEI BORGHI"
-Struttura	"BELLIZZI IRPINO"
-Ente	"PERCORSI"
-Indirizzo	"VIA GIANCOLA 223 A "
-66	
-Progetto	"CAS RETE NEI BORGHI "
-Struttura	"CALORE "
-Ente	"PERCORSI"
-Indirizzo	"VIA CHIOCCA TOSTA"
-67	
-Progetto	"CENTRO COTTURA"
-Struttura	"AVELLINO"
-Ente	"PERCORSI"
-Indirizzo	"VIA CONSERVATORIO DELLE OBLATE"
-68	
-Progetto	"UFFICI PERCORSI"
-Struttura	"AVELLINO"
-Ente	"PERCORSI"
-Indirizzo	"VIA CONSERVATORIO DELLE OBLATE"
-69	
-Progetto	"SAI LAPIO"
-Struttura	"LAPIO"
-Ente	"PERCORSI"
-Indirizzo	"VIA FONTANA 30"
-70	
-Progetto	"SAI LAPIO"
-Struttura	"LAPIO"
-Ente	"PERCORSI"
-Indirizzo	"VIA ROMA APP 1 "
-71	
-Progetto	"SAI LAPIO"
-Struttura	"LAPIO"
-Ente	"PERCORSI"
-Indirizzo	"VIA ROMA APP 2 "
-72	
-Progetto	"SAI LAPIO"
-Struttura	"LAPIO"
-Ente	"PERCORSI"
-Indirizzo	"VIA ROMANI"
-73	
-Progetto	"SAI LAPIO"
-Struttura	"LAPIO"
-Ente	"PERCORSI"
-Indirizzo	"VIA PARADISO 19"
-74	
-Progetto	"SAI MONTEMILETTO"
-Struttura	"MONTEMILETTO"
-Ente	"PERCORSI"
-Indirizzo	"VIA PASTENE APP 1 "
-75	
-Progetto	"SAI MONTEMILETTO"
-Struttura	"MONTEMILETTO"
-Ente	"PERCORSI"
-Indirizzo	"VIA PASTENE APP 2"
-76	
-Progetto	"SAI MONTEMILETTO"
-Struttura	"MONTEMILETTO"
-Ente	"PERCORSI"
-Indirizzo	"VIA PASTENE APP 3"
-77	
-Progetto	"SAI MONTEMILETTO"
-Struttura	"MONTEMILETTO"
-Ente	"PERCORSI"
-Indirizzo	"VIA PASTENE APP 4"
-78	
-Progetto	"SAI MONTEMILETTO"
-Struttura	"MONTEMILETTO"
-Ente	"PERCORSI"
-Indirizzo	"VIA PIETRATONDA"
-79	
-Progetto	"SAI MONTEMILETTO"
-Struttura	"MONTEMILETTO"
-Ente	"PERCORSI"
-Indirizzo	"VIA DEGLI ASTRONAUTI"
-80	
-Progetto	"MSNA MONTEMILETTO"
-Struttura	"MONTEMILETTO"
-Ente	"PERCORSI"
-Indirizzo	"VIA PASTENE "
-81	
-Progetto	"SIN ARIANO "
-Struttura	"ARIANO IRPINO"
-Ente	"PERCORSI"
-Indirizzo	"SCUOLA SIN STRUTTURA VILLA CARACCIOLO"
-82	
-Progetto	"SIN ARIANO "
-Struttura	"ARIANO IRPINO"
-Ente	"PERCORSI"
-Indirizzo	"ORNETA"
-83	
-Progetto	"MICRONIDO"
-Struttura	"GROTTAMINARDA"
-Ente	"PERCORSI"
-Indirizzo	"VIA CONDOTTO"
-84	
-Progetto	"MICRONIDO"
-Struttura	"GROTTAMINARDA"
-Ente	"PERCORSI"
-Indirizzo	"VIA NAZIONALE BARONIA"
-85	
-Progetto	"CAS RETE NUCLEI FAM. PIETRASTORNINA"
-Struttura	"PIETRASTORNINA"
-Ente	"PERCORSI"
-Indirizzo	"VIA CIGLIO 25"
-86	
-Progetto	"CAS RETE NUCLEI FAM. PIETRASTORNINA"
-Struttura	"PIETRASTORNINA"
-Ente	"PERCORSI"
-Indirizzo	"VIA CASTELLO 56"
-87	
-Progetto	"CAS RETE NUCLEI FAM. PIETRASTORNINA"
-Struttura	"PIETRASTORNINA"
-Ente	"PERCORSI"
-Indirizzo	"VIA DE GASPERI"
-88	
-Progetto	"SAI MARZANO"
-Struttura	"MARZANO DI NOLA"
-Ente	"INTRA"
-Indirizzo	"VIA S. TRIFONE MARTIRE"
+[
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"FONTANAROSA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PRINCIPE DI PIEMONTE"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"FONTANAROSA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIALE RINASCITA"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"FONTANAROSA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA MERCATO"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"FONTANAROSA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PASTENE"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"S. ANGELO ALL'ESCA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA ROMA"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"S. ANGELO ALL'ESCA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA BELVEDERE 10"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"SAN NICOLA BARONIA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA VITTORIO VENETO"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"ARIANO IRPINO",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA CAMPOREALE APP.1"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"ARIANO IRPINO",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA CAMPOREALE APP.2"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"ARIANO IRPINO",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA CAMPOREALE APP.3"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"ARIANO IRPINO",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":" VIA CAMPOREALE APP. 4"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"ARIANO IRPINO",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA SANT'ANTONIO"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"S. ANGELO ALL'ESCA",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"UFFICIO SALITA SAN MICHELE"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"FRIGENTO",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA TAVERNA BIANCA"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"S. ANGELO ALL'ESCA",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA DANTE"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"S. ANGELO ALL'ESCA",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA MAFFEI"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"S. ANGELO ALL'ESCA",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA PERAINE"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"S. ANGELO ALL'ESCA",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA PRISCO DE MUSIS 4"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"PATERNOPOLI",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA SAN FRANCESCO 4 "
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"PATERNOPOLI",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA SCALA SANTA 20"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"PATERNOPOLI",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA MODESTINO"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"SAN NICOLA BARONIA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA VINCENZO LEONE"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"FRIGENTO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA PIANO DELLA CROCE"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"FRIGENTO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA PALATUCCI"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"VALLESACCARDA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA TAVERNA DELLE NOCI"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"PATERNOPOLI",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA TORRE"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"GUARDIA DEI LOMBARDI",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA G. FISCHIETTI"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"GUARDIA DEI LOMBARDI",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA LONGOBARDA"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"GUARDIA DEI LOMBARDI",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PIAZZA DELLA VITTORIA 12"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"GUARDIA DEI LOMBARDI",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PIAZZA DELLA VITTORIA 13"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"GUARDIA DEI LOMBARDI",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA PIAZZA DELLA VITTORIA"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"VILLAMAINA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA PACE"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"VILLAMAINA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA CISTERNE 5A"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"VILLAMAINA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA CISTERNE 5B"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"VILLAMAINA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA ROMA"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"VILLAMAINA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA SARDEGNA"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"TORELLA DEI LOMBARDI",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA PALATUCCI"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"TORELLA DEI LOMBARDI",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA TOSETTI"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"MORRA DE SANCTIS",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA ROMA 68"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"MORRA DE SANCTIS",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA LONGOBARDI 86"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"MORRA DE SANCTIS",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA SAN ROCCO"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"MORRA DE SANCTIS",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA SANT'ANTUONO ZONA 3 "
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"MORRA DE SANCTIS",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA LONGORBARDI UFFICIO"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"ROCCA SAN FELICE",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA M. SANTOLI CENTRO STORICO APP 1"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"ROCCA SAN FELICE",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA M. SANTOLI CENTRO STORICO APP 2"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"ROCCA SAN FELICE",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA M. SANTOLI CENTRO STORICO APP 3"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"ROCCA SAN FELICE",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA M. SANTOLI CENTRO STORICO APP 4"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"ROCCA SAN FELICE",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA M. SANTOLI CENTRO STORICO APP 5"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"ROCCA SAN FELICE",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA M. SANTOLI CENTRO STORICO APP UFFICIO"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"AVELLINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA SANTOLI 2"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"BELLIZZI IRPINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA GIANCOLA 237"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"AVELLINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA F. SAVERIO"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"ATRIPALDA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA CAMMAROTA 25"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"MONTORO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA GIUGLIELMO PEPE 52"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"MONTORO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA GUGLIELMO PEPE 54"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"AVELLINO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA PIAVE"
+  },
+  {
+    "Progetto":"MSNA BRACIGLIANO",
+    "Struttura":"BRACIGLIANO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA SAN MICHELE"
+  },
+  {
+    "Progetto":"CAS RETE DON GALLO",
+    "Struttura":"MONTEFORTE",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA ACCORCIATOIA"
+  },
+  {
+    "Progetto":"CAS RETE DON GALLO",
+    "Struttura":"AVELLINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA CONSERVATORIO DELLE OBLATE"
+  },
+  {
+    "Progetto":"CAS RETE DON GALLO",
+    "Struttura":"AVELLINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"CASA NICODEMI VIA PIANODARDINE APP 1"
+  },
+  {
+    "Progetto":"CAS RETE DON GALLO",
+    "Struttura":"AVELLINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"CASA NICODEMI VIA PIANODARDINE APP 2"
+  },
+  {
+    "Progetto":"CAS RETE DON GALLO",
+    "Struttura":"AVELLINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"CASA NICODEMI VIA PIANODARDINE APP 3"
+  },
+  {
+    "Progetto":"CAS RETE NEI BORGHI",
+    "Struttura":"PIETRADEFUSI",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA SANTA CROCE 72"
+  },
+  {
+    "Progetto":"CAS RETE NEI BORGHI",
+    "Struttura":"BELLIZZI IRPINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA GIANCOLA 235"
+  },
+  {
+    "Progetto":"CAS RETE NEI BORGHI",
+    "Struttura":"BELLIZZI IRPINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA GIANCOLA 233"
+  },
+  {
+    "Progetto":"CAS RETE NEI BORGHI",
+    "Struttura":"BELLIZZI IRPINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA GIANCOLA 223 A "
+  },
+  {
+    "Progetto":"CAS RETE NEI BORGHI ",
+    "Struttura":"CALORE ",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA CHIOCCA TOSTA"
+  },
+  {
+    "Progetto":"CENTRO COTTURA",
+    "Struttura":"AVELLINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA CONSERVATORIO DELLE OBLATE"
+  },
+  {
+    "Progetto":"UFFICI PERCORSI",
+    "Struttura":"AVELLINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA CONSERVATORIO DELLE OBLATE"
+  },
+  {
+    "Progetto":"SAI LAPIO",
+    "Struttura":"LAPIO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA FONTANA 30"
+  },
+  {
+    "Progetto":"SAI LAPIO",
+    "Struttura":"LAPIO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA ROMA APP 1 "
+  },
+  {
+    "Progetto":"SAI LAPIO",
+    "Struttura":"LAPIO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA ROMA APP 2 "
+  },
+  {
+    "Progetto":"SAI LAPIO",
+    "Struttura":"LAPIO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA ROMANI"
+  },
+  {
+    "Progetto":"SAI LAPIO",
+    "Struttura":"LAPIO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PARADISO 19"
+  },
+  {
+    "Progetto":"SAI MONTEMILETTO",
+    "Struttura":"MONTEMILETTO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PASTENE APP 1 "
+  },
+  {
+    "Progetto":"SAI MONTEMILETTO",
+    "Struttura":"MONTEMILETTO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PASTENE APP 2"
+  },
+  {
+    "Progetto":"SAI MONTEMILETTO",
+    "Struttura":"MONTEMILETTO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PASTENE APP 3"
+  },
+  {
+    "Progetto":"SAI MONTEMILETTO",
+    "Struttura":"MONTEMILETTO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PASTENE APP 4"
+  },
+  {
+    "Progetto":"SAI MONTEMILETTO",
+    "Struttura":"MONTEMILETTO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PIETRATONDA"
+  },
+  {
+    "Progetto":"SAI MONTEMILETTO",
+    "Struttura":"MONTEMILETTO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA DEGLI ASTRONAUTI"
+  },
+  {
+    "Progetto":"MSNA MONTEMILETTO",
+    "Struttura":"MONTEMILETTO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA PASTENE "
+  },
+  {
+    "Progetto":"SIN ARIANO ",
+    "Struttura":"ARIANO IRPINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"SCUOLA SIN STRUTTURA VILLA CARACCIOLO"
+  },
+  {
+    "Progetto":"SIN ARIANO ",
+    "Struttura":"ARIANO IRPINO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"ORNETA"
+  },
+  {
+    "Progetto":"MICRONIDO",
+    "Struttura":"GROTTAMINARDA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA CONDOTTO"
+  },
+  {
+    "Progetto":"MICRONIDO",
+    "Struttura":"GROTTAMINARDA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA NAZIONALE BARONIA"
+  },
+  {
+    "Progetto":"CAS RETE NUCLEI FAM. PIETRASTORNINA",
+    "Struttura":"PIETRASTORNINA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA CIGLIO 25"
+  },
+  {
+    "Progetto":"CAS RETE NUCLEI FAM. PIETRASTORNINA",
+    "Struttura":"PIETRASTORNINA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA CASTELLO 56"
+  },
+  {
+    "Progetto":"CAS RETE NUCLEI FAM. PIETRASTORNINA",
+    "Struttura":"PIETRASTORNINA",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA DE GASPERI"
+  },
+  {
+    "Progetto":"SAI MARZANO",
+    "Struttura":"MARZANO DI NOLA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA S. TRIFONE MARTIRE"
+  }
+]
