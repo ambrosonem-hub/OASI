@@ -17,7 +17,13 @@ form { display:grid; grid-template-columns:1fr 320px; gap:18px; }
 label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; }
 .field { margin-bottom:12px; }
 select,input[type="text"],input[type="number"],textarea { width:100%; padding:8px; border:1px solid #d1d9e6; border-radius:6px; font-size:14px; box-sizing:border-box; }
-textarea { min-height:80px; resize:vertical; }
+textarea {
+  min-height: 80px;
+  resize: none;           /* blocca il resize manuale */
+  overflow: hidden;       /* niente scrollbar */
+  transition: height 0.2s ease;
+}
+
 .small { font-size:13px; color:#475569; }
 .btn { background:var(--accent); color:#fff; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
 .btn.secondary { background:#fff; color:var(--accent); border:1px solid #cfe0ff; }
@@ -155,6 +161,17 @@ const progettoEl=document.getElementById('progetto');
 const strutturaEl=document.getElementById('struttura');
 const enteEl=document.getElementById('ente');
 const indirizzoEl=document.getElementById('indirizzo');
+const descrizioneEl = document.getElementById('descrizione');
+
+function autoResizeTextarea(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+descrizioneEl.addEventListener('input', () => {
+  autoResizeTextarea(descrizioneEl);
+});
+
 
 function popolaProgetti(){
   const progetti=[...new Set(enti_strutture.map(d=>d.Progetto))];
