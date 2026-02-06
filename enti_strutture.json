@@ -9,12 +9,6 @@
     "Progetto":"SAI A01",
     "Struttura":"FONTANAROSA",
     "Ente":"PERCORSI",
-    "Indirizzo":"VIALE RINASCITA"
-  },
-  {
-    "Progetto":"SAI A01",
-    "Struttura":"FONTANAROSA",
-    "Ente":"PERCORSI",
     "Indirizzo":"VIA MERCATO"
   },
   {
@@ -152,6 +146,12 @@
   {
     "Progetto":"SAI A01",
     "Struttura":"PATERNOPOLI",
+    "Ente":"SOLIDARCI",
+    "Indirizzo":"VIA SAN FRANCESCO 6"
+  },
+  {
+    "Progetto":"SAI A01",
+    "Struttura":"PATERNOPOLI",
     "Ente":"INTRA",
     "Indirizzo":"VIA TORRE"
   },
@@ -210,16 +210,46 @@
     "Indirizzo":"VIA ROMA"
   },
   {
-    "Progetto":"SAI VILLAMAINA",
+    "Progetto":"SAI VILLAMAINA ",
     "Struttura":"VILLAMAINA",
     "Ente":"INTRA",
     "Indirizzo":"VIA SARDEGNA"
   },
   {
     "Progetto":"SAI VILLAMAINA",
+    "Struttura":"VILLAMAINA",
+    "Ente":"BE HUMAN",
+    "Indirizzo":"VIA ROMA"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
     "Struttura":"TORELLA DEI LOMBARDI",
     "Ente":"INTRA",
     "Indirizzo":"VIA PALATUCCI"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"TORELLA DEI LOMBARDI",
+    "Ente":"BE HUMAN ",
+    "Indirizzo":"VIA PALATUCCI 24"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"TORELLA DEI LOMBARDI",
+    "Ente":"BE HUMAN",
+    "Indirizzo":"VIA PALATUCCI 26"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"TORELLA DEI LOMBARDI",
+    "Ente":"BE HUMAN",
+    "Indirizzo":"VIA PALATUCCI 28"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"TORELLA DEI LOMBARDI",
+    "Ente":"BE HUMAN",
+    "Indirizzo":"VIA TOSELLI"
   },
   {
     "Progetto":"SAI VILLAMAINA",
@@ -294,10 +324,40 @@
     "Indirizzo":"VIA M. SANTOLI CENTRO STORICO APP UFFICIO"
   },
   {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"TEORA",
+    "Ente":"BE HUMAN",
+    "Indirizzo":"VIA ROMA 26"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"TEORA",
+    "Ente":"BE HUMAN",
+    "Indirizzo":"VIA SAN PIETRO 6"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"TEORA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA CALVARIO"
+  },
+  {
+    "Progetto":"SAI VILLAMAINA",
+    "Struttura":"TEORA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA SAN PIETRO 12"
+  },
+  {
     "Progetto":"SAI PETRURO",
     "Struttura":"AVELLINO",
     "Ente":"PERCORSI",
     "Indirizzo":"VIA SANTOLI 2"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"AVELLINO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA FONTANATETTA"
   },
   {
     "Progetto":"SAI PETRURO",
@@ -328,6 +388,42 @@
     "Struttura":"MONTORO",
     "Ente":"INTRA",
     "Indirizzo":"VIA GUGLIELMO PEPE 54"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"MONTORO",
+    "Ente":"INTRA",
+    "Indirizzo":"CORSO PIETRO ASCOLESE 414"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"MONTORO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA BOSCHI"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"PIETRASTORNINA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA VITTORIO VENETO 22"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"PIETRASTORNINA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA FERRARA 5"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"PIETRASTORNINA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA GAETANO PERUGGINO"
+  },
+  {
+    "Progetto":"SAI PETRURO",
+    "Struttura":"ALTAVILLA",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA CRISCITELLI 3"
   },
   {
     "Progetto":"SAI PETRURO",
@@ -393,7 +489,7 @@
     "Progetto":"CAS RETE NEI BORGHI",
     "Struttura":"BELLIZZI IRPINO",
     "Ente":"PERCORSI",
-    "Indirizzo":"VIA GIANCOLA 223 A "
+    "Indirizzo":"VIA GIANCOLA 233 A "
   },
   {
     "Progetto":"CAS RETE NEI BORGHI ",
@@ -471,6 +567,12 @@
     "Progetto":"SAI MONTEMILETTO",
     "Struttura":"MONTEMILETTO",
     "Ente":"PERCORSI",
+    "Indirizzo":"VIA PASTENE APP 5"
+  },
+  {
+    "Progetto":"SAI MONTEMILETTO",
+    "Struttura":"MONTEMILETTO",
+    "Ente":"PERCORSI",
     "Indirizzo":"VIA PIETRATONDA"
   },
   {
@@ -478,6 +580,12 @@
     "Struttura":"MONTEMILETTO",
     "Ente":"PERCORSI",
     "Indirizzo":"VIA DEGLI ASTRONAUTI"
+  },
+  {
+    "Progetto":"SAI MONTEMILETTO",
+    "Struttura":"MONTEMILETTO",
+    "Ente":"PERCORSI",
+    "Indirizzo":"VIA DEGLI ASTRONAUTI 2"
   },
   {
     "Progetto":"MSNA MONTEMILETTO",
@@ -510,19 +618,19 @@
     "Indirizzo":"VIA NAZIONALE BARONIA"
   },
   {
-    "Progetto":"CAS RETE NUCLEI FAM. PIETRASTORNINA",
+    "Progetto":"SAI PETRURO",
     "Struttura":"PIETRASTORNINA",
     "Ente":"PERCORSI",
     "Indirizzo":"VIA CIGLIO 25"
   },
   {
-    "Progetto":"CAS RETE NUCLEI FAM. PIETRASTORNINA",
+    "Progetto":"SAI PETRURO",
     "Struttura":"PIETRASTORNINA",
     "Ente":"PERCORSI",
     "Indirizzo":"VIA CASTELLO 56"
   },
   {
-    "Progetto":"CAS RETE NUCLEI FAM. PIETRASTORNINA",
+    "Progetto":"SAI PETRURO",
     "Struttura":"PIETRASTORNINA",
     "Ente":"PERCORSI",
     "Indirizzo":"VIA DE GASPERI"
@@ -532,5 +640,47 @@
     "Struttura":"MARZANO DI NOLA",
     "Ente":"INTRA",
     "Indirizzo":"VIA S. TRIFONE MARTIRE"
+  },
+  {
+    "Progetto":"PRIVATO",
+    "Struttura":"PRIVATO",
+    "Ente":"PRIVATO",
+    "Indirizzo":"PRIVATO"
+  },
+  {
+    "Progetto":"SAI SERINO",
+    "Struttura":"SERINO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA G. MASUCCI 23"
+  },
+  {
+    "Progetto":"SAI SERINO",
+    "Struttura":"SERINO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA CANALE SUPERIORE 30"
+  },
+  {
+    "Progetto":"SAI SERINO",
+    "Struttura":"SERINO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA CANALE SUPERIORE 34"
+  },
+  {
+    "Progetto":"SAI SERINO",
+    "Struttura":"SERINO",
+    "Ente":"INTRA",
+    "Indirizzo":"VICOLO I, CANALE"
+  },
+  {
+    "Progetto":"SAI SERINO",
+    "Struttura":"SAN MICHELE DI SERINO",
+    "Ente":"INTRA",
+    "Indirizzo":"VIA CAPOZZE 46"
+  },
+  {
+    "Progetto":"SAI SERINO",
+    "Struttura":"SAN MICHELE DI SERINO",
+    "Ente":"INTRA",
+    "Indirizzo":"PIAZZA UMBERTO I"
   }
 ]
